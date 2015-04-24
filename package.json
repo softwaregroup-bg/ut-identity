@@ -1,0 +1,23 @@
+{
+  "name": "ut-identity",
+  "version": "5.0.0",
+  "description": "UT authentication module",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.softwaregroup-bg.com:ut5/ut-identity.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "chai-as-promised": "^5.0.0",
+    "mocha": "^2.2.4"
+  }
+}
