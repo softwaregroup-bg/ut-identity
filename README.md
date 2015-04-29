@@ -1,7 +1,7 @@
 # ut-identity
 The identity module defines an authentication API in ut5. The API deals with identifying the user that is associated with specific request or message. The module aims to support various methods of identifying the user, such as username/password, session, fingerprint, etc. The module provides a default functionality and allows overriding the default functionality in each implementation. API is defined in the "identity" namespace and consists of the following methods:
 
-## identity.check(auth, [sessionData])
+## identity.check(auth)
 This method validates the user identity and optionally creates a session. 
 
 ### Parameters:
@@ -16,10 +16,8 @@ This method validates the user identity and optionally creates a session.
 - **auth.twoFA** - two factor authentication specific data can be passed in this property.
 - **auth.channel** - used to limit session count per channel.
 - **auth.sso** - single sign on specific data can be passed in this property.
-
-**sessionData** - an optional object, which determines if a session should be created during the authentication and what data to be persisted in the session. This parameter can contain arbitrary properties, but the following are recognized by the standard built in functionality:
-
-- **sessionData.language** - sets the language for the session.
+- **auth.sessionData** - an optional object, which determines if a session should be created during the authentication and what data to be persisted in the session. This object can contain arbitrary properties, but the following are recognized by the standard built in functionality:
+    - **auth.sessionData.language** - sets the language for the session.
 
 ### Result:
 The method returns a promise object that can have the following properties:

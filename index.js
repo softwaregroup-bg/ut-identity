@@ -2,12 +2,12 @@ var errors = require('./errors');
 var when = require('when');
 
 module.exports = {
-    check : function(auth, sessionData) {
+    check : function(auth) {
         if (auth) {
             if (auth.username && auth.password && auth.username.length && auth.password.length) {
                 if (auth.username === 'test' && auth.password === 'valid') {
                     // if sessionId is invalid, create a new session
-                    sessionData = sessionData || {};
+                    var sessionData = auth.sessionData || {};
                     sessionData.userId = 1;
                     sessionData.sessionId = 'valid';
                     return when.resolve(sessionData);
