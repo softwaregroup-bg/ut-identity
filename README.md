@@ -40,7 +40,7 @@ For unsuccessful authentication:
 - **errorMessage** - debug message that can be logged to the audit log.
 - **errorPrint** - user friendly error message.
 
-##identity.closeSession(criteria)
+## identity.closeSession(criteria)
 This method closes user's session.
 
 ### Parameters:
@@ -53,7 +53,7 @@ This method closes user's session.
 ### Result:
 For success returns an array containing the identifiers of the closed sessions. For error returns an error object similar to the identity.check method.
 
-##identity.reloadSession(criteria)
+## identity.reloadSession(criteria)
 This method reloads cached session data for users.
 
 ### Parameters:
@@ -66,7 +66,7 @@ This method reloads cached session data for users.
 ### Result:
 For success returns an array containing the identifiers of the reloaded sessions. For error returns an error object similar to the identity.check method.
 
-##identity.changePassword(auth)
+## identity.changePassword(auth)
 This method changes user's password.
 
 ### Parameters:
