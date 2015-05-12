@@ -1,0 +1,157 @@
+DECLARE
+    @retriesleft INT,
+    @useractive BIT,
+    @passwordexpired BIT,
+    --@checkip BIT,
+    @checkuserpassword BIT,
+    @retries INT,
+    @expirationdays INT,
+    @userid INT
+
+SET @retriesleft=0
+SELECT
+    @userid=u.userid,
+    @retriesleft=IsNull(u.retriesleft,0),
+    @useractive=IsNull(u.useractive,0),
+    @passwordexpired=CASE WHEN GetDate()>=IsNull(u.PasswordExpiration,GetDate()) THEN 1 ELSE 0 END,
+    --@checkip=CASE ${params.CheckUserRightsIP} WHEN 'true' THEN 1 ELSE 0 END,
+    @checkuserpassword=CASE WHEN IsNull(UserHash,'')!='' AND IsNull(UserHash,'')=${params.passwordhash} THEN 1 ELSE 0 END,
+    @retries = IsNull(s1.SettingValue,0),
+    @expirationdays = IsNull(s2.SettingValue,0)
+FROM
+    tUsers u
+LEFT JOIN
+    tSettings s1 ON s1.SettingModule=${params._implementation} AND s1.SettingName='login_retries_limit'
+LEFT JOIN
+    tSettings s2 ON s2.SettingModule=${params._implementation} AND s2.SettingName='password_expiration_days'
+WHERE
+    UserLogin=${params.username}
+
+DELETE FROM tUserSessions WHERE Expire<=GetDate()
+
+IF @userid is null
+BEGIN
+    SELECT
+        'User not found' errorMessage,
+        'identity.notFound' errorCode
+    RETURN
+END
+IF 0>=@retriesleft
+BEGIN
+    SELECT
+        'User account is suspended' errorMessage,
+        'identity.suspended' errorCode
+    RETURN
+END
+IF @checkuserpassword=1
+BEGIN
+    --IF @checkip=0
+    --BEGIN
+    --    SELECT
+    --        'Invalid username or password' errorPrint,
+    --        'User not allowed from that IP' errorMessage,
+    --        '2005' errorCode,
+    --        'badip' errorPage
+    --END ELSE
+    IF @useractive=0
+    BEGIN
+        SELECT
+            'User is nonexisting or inactive' errorMessage,
+            'identity.notActiveOrNa' errorCode
+    END ELSE
+    IF @passwordexpired=1 AND @expirationdays>0
+    BEGIN
+        IF ${params.passwordnew}=''
+        BEGIN
+            SELECT
+                'User password expired' errorMessage,
+                'identity.passwordExpired' errorCode
+            RETURN
+        END
+        IF ${params.passwordnew}!=${params.passwordrepeat}
+        BEGIN
+            SELECT
+                'Retyped password does not match' errorMessage,
+                'identity.passwordNotSame' errorCode
+            RETURN
+        END
+
+        IF object_id('switch.validatepassword')>0
+        BEGIN
+            DECLARE @vp BIT
+            EXEC @vp = switch.validatepassword @UserName = ${params.username}, @Password = ${params.passwordnew}, @PasswordHash=${params.PasswordHashNew}
+            if @vp!=1 return
+        END
+
+        UPDATE
+            tUsers
+        SET
+            RetriesLeft = CASE @retries WHEN 0 THEN 3 ELSE @retries END,
+            UserHash = ${params.PasswordHashNew},
+            PasswordExpiration = DATEADD(day,@expirationdays,DATEDIFF(day,0,GetDate()))
+        WHERE
+            userlogin=${params.username}
+
+        IF ${params._SingleUserSession}='true'
+        BEGIN
+            DELETE FROM tUserSessions WHERE UserID=@userid
+        END
+
+        INSERT INTO
+            tUserSessions(Cookie,UTSessionID,UserID,Expire,[Module],[Language],RemoteIP,UserAgent,DateCreated)
+        OUTPUT
+            inserted.Module,
+            inserted.UTSessionID,
+            inserted.Cookie _Cookie,
+            0 errorCode,
+            'true' CreateSession
+        VALUES
+            (CONVERT(VARCHAR(36), newid())+'/'+${params._random},CONVERT(VARCHAR(36), newid()),@userid,DATEADD(second,CAST(${params._SessionTimeout} AS INT),GetDate()),LEFT(${params.module},50),LEFT(${params.language},3),LEFT(${params._remoteip},50),LEFT(${params._Header_User-Agent},500),GetDate())
+    END ELSE
+    BEGIN
+        UPDATE
+            tUsers
+        SET
+            RetriesLeft = CASE @retries WHEN 0 THEN 3 ELSE @retries END
+        WHERE
+            userlogin=${params.username}
+
+        IF ${params._SingleUserSession}='true'
+        BEGIN
+            DELETE FROM tUserSessions WHERE UserID=@userid
+        END
+
+        INSERT INTO
+            tUserSessions(Cookie,UTSessionID,UserID,Expire,[Module],[Language],RemoteIP,UserAgent,DateCreated)
+        OUTPUT
+            inserted.Module,
+            inserted.UTSessionID,
+            inserted.Cookie _Cookie,
+            0 errorCode,
+            'true' CreateSession
+        VALUES
+            (CONVERT(VARCHAR(36), newid())+'/'+${params._random},CONVERT(VARCHAR(36), newid()),@userid,DATEADD(second,CAST(${params._SessionTimeout} AS INT),GetDate()),LEFT(${params.module},50),LEFT(${params.language},3),LEFT(${params._remoteip},50),LEFT(${params._Header_User-Agent},500),GetDate())
+    END
+END ELSE
+BEGIN
+    --IF @checkip=1
+    --BEGIN
+    --   UPDATE
+    --        tUsers
+    --    SET
+    --        @RetriesLeft = RetriesLeft = CASE WHEN IsNull(RetriesLeft,0)>0 THEN RetriesLeft - 1 ELSE 0 END
+    --    WHERE
+    --        UserLogin=${params.username}
+
+    --    SELECT
+    --        'Invalid username or password' errorPrint,
+    --        CASE WHEN @RetriesLeft>0 THEN 'Wrong password. Attempts LEFT:'+cast(@RetriesLeft AS varchar) ELSE 'Wrong password. Your account was suspended.' END  errorMessage,
+    --        '2007' errorCode,
+    --        'wrong' errorPage
+    --END ELSE
+    --BEGIN
+        SELECT
+            'User is nonexisting or inactive' errorMessage,
+            'identity.notActiveOrNa' errorCode
+    --END
+END
