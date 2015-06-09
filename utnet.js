@@ -1,7 +1,7 @@
 var bus = {};
 var log = {};
 var utTemplate = require('ut-template');
-var triggerError = require('../impl-ifinance/helpers').triggerError; // TODO fix this
+var triggerError = require('../impl-ifinance/helpers').triggerError;
 var _ = require('lodash');
 var templates = null;
 
@@ -17,14 +17,29 @@ module.exports = function(templates) {
         },
         check: function(auth) {
             if (auth.fingerPrint) {
-                return bus.importMethod('bio.biometricsLogin')({
-                    fingerPrint: auth.fingerPrint
-                }).then(function(response) {
-                    auth.userId = response.userId;
-                    return this.execTemplateRow(templates.check, auth);
-                }).catch(function(error) {
-                    triggerError('ut5_core_unidentified_error', lang, error);
-                })
+                if (auth.customerNo) {
+                    return bus.importMethod('bio.verifyClient')({
+                        fingerPrint: auth.fingerPrint,
+                        sessionId: auth.sessionId
+                    }).then(function(response) {
+                        if (response.customerNo == auth.customerNo) {
+                            return {isVerfied: true};
+                        } else {
+                            return {isVerfied: false};
+                        }
+                    }).catch(function(error) {
+                        throw new Error('BioVerificationError');
+                    });
+                } else {
+                    return bus.importMethod('bio.biometricsLogin')({
+                        fingerPrint: auth.fingerPrint
+                    }).then(function(response) {
+                        auth.userId = response.userId;
+                        return this.execTemplateRow(templates.check, auth);
+                    }).catch(function(error) {
+                        throw new Error('BioLoginError');
+                    });
+                }
             } else {
                 return this.execTemplateRow(templates.check, auth);
             }

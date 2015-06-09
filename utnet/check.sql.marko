@@ -1,0 +1,24 @@
+DECLARE
+        @sessionId nvarchar(max),
+        @userId bigint,
+        @language nvarchar(50),
+        @Result bigint,
+        @ResultMessage nvarchar(max)
+
+EXEC [utIdentity].[Check]
+        @sessionId = @sessionId OUTPUT,
+        @username = N'iFinance',
+        @password = N'Sg123456',
+        @ImplementationID = N'iFinance',
+        @SessionData = N'{}',
+        @userId = @userId OUTPUT,
+        @language = @language OUTPUT,
+        @Result = @Result OUTPUT,
+        @ResultMessage = @ResultMessage OUTPUT
+
+SELECT
+        @Result as Result,
+        @ResultMessage as ResultMessage,
+        @sessionId as sessionId,
+        @language as language,
+        @userId as userId
