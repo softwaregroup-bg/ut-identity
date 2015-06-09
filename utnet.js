@@ -5,80 +5,29 @@ var triggerError = require('../impl-ifinance/helpers').triggerError; // TODO fix
 var _ = require('lodash');
 var templates = null;
 
-function login(auth, templates, self) {
-    var promise = null;
-    var lang = auth.language;
-    if (auth.fingerPrint) {
-        if (auth.customerNo) {
-            return bus.importMethod('bio.verifyClient')({
-                fingerPrint: auth.fingerPrint
-            });
-        } else {
-            promise = bus.importMethod('bio.biometricsLogin')({
-                fingerPrint: auth.fingerPrint
-            }).then(function(response) {
-                return this.execTemplateRow(templates.getUserProfile, auth);
-            }.bind(this));
-            if (auth.sessionData) {
-                return promise.then(function(response) {
-                    return this.execTemplateRow(templates.setActiveUserSession, auth);
-                });
-            } else {
-                return promise;
-            }
-        }
-    } else if (auth.username && auth.password) {
-        promise = self.execTemplateRow(templates.credentialsLogin, auth)({
-            username: auth.username,
-            password: auth.password
-        })
-        if (auth.sessionData) {
-            return promise.then(function(response) {
-                return this.execTemplateRow(templates.setActiveUserSession, auth);
-            }.bind(this));
-        } else {
-            return promise;
-        }
-    } else {
-        triggerError(null, lang, error);
-    }
-};
-
 module.exports = function(templates) {
     templates = _.assign({
-        check: utTemplate.load(require.resolve('./utnet/utNet_check.sql.marko')),
-        changeUserPassword: utTemplate.load(require.resolve('./utnet/changeUserPassword.sql.marko')),
-        changeUserPassword: utTemplate.load(require.resolve('./utnet/changeUserPassword.sql.marko')),
-        reloadSession: utTemplate.load(require.resolve('./utnet/reloadSession.sql.marko')),
-        updateSession: utTemplate.load(require.resolve('./utnet/updateSession.sql.marko'))
+        check: utTemplate.load(require.resolve('./utnet/check.sql.marko'))
     }, templates);
 
     return {
         init: function(b) {
             bus = b;
-            log = bus.logFactory.createLog('warn', {name: 'identity', context: 'check'});
+            log = bus.logFactory.createLog('warn', {name: 'ut', context: 'identity'});
         },
         check: function(auth) {
-            auth = auth.$$.authentication;
-            auth.implementationID = bus.config.implementation || '';
-            return this.execTemplateRow(templates.check, auth).then(function(response) {
-                return response;
-            }).catch(function(error) {
-                return error;
-            });
-            /*
-            if (auth.sessionId) {
-                return this.execTemplateRow(templates.sessionLogin, auth)({
-                    sessionId: auth.sessionId
+            if (auth.fingerPrint) {
+                return bus.importMethod('bio.biometricsLogin')({
+                    fingerPrint: auth.fingerPrint
                 }).then(function(response) {
-
-                }).catch(function() {
-                    return login(auth, templates, this);
-                });
+                    auth.userId = response.userId;
+                    return this.execTemplateRow(templates.check, auth);
+                }).catch(function(error) {
+                    triggerError('ut5_core_unidentified_error', lang, error);
+                })
             } else {
-                return login(auth, templates, this);
+                return this.execTemplateRow(templates.check, auth);
             }
-            */
         },
         closeSession: function(criteria) {
             return this.execTemplateRow(templates.deleteActiveUserSession, criteria);
