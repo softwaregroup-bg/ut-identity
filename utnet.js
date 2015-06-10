@@ -22,9 +22,9 @@ module.exports = function(templates) {
                         sessionId: auth.sessionId
                     }).then(function(response) {
                         if (response.customerNo == auth.customerNo) {
-                            return {isVerfied: true};
+                            return {isVerified: true};
                         } else {
-                            return {isVerfied: false};
+                            return {isVerified: false};
                         }
                     }).catch(function(error) {
                         throw new Error('BioVerificationError');
