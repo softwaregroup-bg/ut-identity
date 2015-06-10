@@ -1,7 +1,6 @@
 var bus = {};
 var log = {};
 var utTemplate = require('ut-template');
-var triggerError = require('../impl-ifinance/helpers').triggerError;
 var _ = require('lodash');
 var templates = null;
 
