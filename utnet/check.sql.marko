@@ -7,9 +7,9 @@ DECLARE
 
 EXEC [utIdentity].[Check]
         @sessionId = @sessionId OUTPUT,
-        @username = N'iFinance',
-        @password = N'Sg123456',
-        @ImplementationID = N'iFinance',
+        @username = ${params.username},
+        @password = ${params.password},
+        @ImplementationID = ${params.implementation},
         @SessionData = N'{}',
         @userId = @userId OUTPUT,
         @language = @language OUTPUT,
