@@ -1,16 +1,18 @@
 DECLARE
-        @sessionId nvarchar(max),
+		@sessionId nvarchar(max),
         @userId bigint,
         @language nvarchar(50),
         @Result bigint,
         @ResultMessage nvarchar(max)
 
 EXEC [utIdentity].[Check]
-        @sessionId = @sessionId OUTPUT,
+        @currentSessionId = ${params.sessionId},
         @username = ${params.username},
         @password = ${params.password},
         @ImplementationID = ${params.implementation},
+        @IsUpdateAllowed = true,
         @SessionData = N'{}',
+        @sessionId = @sessionId OUTPUT,
         @userId = @userId OUTPUT,
         @language = @language OUTPUT,
         @Result = @Result OUTPUT,
