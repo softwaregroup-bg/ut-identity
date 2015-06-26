@@ -34,7 +34,7 @@ module.exports = function(templates) {
                         fingerPrint: auth.fingerPrint
                     }).then(function(response) {
                         auth.userId = response.userId;
-                        return this.execTemplateRow(templates.check, auth);
+                       // return this.execTemplateRow(templates.check, auth);
                     }).catch(function(error) {
                         throw new Error('BioLoginError');
                     });
