@@ -1,76 +1,77 @@
 CREATE PROCEDURE [utIdentity].[Check]
-     @userName NVARCHAR(50)
-    ,@password NVARCHAR(150)
-    ,@currentSessionId NVARCHAR(50)  
-    ,@sessionId NVARCHAR(50) OUT
-    ,@userId INT OUT
-    ,@ImplementationID NVARCHAR(50)
-    ,@SessionData NVARCHAR(MAX)
-    ,@IsUpdateAllowed BIT = 'False'
-    ,@language  NVARCHAR(50)=NULL OUT
-    ,@Result BIGINT OUT
-    ,@ResultMessage NVARCHAR(MAX) OUT
+     @userName NVARCHAR(50),
+     @password NVARCHAR(150),
+     @currentSessionId NVARCHAR(50),
+     @sessionId NVARCHAR(50) OUT,
+     @userId INT OUT,
+     @ImplementationID NVARCHAR(50),
+     @SessionData NVARCHAR(MAX),
+     @IsUpdateAllowed BIT = 'False',
+     @language  NVARCHAR(50)=NULL OUT,
+     @Result BIGINT OUT,
+     @ResultMessage NVARCHAR(MAX) OUT
 AS
 BEGIN
     DECLARE 
-         @UserProfileID BIGINT
-        ,@IsFirstLoginPending BIT
-        ,@IsChangePasswordPending BIT 
-        ,@LastLoginOn NVARCHAR(19)
-        ,@UserProfileXML XML
-        ,@ActivityDetails XML
-        ,@AccessRightsXML XML 
-        ,@ExpirationTreshold INT = 3600        
-        ,@UserIPAddress NVARCHAR(46)
+         @UserProfileID BIGINT,
+         @IsFirstLoginPending BIT,
+         @IsChangePasswordPending BIT,
+         @LastLoginOn NVARCHAR(19),
+         @UserProfileXML XML,
+         @ActivityDetails XML,
+         @AccessRightsXML XML,
+         @ExpirationTreshold INT = 3600,
+         @UserIPAddress NVARCHAR(46)
         
-    set @sessionId=@currentSessionId
+    SET @sessionId = @currentSessionId
     
 	IF (@sessionId IS NOT NULL)
-    BEGIN
-		EXEC [utUserManagement].[SessionLogin]
-			@SessionKey=@sessionId,
-			@ExpirationTreshold=@ExpirationTreshold,
-			@ActivityDetails =@ActivityDetails,
-			@UserProfileID=@UserProfileID,
-			@UserProfileXML =@UserProfileXML OUT,
-			@AccessRightsXML =@AccessRightsXML OUTPUT,
-			@SessionData=@SessionData OUTPUT,
-			@Result =@Result OUTPUT,
-			@ResultMessage =@ResultMessage OUTPUT
-			SET @userId= @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')
-		 
-    END
+        BEGIN
+            EXEC [utUserManagement].[SessionLogin]
+                @SessionKey=@sessionId,
+                @ExpirationTreshold=@ExpirationTreshold,
+                @ActivityDetails =@ActivityDetails,
+                @UserProfileID=@UserProfileID,
+                @UserProfileXML =@UserProfileXML OUT,
+                @AccessRightsXML =@AccessRightsXML OUTPUT,
+                @SessionData=@SessionData OUTPUT,
+                @Result =@Result OUTPUT,
+                @ResultMessage =@ResultMessage OUTPUT
+
+                SET @userId = @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')
+        END
         ELSE
             IF (@userName IS NOT NULL AND @password IS NOT NULL)
-            BEGIN
-				EXEC [utUserManagement].[CredentialsLogin]
-					@Username =@userName,
-					@Password =@password,
-					@ImplementationID=@ImplementationID,
-					@ActivityDetails = @ActivityDetails,
-					@UserProfileID =@UserProfileID OUTPUT,
-					@IsFirstLoginPending =@IsFirstLoginPending OUTPUT,
-					@IsChangePasswordPending=@IsChangePasswordPending OUTPUT,
-					@LastLoginOn =@LastLoginOn OUTPUT,
-					@UserProfileXML = @UserProfileXML OUTPUT,
-					@AccessRightsXML =@AccessRightsXML OUTPUT,
-					@Result =@Result OUTPUT,
-					@ResultMessage=@ResultMessage OUTPUT
-					SET @userId= @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')  
-            END
+                BEGIN
+                    EXEC [utUserManagement].[CredentialsLogin]
+                        @Username =@userName,
+                        @Password =@password,
+                        @ImplementationID=@ImplementationID,
+                        @ActivityDetails = @ActivityDetails,
+                        @UserProfileID =@UserProfileID OUTPUT,
+                        @IsFirstLoginPending =@IsFirstLoginPending OUTPUT,
+                        @IsChangePasswordPending=@IsChangePasswordPending OUTPUT,
+                        @LastLoginOn =@LastLoginOn OUTPUT,
+                        @UserProfileXML = @UserProfileXML OUTPUT,
+                        @AccessRightsXML =@AccessRightsXML OUTPUT,
+                        @Result =@Result OUTPUT,
+                        @ResultMessage=@ResultMessage OUTPUT
+
+                        SET @userId = @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')
+                END
                 ELSE
                     IF(@userId  IS NOT NULL)
-                    BEGIN
-                        EXEC  [utUserManagement].[GetUserProfile]
-                            @UserProfileID=@userId,
-                            @Username= @userName,
-                            @ImplementationID =@ImplementationID,
-                            @UserProfileXML =@UserProfileXML OUTPUT,
-                            @AccessRightsXML =@AccessRightsXML OUTPUT,
-                            @Result =@Result OUTPUT, -- added in 1.1
-                            @ResultMessage =@ResultMessage OUTPUT
-                    END
-    
+                        BEGIN
+                            EXEC [utUserManagement].[GetUserProfile]
+                                @UserProfileID=@userId,
+                                @Username= @userName,
+                                @ImplementationID =@ImplementationID,
+                                @UserProfileXML =@UserProfileXML OUTPUT,
+                                @AccessRightsXML =@AccessRightsXML OUTPUT,
+                                @Result =@Result OUTPUT, -- added in 1.1
+                                @ResultMessage =@ResultMessage OUTPUT
+                        END
+
     IF(@Result > 0)
         RETURN
 
@@ -91,8 +92,8 @@ BEGIN
 	    @Result =@Result OUTPUT,
 	    @ResultMessage =@ResultMessage OUTPUT
 
-    SELECT	
-		@language=user1.c.value('LanguageID[1]', 'nvarchar(50)')  
-	 FROM	
-		@UserProfileXML.nodes('/UserProfile') AS user1(c)                 
+    SELECT
+        @language=user1.c.value('LanguageID[1]', 'nvarchar(50)')
+    FROM
+        @UserProfileXML.nodes('/UserProfile') AS user1(c)
 END
