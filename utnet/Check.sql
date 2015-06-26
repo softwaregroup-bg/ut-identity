@@ -36,46 +36,44 @@ BEGIN
 			@Result =@Result OUTPUT,
 			@ResultMessage =@ResultMessage OUTPUT
 			SET @userId= @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')
-		 
     END
     ELSE IF (@userName IS NOT NULL AND @password IS NOT NULL)
     BEGIN
+        EXEC [utUserManagement].[CredentialsLogin]
+            @Username =@userName,
+            @Password =@password,
+            @ImplementationID=@ImplementationID,
+            @ActivityDetails = @ActivityDetails,
+            @UserProfileID =@UserProfileID OUTPUT,
+            @IsFirstLoginPending =@IsFirstLoginPending OUTPUT,
+            @IsChangePasswordPending=@IsChangePasswordPending OUTPUT,
+            @LastLoginOn =@LastLoginOn OUTPUT,
+            @UserProfileXML = @UserProfileXML OUTPUT,
+            @AccessRightsXML =@AccessRightsXML OUTPUT,
+            @Result =@Result OUTPUT,
+            @ResultMessage=@ResultMessage OUTPUT
 
-				EXEC [utUserManagement].[CredentialsLogin]
-					@Username =@userName,
-					@Password =@password,
-					@ImplementationID=@ImplementationID,
-					@ActivityDetails = @ActivityDetails,
-					@UserProfileID =@UserProfileID OUTPUT,
-					@IsFirstLoginPending =@IsFirstLoginPending OUTPUT,
-					@IsChangePasswordPending=@IsChangePasswordPending OUTPUT,
-					@LastLoginOn =@LastLoginOn OUTPUT,
-					@UserProfileXML = @UserProfileXML OUTPUT,
-					@AccessRightsXML =@AccessRightsXML OUTPUT,
-					@Result =@Result OUTPUT,
-					@ResultMessage=@ResultMessage OUTPUT
-					SET @userId= @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')  
+        SET @userId = @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')
 
-          IF @Result > 0
-          BEGIN
+        IF (@Result > 0)
+        BEGIN
             SELECT
-              @userId = up.UserProfileID,
-              @Result = 0
+                @userId = up.UserProfileID,
+                @Result = 0
             FROM utUserManagement.tUserCredentials uc
             JOIN utUserManagement.tUserProfileCredentials up ON up.UserCredentialsID = uc.UserCredentialsID
             JOIN utnetCore.tImplementationPorts p ON p.PortID = uc.PortID
             WHERE p.ImplementationID = @ImplementationID
-                AND uc.IsSystemCredential = 0
-                AND uc.PasswordHash = @password
-                AND uc.Username = @userName;
+            AND uc.IsSystemCredential = 0
+            AND uc.PasswordHash = @password
+            AND uc.Username = @userName;
 
-            IF @userId IS NULL 
+            IF (@userId IS NULL)
             BEGIN
-              set @Result = 2001
-              set @ResultMessage = 'Invalid userName'
+                SET @Result = 2001
+                SET @ResultMessage = 'Invalid userName'
             END
-
-          END
+        END
     END
 
     IF(@Result > 0)
@@ -88,17 +86,18 @@ BEGIN
     END 
   
     EXEC [utUserManagement].[SetActiveUserSession]
-	    @UserProfileID =@userId,
-	    @ImplementationID =@ImplementationID,
-	    @UserSessionKey =@sessionId,
-	    @ExpirationTreshold =@ExpirationTreshold,
-	    @UserIPAddress =@UserIPAddress,
-	    @IsUpdateAllowed =@IsUpdateAllowed,
-	    @Result =@Result OUTPUT,
-	    @ResultMessage =@ResultMessage OUTPUT
+        @UserProfileID =@userId,
+        @ImplementationID =@ImplementationID,
+        @UserSessionKey =@sessionId,
+        @ExpirationTreshold =@ExpirationTreshold,
+        @UserIPAddress =@UserIPAddress,
+        @IsUpdateAllowed =@IsUpdateAllowed,
+        @UserSessionData = N'{}',
+        @Result =@Result OUTPUT,
+        @ResultMessage =@ResultMessage OUTPUT
 
-   SELECT	
-		@language=user1.c.value('LanguageID[1]', 'nvarchar(50)')  
-	 FROM	
-		@UserProfileXML.nodes('/UserProfile') AS user1(c)                 
+    SELECT
+        @language=user1.c.value('LanguageID[1]', 'nvarchar(50)')
+    FROM
+        @UserProfileXML.nodes('/UserProfile') AS user1(c)
 END
