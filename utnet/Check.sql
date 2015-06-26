@@ -1,13 +1,7 @@
-USE [UTNetSystem_3_2]
-GO
-/****** Object:  StoredProcedure [utIdentity].[Check]    Script Date: 6/12/2015 5:44:05 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-ALTER PROCEDURE [utIdentity].[Check]
+CREATE PROCEDURE [utIdentity].[Check]
      @userName NVARCHAR(50)
     ,@password NVARCHAR(150)
+    ,@currentSessionId NVARCHAR(50)  
     ,@sessionId NVARCHAR(50) OUT
     ,@userId INT OUT
     ,@ImplementationID NVARCHAR(50)
@@ -18,16 +12,19 @@ ALTER PROCEDURE [utIdentity].[Check]
     ,@ResultMessage NVARCHAR(MAX) OUT
 AS
 BEGIN
-    DECLARE
+    DECLARE 
          @UserProfileID BIGINT
         ,@IsFirstLoginPending BIT
-        ,@IsChangePasswordPending BIT
+        ,@IsChangePasswordPending BIT 
         ,@LastLoginOn NVARCHAR(19)
         ,@UserProfileXML XML
         ,@ActivityDetails XML
-        ,@AccessRightsXML XML
-        ,@ExpirationTreshold INT = 3600
+        ,@AccessRightsXML XML 
+        ,@ExpirationTreshold INT = 3600        
         ,@UserIPAddress NVARCHAR(46)
+        
+    set @sessionId=@currentSessionId
+    
 	IF (@sessionId IS NOT NULL)
     BEGIN
 		EXEC [utUserManagement].[SessionLogin]
@@ -41,6 +38,7 @@ BEGIN
 			@Result =@Result OUTPUT,
 			@ResultMessage =@ResultMessage OUTPUT
 			SET @userId= @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')
+		 
     END
         ELSE
             IF (@userName IS NOT NULL AND @password IS NOT NULL)
@@ -58,7 +56,7 @@ BEGIN
 					@AccessRightsXML =@AccessRightsXML OUTPUT,
 					@Result =@Result OUTPUT,
 					@ResultMessage=@ResultMessage OUTPUT
-					SET @userId= @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')
+					SET @userId= @UserProfileXML.value('(/UserProfile/UserProfileID/text())[1]', 'int')  
             END
                 ELSE
                     IF(@userId  IS NOT NULL)
@@ -72,7 +70,7 @@ BEGIN
                             @Result =@Result OUTPUT, -- added in 1.1
                             @ResultMessage =@ResultMessage OUTPUT
                     END
-
+    
     IF(@Result > 0)
         RETURN
 
@@ -80,8 +78,8 @@ BEGIN
         BEGIN
             EXEC [utUserManagement].[CreateSessionKey]
             @SessionKey =@sessionId OUTPUT
-        END
-
+        END 
+  
     EXEC [utUserManagement].[SetActiveUserSession]
 	    @UserProfileID =@userId,
 	    @ImplementationID =@ImplementationID,
@@ -93,8 +91,8 @@ BEGIN
 	    @Result =@Result OUTPUT,
 	    @ResultMessage =@ResultMessage OUTPUT
 
-    SELECT
-		@language=user1.c.value('LanguageID[1]', 'nvarchar(50)')
-	 FROM
-		@UserProfileXML.nodes('/UserProfile') AS user1(c)
+    SELECT	
+		@language=user1.c.value('LanguageID[1]', 'nvarchar(50)')  
+	 FROM	
+		@UserProfileXML.nodes('/UserProfile') AS user1(c)                 
 END
