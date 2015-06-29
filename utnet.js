@@ -33,16 +33,12 @@ module.exports = function(templates) {
             });
             bus.importMethod('internal.registerRequestHandler')({
                 method: 'GET',
-                path: '/s/identity/{path*}',
-                config: {
-                    handler: function(request, reply) {
-                        var file = '../ut-identity/' + request.params.path;
-                        fs.exists(file, function (valid) {
-                            fs.readFile(file, function (err, data) {
-                                if (err) throw err;
-                                reply(data.toString());
-                            });
-                        });
+                path: '/s/identity/{p*}',
+                handler: {
+                    directory: {
+                        path: __dirname,
+                        listing: false,
+                        index: true
                     }
                 }
             });
