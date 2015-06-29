@@ -29,6 +29,7 @@ BEGIN
 		EXEC [utUserManagement].[SessionLogin]
 			@SessionKey=@sessionId,
 			@ExpirationTreshold=@ExpirationTreshold,
+			@UserSessionData = N'{}',
 			@ActivityDetails =@ActivityDetails,
 			@UserProfileID=@UserProfileID,
 			@UserProfileXML =@UserProfileXML OUT,

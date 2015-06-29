@@ -63,13 +63,20 @@ module.exports = function(templates) {
                         throw new Error('BioVerificationError');
                     });
                 } else {
-                    return bus.importMethod('bio.biometricsLogin')({
+                    return this.bus.importMethod('bio.biometricsLogin')({
                         fingerPrint: auth.fingerPrint
-                    }).then(function(response) {
-                        auth.userId = response.userId;
-                       // return this.execTemplateRow(templates.check, auth);
-                    }).catch(function(error) {
-                        throw new Error('BioLoginError');
+                    }).then(function(res) {
+                        var loginResult = res.payload.BiometricsLoginResponse.BiometricsLoginResult;
+                        if (loginResult['a:Result'] == 'false' || loginResult['a:UserID'] == '0') {
+                            var er = new Error();
+                            er.code = '2002';
+                            er.message = 'fingerPrint login failed';
+                            er.errorPrint = 'Invalid fingerprint';
+                            throw er;
+                        }
+                        auth.userId = loginResult['a:UserID'];
+                        auth.sessionId = loginResult['a:Session'];
+                        return auth;
                     });
                 }
             } else {
