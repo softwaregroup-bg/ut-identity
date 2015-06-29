@@ -38,7 +38,6 @@ module.factory('ut', function($q, $http, $cookies) {
 module.controller('IdentityController', function($scope, $routeParams, $http, $cookies, $window, ut) {
     var fallbackUrl;
     $scope.user = {};
-    $scope.isNotLoggedIn = true;
     $scope.submit = function() {
         ut['identity.check']({
             username: this.username,
