@@ -1,6 +1,22 @@
-{{back.url}}
-<form ng-submit="submit()" ng-controller="IdentityController">
+<!--<form ng-submit="submit()" ng-controller="IdentityController">
     <input type="text" ng-model="username" name="username" />
     <input type="text" ng-model="password" name="password" />
     <input type="submit" id="submit" value="Submit" />
-</form>
+</form>-->
+<div id="utnet_authentication_container">
+    <div id="utnet_authentication_container_inner">
+        <form role="form" name="loginForm" novalidate ng-submit="SignIn()">
+            <div class="form-group clearfix" ng-class="{'has-error': loginForm.inputUsername.$invalid && loginForm.inputUsername.$dirty, 'has-success': loginForm.inputUsername.$valid && loginForm.inputUsername.$dirty}">
+                <label for="inputUsername" class="control-label">{{GetTranslation( 'utnet_core_text.auth.username' )}}</label>
+                <input type="text" class="form-control input-sm" name="inputUsername" ng-model="inputUsername" placeholder="enter username" required ng-minlength="3" />
+            </div>
+            <div class="form-group clearfix" ng-class="{'has-error': loginForm.inputPassword.$invalid && loginForm.inputPassword.$dirty, 'has-success': loginForm.inputPassword.$valid && loginForm.inputPassword.$dirty}">
+                <label for="inputPassword" class="control-label">{{GetTranslation( 'utnet_core_text.auth.password' )}}</label>
+                <input type="password" class="form-control input-sm" name="inputPassword" ng-model="inputPassword" placeholder="enter password" required />
+            </div>
+            <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-default btn-sm">Sign In</button>
+            <!-- #UTBio_integration -->
+            <button class="btn btn-default btn-sm" ng-click="BioLogin()">Bio Login</button>
+        </form>
+    </div>
+</div>

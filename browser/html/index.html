@@ -1,16 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ut-identity">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="/">
+
     <title>UnderTree 5</title>
+    <link type="text/css" rel="stylesheet" href="/s/identity/browser/css/UTNet_Main.css" />
+    <link type="text/css" rel="stylesheet" href="/s/identity/browser/css/default.css" />
+    <link type="text/css" rel="stylesheet" href="/s/identity/browser/css/external/bootstrap.3.3.0.min.css" />
+    <link type="text/css" rel="stylesheet" href="/s/identity/browser/css/external/bootstrap-theme.3.3.0.min.css" />
+    <link type="text/css" rel="stylesheet" href="/s/identity/browser/css/external/angular-ui-tree.2.1.5.min.css" />
+    <link type="text/css" rel="stylesheet" href="/s/identity/browser/css/external/ng-grid.2.0.12.min.css" />
 </head>
 <body>
-<div ng-view></div>
+
+<!-- This will be used to load and display the UTBio client -->
+<div id="utbio_client_wrapper">
+    <div id="utbio_client_mask">
+        <div id="utbio_client_container"></div>
+    </div>
+</div>
+
+<div id="ntnet_wrapper" ng-app="ut-identity" class = "ut3_wrapper_container">
+
+    <ng-include src="'header.html'" ></ng-include>
+
+    <div id="utnet_menu_container"></div>
+
+    <ng-include src="'widget.html'" ></ng-include>
+
+    <!--  <ng-include src="'CustomerServices/customerWidget.html'" ></ng-include> -->
+    <!--  <div id="utnet_customer_panel_container"></div> -->
+    <div class="clear"></div>
+
+    <div id="utnet_main_container_inner">
+        <div ng-view></div>
+    </div>
+
+    <div id="utnet_info_container" ng-controller="InfoBarController" ng-class="'utnet_info_container_' + AmendStyle()">
+        <div id="utnet_big_logo" ng-class="'utnet_big_logo_' + AmendStyle()"></div>
+        <div id="utnet_copyright_info" ng-class="'utnet_copyright_info_' + AmendStyle()">Copyright&nbsp;&copy;&nbsp;2014&nbsp;<a href='http://softwaregroup-bg.com/' target='_blank'>Software Group</a></div>
+        <div id="utnet_version_info" ng-class="'utnet_version_info_' + AmendStyle()">{{ApplicationVersionDisplay()}}</div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div id="appLoading" ng-show="showAppLoading">
+        <div class="loadingImg"></div>
+    </div>
+</div>
+
+<script>
+    /*var appCache = window.applicationCache;
+     window.addEventListener('load', function(e) {
+     if ( appCache ) {
+     appCache.update(); // Attempt to update the user's cache.
+
+     appCache.addEventListener('updateready', function(e) {
+     if ( appCache.status == appCache.UPDATEREADY ) {
+     // Browser downloaded a new app cache.
+     // Swap it in and reload the page to get the new hotness.
+     appCache.swapCache();
+     if (confirm('A new version of this site is available. Load it?')) {
+     window.location.path = '/';
+     //                        window.location.reload();
+     }
+     } else {
+     // Manifest didn't changed. Nothing new to server.
+     }
+     }, false);
+     }
+     }, false);*/
+</script>
+
+
+<!-- Placed at the end for faster page loading -->
+<script src="/s/identity/browser/js/jquery-2.1.1.min.js" defer></script>
 <script src="/s/identity/browser/js/angular.min.js"></script>
 <script src="/s/identity/browser/js/angular-route.min.js"></script>
-<script src="/s/identity/browser/js/angular-cookies.min.js"></script>
+<script src="/s/identity/browser/js//angular-cookies.min.js"></script>
+<script src="/s/identity/browser/js/angular-sanitize.js" defer></script>
+<script src="/s/identity/browser/js/angular-ui-router.0.2.11.min.js" defer></script>
+<script src="/s/identity/browser/js/ui-bootstrap-tpls-0.11.2.min.js" defer></script>
+<script src="/s/identity/browser/js/angular-ui-tree.2.1.5.min.js" defer></script>
+<script src="/s/identity/browser/js/ng-grid.2.0.12.min.js" defer></script>
 <script src="/s/identity/browser.js"></script>
+
 </body>
 </html>
