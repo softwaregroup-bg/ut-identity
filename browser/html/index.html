@@ -26,13 +26,13 @@
 
 <div id="ntnet_wrapper" ng-app="ut-identity" class = "ut3_wrapper_container">
 
-    <ng-include src="'header.html'" ></ng-include>
+    <ng-include src="'/s/identity/browser/html/header.html'" ></ng-include>
 
     <div id="utnet_menu_container"></div>
 
-    <ng-include src="'widget.html'" ></ng-include>
+    <ng-include src="'/s/identity/browser/html/widget.html'" ></ng-include>
 
-    <!--  <ng-include src="'CustomerServices/customerWidget.html'" ></ng-include> -->
+    <!--  <ng-include src="'./CustomerServices/customerWidget.html'" ></ng-include> -->
     <!--  <div id="utnet_customer_panel_container"></div> -->
     <div class="clear"></div>
 
@@ -40,16 +40,24 @@
         <div ng-view></div>
     </div>
 
+    <!-- 
     <div id="utnet_info_container" ng-controller="InfoBarController" ng-class="'utnet_info_container_' + AmendStyle()">
         <div id="utnet_big_logo" ng-class="'utnet_big_logo_' + AmendStyle()"></div>
         <div id="utnet_copyright_info" ng-class="'utnet_copyright_info_' + AmendStyle()">Copyright&nbsp;&copy;&nbsp;2014&nbsp;<a href='http://softwaregroup-bg.com/' target='_blank'>Software Group</a></div>
         <div id="utnet_version_info" ng-class="'utnet_version_info_' + AmendStyle()">{{ApplicationVersionDisplay()}}</div>
         <div class="clearfix"></div>
     </div>
-
-    <div id="appLoading" ng-show="showAppLoading">
-        <div class="loadingImg"></div>
+     -->
+    <div id="utnet_info_container">
+        <div id="utnet_big_logo" class="utnet_big_logo_nau"></div>
+        <div id="utnet_copyright_info">Copyright&nbsp;&copy;&nbsp;2014&nbsp;<a href='http://softwaregroup-bg.com/' target='_blank'>Software Group</a></div>
+        <div id="utnet_version_info">{{ApplicationVersionDisplay()}}</div>
+        <div class="clearfix"></div>
     </div>
+
+    <!-- <div id="appLoading" ng-show="showAppLoading">
+        <div class="loadingImg"></div>
+    </div> -->
 </div>
 
 <script>

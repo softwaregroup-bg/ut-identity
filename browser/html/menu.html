@@ -1,0 +1,25 @@
+<div id="ut3_menu_container" class="ut3_menu_container_top_bar">
+
+    <div ng-repeat="moduleItem in ( modules )" class="ut3_menu_button_top_bar" ng-click="loadSubMenu({ module: moduleItem.moduleName })">
+        <div class="{{moduleItem.moduleStyle}}"></div>
+        <div id="ut3_menu_counter_workbench" class="ut3_menu_button_counter"></div>
+        <a class="ut3_menu_button_text_top_bar" href="javascript:void(0)">{{moduleItem.moduleTitle}}</a>
+    </div>
+
+    <div class="ut3_menu_button_top_bar_terminator"></div>
+
+</div>
+
+<div id="utnet_userinfo_shadow"></div>
+
+<div id="utnet_userinfo" style="background-color:#d1d1d1;">
+    <div id="utnet_userinfo_image" ng-click="changePassword()"></div>
+    <div id="ut3_userinfo_name" class="ut3_userinfo_guest">Welcome, {{currentUser}}!</div>
+    <div class="ut3_button_logout right" ng-click="Logout()">
+        <div class="in">
+            <img src="/s/identity/browser/img/ut3_logout_icon.png" />
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>

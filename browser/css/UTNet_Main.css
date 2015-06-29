@@ -112,7 +112,7 @@ span {
     margin: 0px;
     padding: 0px;
     background-color: #E3E3E3;
-    background-image: url('/ffh_logo.png'), url('/headerLeft.png'), url('/headerRight.png');
+    background-image: url('/s/identity/browser/img/ffh_logo.png'), url('/s/identity/browser/img/headerLeft.png'), url('/s/identity/browser/img/headerRight.png');
     background-position: 7px center, 60px top, right top;
     background-repeat: no-repeat, no-repeat, no-repeat;
     box-shadow: 0 0 2px #959595;
@@ -162,7 +162,7 @@ span {
     height: 24px;
     margin: 4px;
     background-color: #FFFFFF;
-    background-image: url('/guestImage_Small.png');
+    background-image: url('/s/identity/browser/img/guestImage_Small.png');
     background-position: center center;
     background-repeat: no-repeat;
     border: 1px solid #87D54A;
@@ -273,7 +273,7 @@ span {
     border-right: 1px solid #a8a8a8;
     background-repeat: no-repeat;
     background-position: 5px center;
-    background-image: url('/ut/img/ut3_menu_tasks_icon.png');
+    background-image: url('/s/identity/browser/img/ut/img/ut3_menu_tasks_icon.png');
     -webkit-transition: 0.3s all ease-in-out 0.2s;
     -moz-transition: 0.3s all ease-in-out 0.2s;
     -o-transition: 0.3s all ease-in-out 0.2s;
@@ -540,7 +540,7 @@ span {
     height: 200px;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url('ffh_logo_big.png');
+    background-image: url('/s/identity/browser/img/ffh_logo_big.png');
 }
 
 .utnet_big_logo_nau {
@@ -685,7 +685,7 @@ span {
     padding-top: 48px;
     padding-bottom: 10px;
     background-color: #E3E3E3;
-    /*background-image: url('ut3_menu_back.png');*/
+    /*background-image: url('/s/identity/browser/img/ut3_menu_back.png');*/
     background-position: 135px 5px;
     background-repeat: no-repeat;
     box-shadow: 0 0 2px #696969;
@@ -822,27 +822,27 @@ span {
 }
 
 .ut3_menu_button_workbench {
-    background-image: url('ut3_menu_workbench_icon.png');
+    background-image: url('/s/identity/browser/img/ut3_menu_workbench_icon.png');
 }
 
 .ut3_menu_button_administration {
-    background-image: url('ut3_menu_administration_icon.png');
+    background-image: url('/s/identity/browser/img/ut3_menu_administration_icon.png');
 }
 
 .ut3_menu_button_customer {
-    background-image: url('ut3_menu_customer_icon.png');
+    background-image: url('/s/identity/browser/img/ut3_menu_customer_icon.png');
 }
 
 .ut3_menu_button_reporting {
-    background-image: url('ut3_menu_reporting_icon.png');
+    background-image: url('/s/identity/browser/img/ut3_menu_reporting_icon.png');
 }
 
 .ut3_menu_button_teller {
-    background-image: url('ut3_menu_teller_icon.png');
+    background-image: url('/s/identity/browser/img/ut3_menu_teller_icon.png');
 }
 
 .ut3_menu_button_loans {
-    background-image: url('ut3_menu_loans_icon.png');
+    background-image: url('/s/identity/browser/img/ut3_menu_loans_icon.png');
 }
 
 /*.ut3_user_tasks_button {
@@ -857,7 +857,7 @@ span {
     border-right: 1px solid #a8a8a8;
     background-repeat: no-repeat;
     background-position: 5px center;
-    background-image: url('ut3_menu_tasks_icon.png');
+    background-image: url('/s/identity/browser/img/ut3_menu_tasks_icon.png');
     -webkit-transition: 0.3s all ease-in-out 0.2s;
     -moz-transition: 0.3s all ease-in-out 0.2s;
     -o-transition: 0.3s all ease-in-out 0.2s;
@@ -1217,7 +1217,7 @@ span {
 }
 
 #appLoading .loadingImg, #appLoadingExpired .loadingImg{
-    background-image: url('/ajax-loader.gif');
+    background-image: url('/s/identity/browser/img/ajax-loader.gif');
     background-position: center center;
     background-repeat: no-repeat;
     width: 66px;
