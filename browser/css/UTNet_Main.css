@@ -1,0 +1,1254 @@
+/**
+ * This file contains the main CSS classes for UTNet Core 3.1 and later.
+ * 
+ * Created By: Boris Kostadinov
+ * Created On: 04.05.2014
+ * Version: 1.0
+ * Last Modified By: Manuel Ramirez
+ * Last Modified On: 02.10.2014
+ *
+ * Copyright: Software Group Ltd.
+ */
+
+/* Some general setup and styling */
+
+div {
+    outline: none;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    margin: 0px;
+    /*
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+     overflow: hidden; */
+}
+
+span {
+    outline: none;
+}
+
+.nav, .pagination, .carousel, .panel-title a {
+    cursor: pointer;
+}
+/* Required by UI-Bootstrap */
+
+.nav-tabs > li {
+    margin-bottom: -2px!important;
+}
+
+.nav-tabs + .tab-content {
+    padding: 1.5em;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/**
+ * UT Bio Client styles
+ */
+
+#utbio_client_wrapper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: none;
+    /* 
+   	z-index: 500000;
+    */
+    z-index: 9999;
+}
+
+#utbio_client_mask {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(92, 92, 92, 0.4);
+}
+
+#utbio_client_container {
+    /*  overflow: hidden; */
+    width: 100%;
+    height: 100%;
+}
+
+/**
+ * UT Net styles   
+ */
+
+/* main.html styles */
+
+#ntnet_wrapper {
+    position: fixed;
+    /*  z-index: 1;*/
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: #F8F8F8;
+}
+
+.utnet_hidden {
+    display: none;
+}
+
+#utnet_header {
+    display: none;
+    /* position: absolute; */
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 46px;
+    margin: 0px;
+    padding: 0px;
+    background-color: #E3E3E3;
+    background-image: url('/ffh_logo.png'), url('/headerLeft.png'), url('/headerRight.png');
+    background-position: 7px center, 60px top, right top;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    box-shadow: 0 0 2px #959595;
+    /*
+    z-index: 300014;
+	*/
+    z-index: 3;
+}
+
+#utnet_userinfo_shadow {
+    display: none;
+    position: absolute;
+    margin: 0px;
+    top: 0px;
+    right: 260px;
+    width: 360px;
+    height: 34px;
+    background-color: transparent;
+    box-shadow: 0 0 5px #696969;
+    z-index: 3;
+}
+
+#utnet_userinfo {
+    position: absolute;
+    margin: 0px;
+    top: 5px;
+    right: 10px;
+    width: 360px;
+    height: 34px;
+    background-color: #dfdfdf;
+    z-index: 300017;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    box-shadow: 0 0 1px #696969;
+}
+
+#main_inner {
+    background-color: #3B3B3B;
+    width: 100%;
+    height: 100%;
+    /* position:absolute; */
+}
+
+#utnet_userinfo_image {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+    background-color: #FFFFFF;
+    background-image: url('/guestImage_Small.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 1px solid #87D54A;
+}
+
+#utnet_userinfo_name {
+    float: left;
+    width: auto;
+    height: auto;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 32px;
+    padding-left: 5px;
+    height: 100%;
+    z-index: 300015;
+}
+
+#utnet_menu_container {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    height: 0px;
+}
+
+#utnet_menu_container_top_bar {
+    display: block;
+    position: absolute;
+    width: auto;
+    height: 46px;
+    top: 0px;
+    left: 300px;
+    right: 380px;
+    background-color: #E3E3E3;
+    z-index: 300015;
+    /*  overflow: hidden; */
+}
+
+#utnet_menu_button_top_bar {
+    float: left;
+    position: relative;
+    margin: 0px;
+    width: 50px;
+    height: 100%;
+    background-color: #e3e3e3;
+    border-left: 1px solid #a8a8a8;
+    -webkit-transition: 0.5s all ease-in-out 0.2s;
+    -moz-transition: 0.5s all ease-in-out 0.2s;
+    -o-transition: 0.5s all ease-in-out 0.2s;
+    transition: 0.5s all ease-in-out 0.2s;
+}
+
+    #utnet_menu_button_top_bar:hover {
+        width: 220px;
+        background-color: #c3c3c3;
+    }
+
+.utnet_menu_button_counter {
+    position: absolute;
+    right: 4px;
+    top: 1px;
+    font-family: Verdana, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    color: #9e362f;
+    vertical-align: middle;
+}
+
+#utnet_menu_button_top_bar_terminator {
+    float: left;
+    position: relative;
+    margin: 0px;
+    border-left: 1px solid #a8a8a8;
+    width: 54px;
+    height: 100%;
+    background-color: #E3E3E3;
+}
+
+.utnet_menu_button_text_top_bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 5px;
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #343434;
+    line-height: 46px;
+    vertical-align: middle;
+    /* overflow: hidden; */
+}
+
+/*.utnet_user_tasks_button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0px;
+    width: 50px;
+    height: 100%;
+    background-color: #e3e3e3;
+    border-left: 1px solid #a8a8a8;
+    border-right: 1px solid #a8a8a8;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    background-image: url('/ut/img/ut3_menu_tasks_icon.png');
+    -webkit-transition: 0.3s all ease-in-out 0.2s;
+    -moz-transition: 0.3s all ease-in-out 0.2s;
+    -o-transition: 0.3s all ease-in-out 0.2s;
+    transition: 0.3s all ease-in-out 0.2s;
+}
+
+    .utnet_user_tasks_button:hover {
+        width: 120px;
+        background-color: #c3c3c3;
+    }
+
+.utnet_user_tasks_button_my_counter,
+.utnet_user_tasks_button_unclaimed_counter {
+    position: absolute;
+    right: 4px;
+    font-family: Verdana, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    color: #2769a7;
+    vertical-align: middle;
+}
+
+.utnet_user_tasks_button_my_counter {
+    top: 1px;
+    color: #BF0000;
+}
+
+.utnet_user_tasks_button_unclaimed_counter {
+    bottom: 2px;
+}
+
+.utnet_user_tasks_button_link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 5px;
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444444;
+    line-height: 46px;
+    vertical-align: middle;
+      overflow: hidden; 
+}*/
+
+.utnet_customer_panel_container {
+    display: block;
+    position: absolute;
+    width: 600px;
+    height: auto;
+    border-radius: 5px;
+    top: 50px;
+    right: -580px;
+    -webkit-transition: all 0.4s ease-in-out 0.3s;
+    -moz-transition: all 0.4s ease-in-out 0.3s;
+    -ms-transition: all 0.4s ease-in-out 0.3s;
+    -o-transition: all 0.4s ease-in-out 0.3s;
+    transition: all 0.4s ease-in-out 0.3s;
+    z-index: 300014;
+}
+
+.utnet_customer_panel_container_show {
+    /*display: none;*/
+    position: absolute;
+    width: 600px;
+    height: auto;
+    border-radius: 5px;
+    top: 50px;
+    right: 0px;
+    z-index: 300014;
+}
+
+.utnet_customer_panel_container:hover {
+    right: 0px;
+}
+
+.utnet_customer_panel_container_inner {
+    position: relative;
+    margin: 0px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 0px;
+    box-shadow: 0 0 5px #696969;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #E3E3E3;
+    background-size: 450px;
+    background-repeat: repeat;
+}
+
+.utnet_quick_search_results_pane {
+    box-shadow: 0 0 5px #696969;
+}
+
+#utnet_quick_search_container {
+    display: none;
+    position: absolute;
+    /* width: 400px; 
+    height: 350px; */
+    z-index: 300015;
+    top: 91px;
+    left: 16px;
+    /*background-color: gray;*/
+}
+
+.utnet_customer_lower_pane {
+    margin: 6px;
+    width: 100%;
+    height: 100%;
+    background-color: #F8F8F8;
+    border: 1px solid #F2F2F2;
+    box-shadow: 0 0 0 5px #FFFFFF;
+}
+
+.utnet_customer_panel_label {
+    border-top: 2px solid #FFFFFF;
+    border-bottom: 2px solid #FFFFFF;
+    background-color: #5C5C5C;
+    height: auto;
+    width: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: #F2F2F2;
+    line-height: 22px;
+    vertical-align: middle;
+    width: 100%;
+    height: 25px;
+    text-align: center;
+}
+
+.utnet_customer_info_container {
+    position: absolute;
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    color: #696969;
+    padding: 5px;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: 250px;
+    /* background-color: #F8F8F8;
+    border: 1px solid #87D54A;*/
+}
+
+.utnet_customer_image {
+    padding: 0px;
+    width: 240px;
+    height: 240px;
+    background-color: #FFFFFF;
+    /*border: 1px solid #9E9E9E;*/
+    margin-top: 9px;
+}
+
+    .utnet_customer_image img {
+        height: 240px;
+    }
+
+.utnet_customer_signature {
+    margin-top: 3px;
+    padding: 0px;
+    width: 240px;
+    height: 40px;
+    background-color: #FFFFFF;
+    /*border: 1px solid #9E9E9E;*/
+}
+
+    .utnet_customer_signature img {
+        height: 40px;
+    }
+
+.utnet_customer_info_panel {
+    /*height: 316px;*/
+    width: 564px;
+    margin: 0px;
+    padding: 0px;
+    /*   overflow: hidden; */
+}
+
+#utnet_main_container_inner {
+    background-color: transparent;
+    margin-top: 96px;
+    width: 100%;
+    /*height: 100%;*/
+    /*
+	 position:relative;
+	*/
+}
+
+#utnet_info_container {
+    display: block;
+    /* position: absolute; */
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    background-color: #c1c1c1;
+    box-shadow: 0 0 5px #696969;
+    z-index: 300013;
+}
+
+.utnet_info_container_nau {
+    height: 200px;
+}
+
+.utnet_info_container_auth {
+    height: 22px;
+}
+
+#utnet_copyright_info {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    text-align: left;
+    font-family: Verdana, sans-serif;
+    font-style: italic;
+    color: #5C5C5C;
+    vertical-align: middle;
+}
+
+.utnet_copyright_info_nau {
+    font-size: small;
+    line-height: 200px;
+}
+
+.utnet_copyright_info_auth {
+    font-size: x-small;
+    line-height: 22px;
+}
+
+#utnet_version_info {
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    text-align: left;
+    font-family: Verdana, sans-serif;
+    font-style: italic;
+    color: #5C5C5C;
+    vertical-align: middle;
+}
+
+.utnet_version_info_nau {
+    font-size: small;
+    line-height: 200px;
+}
+
+.utnet_version_info_auth {
+    font-size: x-small;
+    line-height: 22px;
+}
+
+#utnet_big_logo {
+    text-align: center;
+    width: 100%;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('ffh_logo_big.png');
+}
+
+.utnet_big_logo_nau {
+    display: block;
+}
+
+.utnet_big_logo_auth {
+    display: none;
+}
+
+.utnet_error_text {
+    color: #BF0000;
+    padding: inherit;
+}
+
+.nav-tabs li.has-error *, .has-error .panel-title {
+    color: #A94442 !important;
+    /*border-color: #A94442 !important;*/
+}
+
+.utnet_info_text_s_grey {
+    font-family: Verdana, sans-serif;
+    font-size: 13px;
+    color: #8A8A8A;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-style: normal;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.utnet_info_text_xs_grey,
+.utnet_info_text_xs_white,
+.utnet_info_text_xs_dark,
+.utnet_info_text_xs_error,
+.utnet_tooltip,
+.utnet_tooltip_error,
+.utnet_field_hint {
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+    color: #8A8A8A;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-style: italic;
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+.utnet_info_text_xs_white {
+    color: #F8F8F8;
+}
+
+.utnet_info_text_xs_dark {
+    color: #5C5C5C;
+}
+
+.utnet_info_text_xs_error {
+    color: #BF0000;
+}
+
+/* authentication.html styles */
+
+#utnet_authentication_container {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -180px;
+    margin-top: -90px;
+    padding: 7px;
+    width: 360px;
+    height: auto;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 2px #696969;
+    z-index: 300016;
+}
+
+#utnet_authentication_container_inner {
+    width: 100%;
+    height: 100%;
+    background-color: #F8F8F8;
+    border: 1px solid #87D54A;
+    padding: 7px;
+}
+
+/* loader.html styles */
+
+#utnet_loading_container {
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 116px;
+    margin-left: -200px;
+    margin-top: -48px;
+    z-index: 300013;
+}
+
+#utnet_loading_container_inner {
+    position: relative;
+    margin: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+}
+
+#utnet_loading_container_text {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-top: 15px;
+    text-align: center;
+    line-height: 32px;
+}
+
+#utnet_loading_container_sub_text {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0px;
+    text-align: center;
+}
+
+/* Menu */
+.ut3_menu_container {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    height: 0px;
+}
+
+.ut3_menu_container_left_autohide {
+    display: block;
+    position: absolute;
+    width: 220px;
+    height: auto;
+    top: 90px;
+    left: -200px;
+    padding-top: 48px;
+    padding-bottom: 10px;
+    background-color: #E3E3E3;
+    /*background-image: url('ut3_menu_back.png');*/
+    background-position: 135px 5px;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 2px #696969;
+    -webkit-transition: 0.7s all ease-out;
+    -moz-transition: 0.7s all ease-out;
+    -o-transition: 0.7s all ease-out;
+    -ms-transition: 0.7s all ease-out;
+    transition: 0.7s all ease-out;
+    z-index: 300014;
+}
+
+    .ut3_menu_container_left_autohide:hover {
+        left: 0px;
+    }
+
+.ut3_menu_container_top_bar {
+    display: block;
+    position: absolute;
+    width: auto;
+    height: 46px;
+    top: 0px;
+    left: 300px;
+    right: 380px;
+    background-color: #E3E3E3;
+    z-index: 300015;
+    /*  overflow: hidden; */
+}
+
+.ut3_menu_button_left_autohide {
+    float: left;
+    position: relative;
+    margin: 0px;
+    margin-top: -2px;
+    width: 100%;
+    height: 34px;
+    border-top: 2px solid #FFFFFF;
+    border-bottom: 2px solid #FFFFFF;
+    background-color: #9E9E9E;
+    background-position: 5px center;
+    background-repeat: no-repeat;
+}
+
+.ut3_menu_button_top_bar {
+    float: left;
+    position: relative;
+    margin: 0px;
+    width: 50px;
+    height: 100%;
+    background-color: #e3e3e3;
+    border-left: 1px solid #a8a8a8;
+    -webkit-transition: 0.5s all ease-in-out 0.2s;
+    -moz-transition: 0.5s all ease-in-out 0.2s;
+    -o-transition: 0.5s all ease-in-out 0.2s;
+    transition: 0.5s all ease-in-out 0.2s;
+}
+
+    .ut3_menu_button_top_bar:hover {
+        width: 220px;
+        background-color: #c3c3c3;
+    }
+
+.ut3_menu_button_counter {
+    position: absolute;
+    right: 4px;
+    top: 1px;
+    font-family: Verdana, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    color: #9e362f;
+    vertical-align: middle;
+}
+
+.ut3_menu_button_top_bar_terminator {
+    float: left;
+    position: relative;
+    margin: 0px;
+    border-left: 1px solid #a8a8a8;
+    width: 54px;
+    height: 100%;
+    background-color: #E3E3E3;
+}
+
+.ut3_menu_button_left_autohide_terminator {
+    float: left;
+    position: relative;
+    margin: 0px;
+    margin-top: -2px;
+    width: 100%;
+    height: 0px;
+    border-top: 2px solid #FFFFFF;
+    background-color: #E3E3E3;
+}
+
+.ut3_menu_button_text_left_autohide,
+.ut3_menu_button_text_top_bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    padding-left: 50px;
+    /* padding-right: 5px; */
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #343434 !important;
+    line-height: 34px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none !important;
+}
+
+.ut3_menu_button_text_top_bar {
+    line-height: 46px;
+}
+
+.ut3_menu_button_workbench,
+.ut3_menu_button_administration,
+.ut3_menu_button_loans,
+.ut3_menu_button_reporting,
+.ut3_menu_button_configurator,
+.ut3_menu_button_customer,
+.ut3_menu_button_agents,
+.ut3_menu_button_cheques,
+.ut3_menu_button_cards,
+.ut3_menu_button_aml,
+.ut3_menu_button_teller {
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 50px;
+    height: 100%;
+}
+
+.ut3_menu_button_workbench {
+    background-image: url('ut3_menu_workbench_icon.png');
+}
+
+.ut3_menu_button_administration {
+    background-image: url('ut3_menu_administration_icon.png');
+}
+
+.ut3_menu_button_customer {
+    background-image: url('ut3_menu_customer_icon.png');
+}
+
+.ut3_menu_button_reporting {
+    background-image: url('ut3_menu_reporting_icon.png');
+}
+
+.ut3_menu_button_teller {
+    background-image: url('ut3_menu_teller_icon.png');
+}
+
+.ut3_menu_button_loans {
+    background-image: url('ut3_menu_loans_icon.png');
+}
+
+/*.ut3_user_tasks_button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0px;
+    width: 50px;
+    height: 100%;
+    background-color: #e3e3e3;
+    border-left: 1px solid #a8a8a8;
+    border-right: 1px solid #a8a8a8;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    background-image: url('ut3_menu_tasks_icon.png');
+    -webkit-transition: 0.3s all ease-in-out 0.2s;
+    -moz-transition: 0.3s all ease-in-out 0.2s;
+    -o-transition: 0.3s all ease-in-out 0.2s;
+    transition: 0.3s all ease-in-out 0.2s;
+}
+
+    .ut3_user_tasks_button:hover {
+        width: 120px;
+        background-color: #c3c3c3;
+    }
+
+.ut3_user_tasks_button_my_counter,
+.ut3_user_tasks_button_unclaimed_counter {
+    position: absolute;
+    right: 4px;
+    font-family: Verdana, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    color: #2769a7;
+    vertical-align: middle;
+}
+
+.ut3_user_tasks_button_my_counter {
+    top: 1px;
+    color: #BF0000;
+}
+
+.ut3_user_tasks_button_unclaimed_counter {
+    bottom: 2px;
+}
+
+.ut3_user_tasks_button_link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 0px;
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444444;
+    line-height: 46px;
+    vertical-align: middle;
+    overflow: hidden;
+}*/
+
+.ut3_userinfo_guest {
+    float: left;
+    width: 280px;
+    height: auto;
+    margin: 5px;
+    text-align: left;
+    font-family: Verdana, sans-serif;
+    font-size: small;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+    color: #5C5C5C;
+    line-height: 22px;
+    vertical-align: middle;
+}
+
+.ut3_info_text_xs_dark {
+    color: #5C5C5C;
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+    color: #8A8A8A;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-style: italic;
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+.ut3_button_logout {
+    background-image: -webkit-linear-gradient(top left, #c9c9c9 0%, #c1c1c1 30%, #ffffff 100%);
+    background-image: -moz-linear-gradient(top left, #c9c9c9 0%, #c1c1c1 30%, #ffffff 100%);
+    background-image: -o-linear-gradient(top left, #c9c9c9 0%, #c1c1c1 30%, #ffffff 100%);
+    background-image: -ms-linear-gradient(top left, #c9c9c9 0%, #c1c1c1 30%, #c9c9c9 100%);
+    background-image: linear-gradient(to top, #c9c9c9 0%, #c1c1c1 30%, #ffffff 100%);
+    border: 1px solid #d5d5d5;
+    box-shadow: none;
+    margin: 5px;
+    border-radius: 5px;
+    visibility: inherit;
+    cursor: pointer;
+    -webkit-margin-before-collapse: collapse;
+    -webkit-margin-after-collapse: collapse;
+}
+
+.ut3_button_logout .in {
+    background-color: inherit;
+    background-image: -webkit-linear-gradient(top left, #9E9E9E 0%, #F8F8F8 60%, #9E9E9E 100%);
+    background-image: -moz-linear-gradient(top left, #9E9E9E 0%, #F8F8F8 60%, #9E9E9E 100%);
+    background-image: -o-linear-gradient(top left, #9E9E9E 0%, #F8F8F8 60%, #9E9E9E 100%);
+    background-image: -ms-linear-gradient(top left, #9E9E9E 0%, #F8F8F8 60%, #9E9E9E 100%);
+    background-image: linear-gradient(to bottom right, #9E9E9E 0%, #F8F8F8 60%, #9E9E9E 100%);
+    border: 1px solid #9E9E9E;
+    border-radius: 5px;
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+    padding: 0px;
+    color: #5C5C5C;
+    font-weight: bold;
+    outline: none;
+    vertical-align: middle;
+    width: 22px;
+    height: 22px;
+}
+
+.right {
+    float: right;
+}
+
+.ut3_button_logout .in img {
+    margin: 2px;
+}
+
+.ut3_button_logout :hover {
+    background-image: -webkit-linear-gradient(top left, #c1c1c1 0%, #c9c9c9 60%, #c1c1c1 100%);
+    background-image: -moz-linear-gradient(top left, #c1c1c1 0%, #c9c9c9 60%, #c1c1c1 100%);
+    background-image: -o-linear-gradient(top left, #c1c1c1 0%, #c9c9c9 60%, #c1c1c1 100%);
+    background-image: -ms-linear-gradient(top left, #c1c1c1 0%, #c9c9c9 60%, #c1c1c1 100%);
+    background-image: linear-gradient(to bottom right, #c1c1c1 0%, #c9c9c9 60%, #c1c1c1 100%);
+    border-radius: 5px;
+}
+
+.subMenu {
+    margin-left: 20px;
+    margin-top: 8px;
+}
+
+#utnet_sub_menu {
+    width: 100%;
+    height: 50px;
+    background-color: #3B3B3B;
+    position: fixed;
+    top: 46px;
+}
+
+    #utnet_sub_menu .subMenu button a {
+        text-decoration: none;
+        color: #3B3B3B;
+    }
+/* End Menu */
+
+#utnet_container {
+    width: 99%;
+    height: 100%;
+    /*
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background-color: #F8F8F8;
+	*/
+    margin: 0 0.5% 0 0.5%;
+}
+
+.inner_container {
+    padding: 5px 10px 35px 10px;
+    min-height: 100%;
+    width: 99%;
+}
+
+.utnet_selected_right {
+    background-color: #D3D3D3;
+}
+
+.ut3_info_text_xs_grey {
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+    color: #8A8A8A;
+    font-style: italic;
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+.inner_container2 {
+    padding: 5px 10px 5px 10px;
+    min-height: 100%;
+    width: 99%;
+}
+
+.addSetButton {
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+.dialog-header-error {
+    background-color: #d2322d;
+}
+
+.dialog-header-wait {
+    background-color: #428bca;
+}
+
+.dialog-header-notify {
+    background-color: #eeeeee;
+}
+
+.dialog-header-confirm {
+    background-color: #333333;
+}
+
+    .dialog-header-error span, .dialog-header-error h4,
+    .dialog-header-wait span, .dialog-header-wait h4,
+    .dialog-header-confirm span, .dialog-header-confirm h4 {
+        color: #ffffff;
+    }
+
+/*
+* End Add client screen style
+*/
+/*
+* Team screen style
+*/
+.sh {
+    width: 980px;
+    padding: 15px 0;
+}
+
+.sh-title-holder {
+    color: #494949;
+    width: 100%;
+}
+
+.sh .sh-title-holder .glyphicon-sh {
+    line-height: 28px;
+    font-size: 28px;
+}
+
+.sh .sh-title-holder .sh-title {
+    height: 32px;
+    line-height: 32px;
+    margin-left: 10px;
+}
+
+.sh-col-ml {
+    margin-left: 38px;
+}
+
+.btn-green {
+    color: #FFFFFF;
+    background-color: #00CC00;
+    border-color: #00CC00;
+    padding-left: 20px;
+}
+
+.btn-style {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 100%;
+}
+
+.ut3_wrapper_container {
+    position: fixed;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 25px;
+    background: #FFF;
+    overflow-x: hidden;
+}
+
+.reporting {
+    width: 99%;
+}
+
+.date-picker {
+    width: 286px;
+}
+
+.check-enrollment {
+    margin-top: 25px;
+}
+
+#bioenrolled {
+    top: -23px;
+    right: 10px;
+}
+
+.authentication_button {
+    text-align: center;
+}
+
+.input-width-100p {
+    width: 100% !important;
+}
+
+.input-width-60p {
+    width: 60% !important;
+}
+
+.input-width-40p {
+    width: 40% !important;
+}
+
+.input-width-20p {
+    width: 20% !important;
+}
+
+.input-width-auto {
+    width: auto !important;
+}
+
+.checkbox-no-borders {
+    border: none !important;
+    margin: 0px !important;
+    box-shadow: none !important;
+}
+
+.chain-item-border {
+    border: 1px solid #c1c1c1;
+    border-radius: 3px;
+    margin-bottom: 3px;
+    padding: 3px;
+}
+
+/* Loading style */
+#appLoading,#appLoadingExpired {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 9999998;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    /* IE 5-7 */
+    filter: alpha(opacity=50);
+    /* Netscape */
+    -moz-opacity: 0.5;
+    /* Safari 1.x */
+    -khtml-opacity: 0.5;
+    /* Good browsers */
+    opacity: 0.5;
+}
+
+#appLoading .loadingImg, #appLoadingExpired .loadingImg{
+    background-image: url('/ajax-loader.gif');
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 66px;
+    height: 66px;
+    position: absolute;
+    left: 50%;
+    margin-left: -33px;
+    top: 30%;
+}
+
+.glyph-color-red {
+    color: #CA0000;
+}
+
+.customer-images {
+    position: relative;
+}
+.customer-images .img-thumbnail {
+    position: relative;
+    width: 25%;
+    padding-top: 1em;
+}
+.customer-images .img-thumbnail img { width: 100%; }
+.customer-images .glyphicon {
+    position: absolute;
+    right: 0; top: 0;
+}
+.customer-images .img-thumbnail span {
+    position: absolute;
+    bottom: 0;
+    padding: 0.2em .5em;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}

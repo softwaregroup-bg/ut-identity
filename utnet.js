@@ -3,6 +3,7 @@ var log = {};
 var utTemplate = require('ut-template');
 var _ = require('lodash');
 var templates = null;
+var fs = require('fs');
 
 module.exports = function(templates) {
     templates = _.assign({
@@ -13,6 +14,38 @@ module.exports = function(templates) {
         init: function(b) {
             bus = b;
             log = bus.logFactory.createLog('warn', {name: 'ut', context: 'identity'});
+        },
+        initRoutes: function() {
+            bus.importMethod('internal.registerRequestHandler')({
+                method: 'GET',
+                path: '/identity/{method}',
+                config: {
+                    handler: function(request, reply) {
+                        var file = '../ut-identity/browser/html/index.html';
+                        fs.exists(file, function(valid) {
+                            fs.readFile(file, function(err, data) {
+                                if (err) throw err;
+                                reply(data.toString());
+                            });
+                        });
+                    }
+                }
+            });
+            bus.importMethod('internal.registerRequestHandler')({
+                method: 'GET',
+                path: '/s/identity/{path*}',
+                config: {
+                    handler: function(request, reply) {
+                        var file = '../ut-identity/' + request.params.path;
+                        fs.exists(file, function (valid) {
+                            fs.readFile(file, function (err, data) {
+                                if (err) throw err;
+                                reply(data.toString());
+                            });
+                        });
+                    }
+                }
+            });
         },
         check: function(auth) {
             if (auth.fingerPrint) {
