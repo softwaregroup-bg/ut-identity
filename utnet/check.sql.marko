@@ -6,7 +6,7 @@ DECLARE
         @ResultMessage nvarchar(max)
 
 EXEC [utIdentity].[Check]
-        @currentSessionId = ${params.sessionId},
+        @currentSessionId = ${params.session.id},
         @username = ${params.username},
         @password = ${params.password},
         @ImplementationID = ${params.implementation},

@@ -7,7 +7,8 @@ var fs = require('fs');
 
 module.exports = function(templates) {
     templates = _.assign({
-        check: utTemplate.load(require.resolve('./utnet/check.sql.marko'))
+        check: utTemplate.load(require.resolve('./utnet/check.sql.marko')),
+        closeSession: utTemplate.load(require.resolve('./utnet/closeSession.sql.marko'))
     }, templates);
 
     return {
@@ -48,7 +49,7 @@ module.exports = function(templates) {
                 if (auth.customerNo) {
                     return bus.importMethod('bio.verifyClient')({
                         fingerPrint: auth.fingerPrint,
-                        sessionId: auth.sessionId
+                        sessionId: auth.session.id
                     }).then(function(response) {
                         if (response.customerNo == auth.customerNo) {
                             return {isVerified: true};
@@ -71,7 +72,7 @@ module.exports = function(templates) {
                             throw er;
                         }
                         auth.userId = loginResult['a:UserID'];
-                        auth.sessionId = loginResult['a:Session'];
+                        auth.session.id = loginResult['a:Session'];
                         return auth;
                     });
                 }
@@ -80,7 +81,7 @@ module.exports = function(templates) {
             }
         },
         closeSession: function(criteria) {
-            return this.execTemplateRow(templates.deleteActiveUserSession, criteria);
+            return this.execTemplateRow(templates.closeSession, criteria);
         },
         relaodSession: function(criteria) {
             return this.execTemplateRow(templates.reloadSession, criteria);

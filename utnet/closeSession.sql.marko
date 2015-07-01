@@ -1,0 +1,12 @@
+DECLARE
+    @Result bigint,
+    @ResultMessage nvarchar(max)
+
+EXEC [utUserManagement].[DeleteActiveUserSession]
+    @UserSessionKey = ${params.session.id},
+    @Result = @Result OUTPUT,
+    @ResultMessage = @ResultMessage OUTPUT
+
+SELECT
+	@Result as Result,
+    @ResultMessage as ResultMessage
