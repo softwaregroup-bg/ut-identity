@@ -18,7 +18,7 @@ module.exports = function(templates) {
         },
         check: function(auth) {
             if (auth.fingerPrint) {
-                if (auth.customerNo) {
+                if (auth.customerNo && auth.session.id) {
                     return bus.importMethod('bio.verifyClient')({
                         fingerPrint: auth.fingerPrint,
                         sessionId: auth.session.id
