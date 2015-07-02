@@ -16,34 +16,6 @@ module.exports = function(templates) {
             bus = b;
             log = bus.logFactory.createLog('warn', {name: 'ut', context: 'identity'});
         },
-        initRoutes: function() {
-            bus.importMethod('internal.registerRequestHandler')({
-                method: 'GET',
-                path: '/identity/{method}',
-                config: {
-                    handler: function(request, reply) {
-                        var file = '../ut-identity/browser/html/index.html';
-                        fs.exists(file, function(valid) {
-                            fs.readFile(file, function(err, data) {
-                                if (err) throw err;
-                                reply(data.toString());
-                            });
-                        });
-                    }
-                }
-            });
-            bus.importMethod('internal.registerRequestHandler')({
-                method: 'GET',
-                path: '/s/identity/{p*}',
-                handler: {
-                    directory: {
-                        path: __dirname,
-                        listing: false,
-                        index: true
-                    }
-                }
-            });
-        },
         check: function(auth) {
             if (auth.fingerPrint) {
                 if (auth.customerNo) {
