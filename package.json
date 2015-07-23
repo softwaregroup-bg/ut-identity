@@ -20,6 +20,9 @@
     "chai-as-promised": "^5.0.0",
     "mocha": "^2.2.4"
   },
+  "publishConfig": {
+    "registry": "http://npm.softwaregroup-bg.com:5001"
+  },
   "dependencies": {
     "errno": "^0.1.2",
     "when": "^3.7.2"
