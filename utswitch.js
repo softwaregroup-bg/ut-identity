@@ -16,7 +16,8 @@ function getParams(params) {
         'remoteIp'              : null,
         'implementation'        : 'default',
         'userAgent'             : null,
-        'checkUserRightsIp'     : 'true'
+        'checkUserRightsIp'     : 'true',
+        'createSession'         : 'true'
     }, (this.config && this.config.identity) || {});
     getParams = function(params) { // lazy initialization
         params.random = Math.random().toString(36).substring(5).toUpperCase();
