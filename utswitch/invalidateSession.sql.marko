@@ -1,12 +1,12 @@
-DELETE FROM tUserSessions WHERE UserID=${params.userId}
+DELETE FROM tUserSessions WHERE UserID=${params.username}
 
 INSERT INTO
     tUserSessions(Cookie,UTSessionID,UserID,Expire,[Module],[Language],RemoteIP,UserAgent,DateCreated)
 OUTPUT
-    inserted.Module,
-    inserted.UTSessionID,
-    inserted.Cookie _Cookie,
-    0 _ErrorCode,
-    'true' CreateSession
+    inserted.Module module,
+    inserted.UTSessionID utSessionId,
+    inserted.Cookie cookie,
+    0 _errorCode,
+    'true' createSession
 VALUES
-    (CONVERT(VARCHAR(36), newid())+'/'+${params._random},CONVERT(VARCHAR(36), newid()),${params.userId},DATEADD(second,CAST(${params._SessionTimeout} AS INT),GetDate()),LEFT(${params.module},50),LEFT(${params.language},3),LEFT(${params._remoteip},50),LEFT(${params._Header_User-Agent},500),GetDate())
+    (CONVERT(VARCHAR(36), newid())+'/'+${params.random},CONVERT(VARCHAR(36), newid()),${params.username},DATEADD(second,CAST(${params.sessionTimeout} AS INT),GetDate()),LEFT(${params.module},50),LEFT(${params.language},3),LEFT(${params.remoteIp},50),LEFT(${params.userAgent},500),GetDate())
