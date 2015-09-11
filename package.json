@@ -25,6 +25,9 @@
   },
   "dependencies": {
     "errno": "^0.1.2",
+    "joi": "~6.0.5",
+    "lodash": "^3.10.1",
+    "ut-template": "~5.0.0",
     "when": "^3.7.2"
   }
 }
