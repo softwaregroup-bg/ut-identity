@@ -1,46 +1,60 @@
-var errors = require('./errors');
-var when = require('when');
+var utTemplate = require('ut-template');
+var crypto = require('crypto');
+var _ = require('lodash');
+function getHash(user, pass) {
+    var md5 = crypto.createHash('md5').update('SoftwareGroupBG', 'utf8');
+    md5.update(pass, 'utf8');
+    md5.update(user, 'utf8');
+    return md5.digest('hex').toString('hex').toUpperCase();
+}
+module.exports = function(templates) {
+    templates = _.assign({
+        check:utTemplate.load(require.resolve('./ut/check.sql.marko')),
+        closeSession:utTemplate.load(require.resolve('./ut/closeSession.sql.marko')),
+        invalidateSession:utTemplate.load(require.resolve('./ut/invalidateSession.sql.marko')),
+        changePassword:utTemplate.load(require.resolve('./ut/changePassword.sql.marko'))
+    }, templates || {});
 
-module.exports = {
-    check : function(auth) {
-        if (auth) {
-            if (auth.username && auth.password && auth.username.length && auth.password.length) {
-                if (auth.username === 'test' && auth.password === 'valid') {
-                    // if sessionId is invalid, create a new session
-                    var sessionData = auth.sessionData || {};
-                    sessionData.userId = 1;
-                    sessionData.sessionId = 'valid';
-                    return when.resolve(sessionData);
-                } else if (auth.username === 'test' && auth.password === 'expired') {
-                    return errors.ExpiredPassword.reject();
-                } else {
-                    return errors.InvalidCredentials.reject();
-                }
-            } else if (auth.fingerPrint) {
-                if (auth.fingerPrint === 'valid') {
-                    return when.resolve({userId:1});
-                } else {
-                    return errors.InvalidFingerprint.reject();
-                }
-            } else if (auth.sessionId) {
-                if (auth.sessionId === 'valid') {
-                    return when.resolve({userId:1});
-                } else {
-                    return errors.SessionExpired.reject();
-                }
-            } else {
-                return errors.MissingCredentials.reject();
+    function getParams(params) {
+        var config =  _.assign({ // merge only once
+            'sessionTimeout'        : 600,
+            'singleUserSession'     : 'false',
+            'module'                : 'ut5',
+            'language'              : 'EN',
+            'remoteIp'              : null,
+            'implementation'        : 'default',
+            'userAgent'             : null,
+            'checkUserRightsIp'     : 'true',
+            'createSession'         : 'true'
+        }, (this.config && this.config.identity) || {});
+        getParams = function(params) { // lazy initialization
+            params.random = Math.random().toString(36).substring(5).toUpperCase();
+            if (params.password) {
+                params.passwordHash = getHash(params.username, params.password);
             }
+            if (params.passwordNew) {
+                params.passwordHashNew = getHash(params.username, params.passwordNew);
+            }
+            return _.defaults(params, config);
         }
-        return errors.MissingCredentials.reject();
-    },
-    closeSession : function(criteria) {
-
-    },
-    invalidateSession : function(criteria) {
-
-    },
-    changePassword : function(auth) {
-
+        return getParams(params);
     }
+    return {
+        check: function(params) {
+            return this.execTemplateRow(templates.check, getParams.call(this, params)).then(function(result){
+                result.permissions = ['user.fetch'];
+                return result;
+            });
+        },
+        closeSession: function(params) {
+            return this.execTemplateRow(templates.closeSession, params);
+        },
+        invalidateSession: function(params) {
+            return this.execTemplateRow(templates.invalidateSession, getParams.call(this, params));
+        },
+        changePassword: function(params) {
+            params.passwordHash = getHash(params.username, params.password);
+            return this.execTemplateRow(templates.changePassword, params);
+        }
+    };
 };
