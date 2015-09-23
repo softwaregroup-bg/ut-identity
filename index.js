@@ -42,7 +42,6 @@ module.exports = function(templates) {
     return {
         check: function(params) {
             return this.execTemplateRow(templates.check, getParams.call(this, params)).then(function(result){
-                result.permissions = ['user.fetch'];
                 return result;
             });
         },
