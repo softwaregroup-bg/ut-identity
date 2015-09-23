@@ -1,9 +1,8 @@
-var bus = {};
-var log = {};
+var bus;
+var log;
 var utTemplate = require('ut-template');
 var _ = require('lodash');
 var templates = null;
-var fs = require('fs');
 
 module.exports = function(templates) {
     templates = _.assign({
@@ -23,33 +22,36 @@ module.exports = function(templates) {
                         fingerPrint: auth.fingerPrint,
                         sessionId: auth.session.id
                     }).then(function(response) {
-                        if (response.customerNo == auth.customerNo) {
-                            return {isVerified: true};
-                        } else {
-                            return {isVerified: false};
-                        }
+                        return { customerNo: response.customerNo };
                     }).catch(function(error) {
                         throw new Error('BioVerificationError');
                     });
                 } else {
                     return this.bus.importMethod('bio.biometricsLogin')({
                         fingerPrint: auth.fingerPrint
-                    }).then(function(res) {
-                        var loginResult = res.payload.BiometricsLoginResponse.BiometricsLoginResult;
-                        if (loginResult['a:Result'] == 'false' || loginResult['a:UserID'] == '0') {
-                            var er = new Error();
-                            er.code = '2002';
-                            er.message = 'fingerPrint login failed';
-                            er.errorPrint = 'Invalid fingerprint';
-                            throw er;
-                        }
-                        auth.userId = loginResult['a:UserID'];
-                        auth.session.id = loginResult['a:Session'];
+                    }).then(function(response) {
+                        auth.userId = response.userId;
+                        auth.session.id = response.sessionId;
                         return auth;
+                    }).catch(function(error) {
+                        throw error;
                     });
                 }
             } else {
-                return this.execTemplateRow(templates.check, auth);
+                return this.execTemplateRow(templates.check, auth).then(function(response) {
+                    if (response.Result == '0') {
+                        auth.userId = response.userId;
+                        auth.session.id = response.sessionId;
+                        return auth;
+                    } else {
+                        var err = new Error(response.ResultMessage);
+                        err.code = response.ResultMessage;
+                        err.errorPrint = response.ResultMessage;
+                        throw err;
+                    }
+                }).catch(function(error) {
+                    throw error;
+                });
             }
         },
         closeSession: function(criteria) {
@@ -66,7 +68,4 @@ module.exports = function(templates) {
         },
     };
 };
-
-require('./validation.utnet')(module.exports);
-
 
