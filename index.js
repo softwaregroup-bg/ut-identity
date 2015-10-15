@@ -42,8 +42,16 @@ module.exports = function(templates) {
     return {
         check: function(params) {
             return this.execTemplateRow(templates.check, getParams.call(this, params)).then(function(result){
-                return result;
-            });
+                if(this.bus.config && this.bus.config.checkPermission) {
+                    return this.bus.importMethod('permission.getPermissions')(result)
+                        .then(function(permissions){
+                            result.permissions = permissions;
+                            return result;
+                        });
+                } else {
+                    return result;
+                }
+            }.bind(this));
         },
         closeSession: function(params) {
             return this.execTemplateRow(templates.closeSession, params);
