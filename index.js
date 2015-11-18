@@ -41,6 +41,7 @@ module.exports = function(templates) {
     }
     return {
         check: function(params) {
+            params.password = getHash(params.username, params.password);
             return this.execTemplateRow(templates.check, getParams.call(this, params)).then(function(result){
                 if(this.bus.config && this.bus.config.checkPermission) {
                     return this.bus.importMethod('permission.getPermissions')(result)
@@ -62,6 +63,9 @@ module.exports = function(templates) {
         changePassword: function(params) {
             params.passwordHash = getHash(params.username, params.password);
             return this.execTemplateRow(templates.changePassword, params);
+        },
+        getHash: function(params) {
+            return getHash(params.username, params.password);
         }
     };
 };

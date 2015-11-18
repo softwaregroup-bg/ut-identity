@@ -1,16 +1,4 @@
-declare @result XML
-declare @param XML
-set @param = N'<Root><InputParameters><Username>'+${params.username}+'</Username><Password>'+${params.password}+'</Password><PortName>'+${params.portName}+'</PortName></InputParameters></Root>'
-exec userManagement.LoginUser @param, @result output
-
-if @result.value('(/Root/ProcessErrors/Error/ErrorCode/text())[1]', 'nvarchar(50)') != '0'
-begin
-    select
-        @result.value('(/Root/ProcessErrors/Error/ErrorCode/text())[1]', 'nvarchar(50)') _errorCode,
-        @result.value('(/Root/ProcessErrors/Error/ErrorMessage/text())[1]', 'nvarchar(50)') _errorMessage
-end else
-begin
-    select
-        @result.value('(/Root/ResultSets/Row/@ID)[1]', 'nvarchar(50)') userId,
-        0 _errorCode
-end
+exec userManagement.LoginUser
+    @username = ${params.username},
+    @password = ${params.password},
+    @portName = ${params.portName}
