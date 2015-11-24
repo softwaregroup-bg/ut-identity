@@ -61,7 +61,8 @@ module.exports = function(templates) {
             return this.execTemplateRow(templates.invalidateSession, getParams.call(this, params));
         },
         changePassword: function(params) {
-            params.passwordHash = getHash(params.username, params.password);
+            params.password = getHash(params.username, params.password);
+            params.newPassword = getHash(params.username, params.newPassword);
             return this.execTemplateRow(templates.changePassword, params);
         },
         getHash: function(params) {
