@@ -9,25 +9,25 @@ function getHash(user, pass) {
 }
 module.exports = function(templates) {
     templates = _.assign({
-        check:utTemplate.load(require.resolve('./ut/check.sql.marko')),
-        closeSession:utTemplate.load(require.resolve('./ut/closeSession.sql.marko')),
-        invalidateSession:utTemplate.load(require.resolve('./ut/invalidateSession.sql.marko')),
-        changePassword:utTemplate.load(require.resolve('./ut/changePassword.sql.marko'))
+        check: utTemplate.load(require.resolve('./ut/check.sql.marko')),
+        closeSession: utTemplate.load(require.resolve('./ut/closeSession.sql.marko')),
+        invalidateSession: utTemplate.load(require.resolve('./ut/invalidateSession.sql.marko')),
+        changePassword: utTemplate.load(require.resolve('./ut/changePassword.sql.marko'))
     }, templates || {});
 
     function getParams(params) {
-        var config =  _.assign({ // merge only once
-            'sessionTimeout'        : 600,
-            'singleUserSession'     : 'false',
-            'module'                : 'ut5',
-            'language'              : 'EN',
-            'remoteIp'              : null,
-            'implementation'        : 'default',
-            'userAgent'             : null,
-            'checkUserRightsIp'     : 'true',
-            'createSession'         : 'true'
+        var config = _.assign({ // merge only once
+            'sessionTimeout': 600,
+            'singleUserSession': 'false',
+            'module': 'ut5',
+            'language': 'EN',
+            'remoteIp': null,
+            'implementation': 'default',
+            'userAgent': null,
+            'checkUserRightsIp': 'true',
+            'createSession': 'true'
         }, (this.config && this.config.identity) || {});
-        getParams = function(params) { // lazy initialization
+        var getParamsReturn = function(params) { // lazy initialization
             params.random = Math.random().toString(36).substring(5).toUpperCase();
             if (params.password) {
                 params.passwordHash = getHash(params.username, params.password);
@@ -36,16 +36,16 @@ module.exports = function(templates) {
                 params.passwordHashNew = getHash(params.username, params.passwordNew);
             }
             return _.defaults(params, config);
-        }
-        return getParams(params);
+        };
+        return getParamsReturn(params);
     }
     return {
         check: function(params) {
             params.password = getHash(params.username, params.password);
-            return this.execTemplateRow(templates.check, getParams.call(this, params)).then(function(result){
-                if(this.bus.config && this.bus.config.checkPermission) {
+            return this.execTemplateRow(templates.check, getParams.call(this, params)).then(function(result) {
+                if (this.bus.config && this.bus.config.checkPermission) {
                     return this.bus.importMethod('permission.getPermissions')(result)
-                        .then(function(permissions){
+                        .then(function(permissions) {
                             result.permissions = permissions;
                             return result;
                         });

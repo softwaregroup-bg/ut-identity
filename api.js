@@ -2,7 +2,7 @@ var errors = require('./errors');
 var when = require('when');
 
 module.exports = {
-    check : function(auth) {
+    check: function(auth) {
         if (auth) {
             if (auth.username && auth.password && auth.username.length && auth.password.length) {
                 if (auth.username === 'test' && auth.password === 'valid') {
@@ -18,13 +18,13 @@ module.exports = {
                 }
             } else if (auth.fingerPrint) {
                 if (auth.fingerPrint === 'valid') {
-                    return when.resolve({userId:1});
+                    return when.resolve({userId: 1});
                 } else {
                     return errors.InvalidFingerprint.reject();
                 }
             } else if (auth.sessionId) {
                 if (auth.sessionId === 'valid') {
-                    return when.resolve({userId:1});
+                    return when.resolve({userId: 1});
                 } else {
                     return errors.SessionExpired.reject();
                 }
@@ -34,13 +34,13 @@ module.exports = {
         }
         return errors.MissingCredentials.reject();
     },
-    closeSession : function(criteria) {
+    closeSession: function(criteria) {
 
     },
-    invalidateSession : function(criteria) {
+    invalidateSession: function(criteria) {
 
     },
-    changePassword : function(auth) {
+    changePassword: function(auth) {
 
     }
 };

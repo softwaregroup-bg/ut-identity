@@ -1,8 +1,6 @@
 var bus;
-var log;
 var utTemplate = require('ut-template');
 var _ = require('lodash');
-var templates = null;
 
 module.exports = function(templates) {
     templates = _.assign({
@@ -13,7 +11,6 @@ module.exports = function(templates) {
     return {
         init: function(b) {
             bus = b;
-            log = bus.logFactory.createLog('warn', {name: 'ut', context: 'identity'});
         },
         check: function(auth) {
             if (auth.fingerPrint) {
@@ -22,8 +19,8 @@ module.exports = function(templates) {
                         fingerPrint: auth.fingerPrint,
                         sessionId: auth.session.id
                     }).then(function(response) {
-                        return { customerNo: response.customerNo };
-                    }).catch(function(error) {
+                        return {customerNo: response.customerNo};
+                    }).catch(function() {
                         throw new Error('BioVerificationError');
                     });
                 } else {
@@ -39,7 +36,7 @@ module.exports = function(templates) {
                 }
             } else {
                 return this.execTemplateRow(templates.check, auth).then(function(response) {
-                    if (response.Result == '0') {
+                    if (response.Result === 0 || response.Result === '0') {
                         auth.userId = response.userId;
                         auth.session.id = response.sessionId;
                         return auth;
@@ -64,8 +61,7 @@ module.exports = function(templates) {
             return this.execTemplateRow(templates.changeUserPassword, auth);
         },
         updateSession: function(msg) {
-            return this.execTemplateRow(templates.updateSession, auth);
-        },
+            return this.execTemplateRow(templates.updateSession);
+        }
     };
 };
-
