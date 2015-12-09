@@ -1,0 +1,658 @@
+{
+  "name": "ut-identity",
+  "version": "5.3.2",
+  "dependencies": {
+    "errno": {
+      "version": "0.1.4",
+      "from": "errno@>=0.1.2 <0.2.0",
+      "resolved": "http://192.168.129.150:5001/errno/-/errno-0.1.4.tgz",
+      "dependencies": {
+        "prr": {
+          "version": "0.0.0",
+          "from": "prr@>=0.0.0 <0.1.0",
+          "resolved": "http://192.168.129.150:5001/prr/-/prr-0.0.0.tgz"
+        }
+      }
+    },
+    "joi": {
+      "version": "6.6.1",
+      "from": "joi@>=6.6.1 <6.7.0",
+      "resolved": "http://npm.softwaregroup-bg.com:5001/joi/-/joi-6.6.1.tgz",
+      "dependencies": {
+        "hoek": {
+          "version": "2.16.3",
+          "from": "hoek@>=2.2.0 <3.0.0",
+          "resolved": "http://192.168.129.150:5001/hoek/-/hoek-2.16.3.tgz"
+        },
+        "topo": {
+          "version": "1.1.0",
+          "from": "topo@>=1.0.0 <2.0.0",
+          "resolved": "http://192.168.129.150:5001/topo/-/topo-1.1.0.tgz"
+        },
+        "isemail": {
+          "version": "1.2.0",
+          "from": "isemail@>=1.0.0 <2.0.0",
+          "resolved": "http://192.168.129.150:5001/isemail/-/isemail-1.2.0.tgz"
+        },
+        "moment": {
+          "version": "2.10.6",
+          "from": "moment@>=2.0.0 <3.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/moment/-/moment-2.10.6.tgz"
+        }
+      }
+    },
+    "lodash": {
+      "version": "3.10.1",
+      "from": "lodash@>=3.10.1 <4.0.0",
+      "resolved": "http://npm.softwaregroup-bg.com:5001/lodash/-/lodash-3.10.1.tgz"
+    },
+    "marko": {
+      "version": "2.7.31",
+      "from": "marko@>=2.7.28 <3.0.0",
+      "resolved": "http://npm.softwaregroup-bg.com:5001/marko/-/marko-2.7.31.tgz",
+      "dependencies": {
+        "app-module-path": {
+          "version": "1.0.5",
+          "from": "app-module-path@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/app-module-path/-/app-module-path-1.0.5.tgz"
+        },
+        "async-writer": {
+          "version": "1.4.1",
+          "from": "async-writer@>=1.4.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/async-writer/-/async-writer-1.4.1.tgz"
+        },
+        "browser-refresh-client": {
+          "version": "1.1.4",
+          "from": "browser-refresh-client@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/browser-refresh-client/-/browser-refresh-client-1.1.4.tgz"
+        },
+        "char-props": {
+          "version": "0.1.5",
+          "from": "char-props@>=0.1.5 <0.2.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/char-props/-/char-props-0.1.5.tgz"
+        },
+        "events": {
+          "version": "1.1.0",
+          "from": "events@>=1.0.2 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/events/-/events-1.1.0.tgz"
+        },
+        "htmlparser2": {
+          "version": "3.9.0",
+          "from": "htmlparser2@>=3.7.2 <4.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/htmlparser2/-/htmlparser2-3.9.0.tgz",
+          "dependencies": {
+            "domelementtype": {
+              "version": "1.3.0",
+              "from": "domelementtype@>=1.3.0 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/domelementtype/-/domelementtype-1.3.0.tgz"
+            },
+            "domhandler": {
+              "version": "2.3.0",
+              "from": "domhandler@>=2.3.0 <3.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/domhandler/-/domhandler-2.3.0.tgz"
+            },
+            "domutils": {
+              "version": "1.5.1",
+              "from": "domutils@>=1.5.1 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/domutils/-/domutils-1.5.1.tgz",
+              "dependencies": {
+                "dom-serializer": {
+                  "version": "0.1.0",
+                  "from": "dom-serializer@>=0.0.0 <1.0.0",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/dom-serializer/-/dom-serializer-0.1.0.tgz",
+                  "dependencies": {
+                    "domelementtype": {
+                      "version": "1.1.3",
+                      "from": "domelementtype@>=1.1.1 <1.2.0",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/domelementtype/-/domelementtype-1.1.3.tgz"
+                    }
+                  }
+                }
+              }
+            },
+            "entities": {
+              "version": "1.1.1",
+              "from": "entities@>=1.1.1 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/entities/-/entities-1.1.1.tgz"
+            },
+            "readable-stream": {
+              "version": "2.0.4",
+              "from": "readable-stream@>=2.0.2 <3.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/readable-stream/-/readable-stream-2.0.4.tgz",
+              "dependencies": {
+                "core-util-is": {
+                  "version": "1.0.2",
+                  "from": "core-util-is@>=1.0.0 <1.1.0",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/core-util-is/-/core-util-is-1.0.2.tgz"
+                },
+                "inherits": {
+                  "version": "2.0.1",
+                  "from": "inherits@>=2.0.1 <2.1.0",
+                  "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
+                },
+                "isarray": {
+                  "version": "0.0.1",
+                  "from": "isarray@0.0.1",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/isarray/-/isarray-0.0.1.tgz"
+                },
+                "process-nextick-args": {
+                  "version": "1.0.6",
+                  "from": "process-nextick-args@>=1.0.0 <1.1.0",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/process-nextick-args/-/process-nextick-args-1.0.6.tgz"
+                },
+                "string_decoder": {
+                  "version": "0.10.31",
+                  "from": "string_decoder@>=0.10.0 <0.11.0",
+                  "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+                },
+                "util-deprecate": {
+                  "version": "1.0.2",
+                  "from": "util-deprecate@>=1.0.1 <1.1.0",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/util-deprecate/-/util-deprecate-1.0.2.tgz"
+                }
+              }
+            }
+          }
+        },
+        "jsonminify": {
+          "version": "0.2.3",
+          "from": "jsonminify@>=0.2.3 <0.3.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/jsonminify/-/jsonminify-0.2.3.tgz"
+        },
+        "marko-async": {
+          "version": "2.0.8",
+          "from": "marko-async@>=2.0.0 <3.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/marko-async/-/marko-async-2.0.8.tgz",
+          "dependencies": {
+            "raptor-async": {
+              "version": "1.1.2",
+              "from": "raptor-async@>=1.0.1 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-async/-/raptor-async-1.1.2.tgz"
+            },
+            "raptor-dust": {
+              "version": "1.1.12",
+              "from": "raptor-dust@>=1.1.2 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-dust/-/raptor-dust-1.1.12.tgz"
+            }
+          }
+        },
+        "marko-layout": {
+          "version": "2.0.2",
+          "from": "marko-layout@>=2.0.0 <3.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/marko-layout/-/marko-layout-2.0.2.tgz",
+          "dependencies": {
+            "raptor-dust": {
+              "version": "1.1.12",
+              "from": "raptor-dust@>=1.1.2 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-dust/-/raptor-dust-1.1.12.tgz"
+            }
+          }
+        },
+        "minimatch": {
+          "version": "0.2.14",
+          "from": "minimatch@>=0.2.14 <0.3.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/minimatch/-/minimatch-0.2.14.tgz",
+          "dependencies": {
+            "lru-cache": {
+              "version": "2.7.3",
+              "from": "lru-cache@>=2.0.0 <3.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/lru-cache/-/lru-cache-2.7.3.tgz"
+            },
+            "sigmund": {
+              "version": "1.0.1",
+              "from": "sigmund@>=1.0.0 <1.1.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/sigmund/-/sigmund-1.0.1.tgz"
+            }
+          }
+        },
+        "property-handlers": {
+          "version": "1.0.1",
+          "from": "property-handlers@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/property-handlers/-/property-handlers-1.0.1.tgz"
+        },
+        "raptor-args": {
+          "version": "1.0.2",
+          "from": "raptor-args@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-args/-/raptor-args-1.0.2.tgz"
+        },
+        "raptor-json": {
+          "version": "1.1.0",
+          "from": "raptor-json@>=1.0.1 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-json/-/raptor-json-1.1.0.tgz"
+        },
+        "raptor-logging": {
+          "version": "1.0.7",
+          "from": "raptor-logging@>=1.0.1 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-logging/-/raptor-logging-1.0.7.tgz",
+          "dependencies": {
+            "raptor-stacktraces": {
+              "version": "1.0.1",
+              "from": "raptor-stacktraces@>=1.0.0 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-stacktraces/-/raptor-stacktraces-1.0.1.tgz"
+            }
+          }
+        },
+        "raptor-modules": {
+          "version": "1.1.2",
+          "from": "raptor-modules@>=1.0.5 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-modules/-/raptor-modules-1.1.2.tgz",
+          "dependencies": {
+            "app-root-dir": {
+              "version": "1.0.2",
+              "from": "app-root-dir@>=1.0.0 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/app-root-dir/-/app-root-dir-1.0.2.tgz"
+            },
+            "raptor-async": {
+              "version": "1.1.2",
+              "from": "raptor-async@>=1.0.0 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-async/-/raptor-async-1.1.2.tgz"
+            },
+            "through": {
+              "version": "2.3.8",
+              "from": "through@>=2.3.4 <3.0.0",
+              "resolved": "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
+            }
+          }
+        },
+        "raptor-polyfill": {
+          "version": "1.0.2",
+          "from": "raptor-polyfill@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-polyfill/-/raptor-polyfill-1.0.2.tgz"
+        },
+        "raptor-promises": {
+          "version": "1.0.3",
+          "from": "raptor-promises@>=1.0.1 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-promises/-/raptor-promises-1.0.3.tgz",
+          "dependencies": {
+            "q": {
+              "version": "1.4.1",
+              "from": "q@>=1.0.1 <2.0.0",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/q/-/q-1.4.1.tgz"
+            }
+          }
+        },
+        "raptor-regexp": {
+          "version": "1.0.1",
+          "from": "raptor-regexp@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-regexp/-/raptor-regexp-1.0.1.tgz"
+        },
+        "raptor-strings": {
+          "version": "1.0.2",
+          "from": "raptor-strings@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-strings/-/raptor-strings-1.0.2.tgz"
+        },
+        "raptor-util": {
+          "version": "1.0.10",
+          "from": "raptor-util@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-util/-/raptor-util-1.0.10.tgz"
+        },
+        "resolve-from": {
+          "version": "1.0.1",
+          "from": "resolve-from@>=1.0.0 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/resolve-from/-/resolve-from-1.0.1.tgz"
+        },
+        "sax": {
+          "version": "0.6.1",
+          "from": "sax@>=0.6.0 <0.7.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/sax/-/sax-0.6.1.tgz"
+        },
+        "try-require": {
+          "version": "1.2.1",
+          "from": "try-require@>=1.2.1 <2.0.0",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/try-require/-/try-require-1.2.1.tgz"
+        }
+      }
+    },
+    "ut-template": {
+      "version": "5.3.2",
+      "from": "ut-template@>=5.3.1 <5.4.0",
+      "resolved": "http://npm.softwaregroup-bg.com:5001/ut-template/-/ut-template-5.3.2.tgz",
+      "dependencies": {
+        "view-engine": {
+          "version": "1.1.1",
+          "from": "http://npm.softwaregroup-bg.com:5001/view-engine/-/view-engine-1.1.1.tgz",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/view-engine/-/view-engine-1.1.1.tgz",
+          "dependencies": {
+            "raptor-util": {
+              "version": "1.0.10",
+              "from": "http://npm.softwaregroup-bg.com:5001/raptor-util/-/raptor-util-1.0.10.tgz",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-util/-/raptor-util-1.0.10.tgz"
+            },
+            "raptor-strings": {
+              "version": "1.0.2",
+              "from": "http://npm.softwaregroup-bg.com:5001/raptor-strings/-/raptor-strings-1.0.2.tgz",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-strings/-/raptor-strings-1.0.2.tgz",
+              "dependencies": {
+                "raptor-polyfill": {
+                  "version": "1.0.2",
+                  "from": "http://npm.softwaregroup-bg.com:5001/raptor-polyfill/-/raptor-polyfill-1.0.2.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/raptor-polyfill/-/raptor-polyfill-1.0.2.tgz"
+                }
+              }
+            },
+            "async-writer": {
+              "version": "1.4.1",
+              "from": "http://npm.softwaregroup-bg.com:5001/async-writer/-/async-writer-1.4.1.tgz",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/async-writer/-/async-writer-1.4.1.tgz",
+              "dependencies": {
+                "events": {
+                  "version": "1.1.0",
+                  "from": "http://npm.softwaregroup-bg.com:5001/events/-/events-1.1.0.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/events/-/events-1.1.0.tgz"
+                }
+              }
+            },
+            "chai": {
+              "version": "1.10.0",
+              "from": "http://npm.softwaregroup-bg.com:5001/chai/-/chai-1.10.0.tgz",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/chai/-/chai-1.10.0.tgz",
+              "dependencies": {
+                "assertion-error": {
+                  "version": "1.0.0",
+                  "from": "http://npm.softwaregroup-bg.com:5001/assertion-error/-/assertion-error-1.0.0.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/assertion-error/-/assertion-error-1.0.0.tgz"
+                },
+                "deep-eql": {
+                  "version": "0.1.3",
+                  "from": "http://npm.softwaregroup-bg.com:5001/deep-eql/-/deep-eql-0.1.3.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/deep-eql/-/deep-eql-0.1.3.tgz",
+                  "dependencies": {
+                    "type-detect": {
+                      "version": "0.1.1",
+                      "from": "http://npm.softwaregroup-bg.com:5001/type-detect/-/type-detect-0.1.1.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/type-detect/-/type-detect-0.1.1.tgz"
+                    }
+                  }
+                }
+              }
+            },
+            "mocha": {
+              "version": "1.21.5",
+              "from": "http://npm.softwaregroup-bg.com:5001/mocha/-/mocha-1.21.5.tgz",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/mocha/-/mocha-1.21.5.tgz",
+              "dependencies": {
+                "commander": {
+                  "version": "2.3.0",
+                  "from": "http://npm.softwaregroup-bg.com:5001/commander/-/commander-2.3.0.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/commander/-/commander-2.3.0.tgz"
+                },
+                "debug": {
+                  "version": "2.0.0",
+                  "from": "http://npm.softwaregroup-bg.com:5001/debug/-/debug-2.0.0.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/debug/-/debug-2.0.0.tgz",
+                  "dependencies": {
+                    "ms": {
+                      "version": "0.6.2",
+                      "from": "http://npm.softwaregroup-bg.com:5001/ms/-/ms-0.6.2.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/ms/-/ms-0.6.2.tgz"
+                    }
+                  }
+                },
+                "diff": {
+                  "version": "1.0.8",
+                  "from": "http://npm.softwaregroup-bg.com:5001/diff/-/diff-1.0.8.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/diff/-/diff-1.0.8.tgz"
+                },
+                "escape-string-regexp": {
+                  "version": "1.0.2",
+                  "from": "http://npm.softwaregroup-bg.com:5001/escape-string-regexp/-/escape-string-regexp-1.0.2.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/escape-string-regexp/-/escape-string-regexp-1.0.2.tgz"
+                },
+                "glob": {
+                  "version": "3.2.3",
+                  "from": "http://npm.softwaregroup-bg.com:5001/glob/-/glob-3.2.3.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/glob/-/glob-3.2.3.tgz",
+                  "dependencies": {
+                    "minimatch": {
+                      "version": "0.2.14",
+                      "from": "http://npm.softwaregroup-bg.com:5001/minimatch/-/minimatch-0.2.14.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/minimatch/-/minimatch-0.2.14.tgz",
+                      "dependencies": {
+                        "lru-cache": {
+                          "version": "2.7.3",
+                          "from": "http://npm.softwaregroup-bg.com:5001/lru-cache/-/lru-cache-2.7.3.tgz",
+                          "resolved": "http://npm.softwaregroup-bg.com:5001/lru-cache/-/lru-cache-2.7.3.tgz"
+                        },
+                        "sigmund": {
+                          "version": "1.0.1",
+                          "from": "http://192.168.129.150:5001/sigmund/-/sigmund-1.0.1.tgz",
+                          "resolved": "http://192.168.129.150:5001/sigmund/-/sigmund-1.0.1.tgz"
+                        }
+                      }
+                    },
+                    "graceful-fs": {
+                      "version": "2.0.3",
+                      "from": "http://npm.softwaregroup-bg.com:5001/graceful-fs/-/graceful-fs-2.0.3.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/graceful-fs/-/graceful-fs-2.0.3.tgz"
+                    },
+                    "inherits": {
+                      "version": "2.0.1",
+                      "from": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+                      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
+                    }
+                  }
+                },
+                "growl": {
+                  "version": "1.8.1",
+                  "from": "http://npm.softwaregroup-bg.com:5001/growl/-/growl-1.8.1.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/growl/-/growl-1.8.1.tgz"
+                },
+                "jade": {
+                  "version": "0.26.3",
+                  "from": "http://npm.softwaregroup-bg.com:5001/jade/-/jade-0.26.3.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/jade/-/jade-0.26.3.tgz",
+                  "dependencies": {
+                    "commander": {
+                      "version": "0.6.1",
+                      "from": "http://npm.softwaregroup-bg.com:5001/commander/-/commander-0.6.1.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/commander/-/commander-0.6.1.tgz"
+                    },
+                    "mkdirp": {
+                      "version": "0.3.0",
+                      "from": "http://npm.softwaregroup-bg.com:5001/mkdirp/-/mkdirp-0.3.0.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/mkdirp/-/mkdirp-0.3.0.tgz"
+                    }
+                  }
+                },
+                "mkdirp": {
+                  "version": "0.5.0",
+                  "from": "http://npm.softwaregroup-bg.com:5001/mkdirp/-/mkdirp-0.5.0.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/mkdirp/-/mkdirp-0.5.0.tgz",
+                  "dependencies": {
+                    "minimist": {
+                      "version": "0.0.8",
+                      "from": "http://npm.softwaregroup-bg.com:5001/minimist/-/minimist-0.0.8.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/minimist/-/minimist-0.0.8.tgz"
+                    }
+                  }
+                }
+              }
+            },
+            "jshint": {
+              "version": "2.9.0",
+              "from": "http://npm.softwaregroup-bg.com:5001/jshint/-/jshint-2.9.0.tgz",
+              "resolved": "http://npm.softwaregroup-bg.com:5001/jshint/-/jshint-2.9.0.tgz",
+              "dependencies": {
+                "cli": {
+                  "version": "0.6.6",
+                  "from": "http://npm.softwaregroup-bg.com:5001/cli/-/cli-0.6.6.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/cli/-/cli-0.6.6.tgz",
+                  "dependencies": {
+                    "glob": {
+                      "version": "3.2.11",
+                      "from": "http://npm.softwaregroup-bg.com:5001/glob/-/glob-3.2.11.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/glob/-/glob-3.2.11.tgz",
+                      "dependencies": {
+                        "inherits": {
+                          "version": "2.0.1",
+                          "from": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+                          "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
+                        },
+                        "minimatch": {
+                          "version": "0.3.0",
+                          "from": "http://npm.softwaregroup-bg.com:5001/minimatch/-/minimatch-0.3.0.tgz",
+                          "resolved": "http://npm.softwaregroup-bg.com:5001/minimatch/-/minimatch-0.3.0.tgz",
+                          "dependencies": {
+                            "lru-cache": {
+                              "version": "2.7.3",
+                              "from": "http://npm.softwaregroup-bg.com:5001/lru-cache/-/lru-cache-2.7.3.tgz",
+                              "resolved": "http://npm.softwaregroup-bg.com:5001/lru-cache/-/lru-cache-2.7.3.tgz"
+                            },
+                            "sigmund": {
+                              "version": "1.0.1",
+                              "from": "http://192.168.129.150:5001/sigmund/-/sigmund-1.0.1.tgz",
+                              "resolved": "http://192.168.129.150:5001/sigmund/-/sigmund-1.0.1.tgz"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "console-browserify": {
+                  "version": "1.1.0",
+                  "from": "http://npm.softwaregroup-bg.com:5001/console-browserify/-/console-browserify-1.1.0.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/console-browserify/-/console-browserify-1.1.0.tgz",
+                  "dependencies": {
+                    "date-now": {
+                      "version": "0.1.4",
+                      "from": "http://npm.softwaregroup-bg.com:5001/date-now/-/date-now-0.1.4.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/date-now/-/date-now-0.1.4.tgz"
+                    }
+                  }
+                },
+                "exit": {
+                  "version": "0.1.2",
+                  "from": "http://npm.softwaregroup-bg.com:5001/exit/-/exit-0.1.2.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/exit/-/exit-0.1.2.tgz"
+                },
+                "htmlparser2": {
+                  "version": "3.8.3",
+                  "from": "http://npm.softwaregroup-bg.com:5001/htmlparser2/-/htmlparser2-3.8.3.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/htmlparser2/-/htmlparser2-3.8.3.tgz",
+                  "dependencies": {
+                    "domhandler": {
+                      "version": "2.3.0",
+                      "from": "http://npm.softwaregroup-bg.com:5001/domhandler/-/domhandler-2.3.0.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/domhandler/-/domhandler-2.3.0.tgz"
+                    },
+                    "domutils": {
+                      "version": "1.5.1",
+                      "from": "http://npm.softwaregroup-bg.com:5001/domutils/-/domutils-1.5.1.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/domutils/-/domutils-1.5.1.tgz",
+                      "dependencies": {
+                        "dom-serializer": {
+                          "version": "0.1.0",
+                          "from": "http://npm.softwaregroup-bg.com:5001/dom-serializer/-/dom-serializer-0.1.0.tgz",
+                          "resolved": "http://npm.softwaregroup-bg.com:5001/dom-serializer/-/dom-serializer-0.1.0.tgz",
+                          "dependencies": {
+                            "domelementtype": {
+                              "version": "1.1.3",
+                              "from": "http://npm.softwaregroup-bg.com:5001/domelementtype/-/domelementtype-1.1.3.tgz",
+                              "resolved": "http://npm.softwaregroup-bg.com:5001/domelementtype/-/domelementtype-1.1.3.tgz"
+                            },
+                            "entities": {
+                              "version": "1.1.1",
+                              "from": "http://npm.softwaregroup-bg.com:5001/entities/-/entities-1.1.1.tgz",
+                              "resolved": "http://npm.softwaregroup-bg.com:5001/entities/-/entities-1.1.1.tgz"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "domelementtype": {
+                      "version": "1.3.0",
+                      "from": "http://npm.softwaregroup-bg.com:5001/domelementtype/-/domelementtype-1.3.0.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/domelementtype/-/domelementtype-1.3.0.tgz"
+                    },
+                    "readable-stream": {
+                      "version": "1.1.13",
+                      "from": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.13.tgz",
+                      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.13.tgz",
+                      "dependencies": {
+                        "core-util-is": {
+                          "version": "1.0.2",
+                          "from": "http://npm.softwaregroup-bg.com:5001/core-util-is/-/core-util-is-1.0.2.tgz",
+                          "resolved": "http://npm.softwaregroup-bg.com:5001/core-util-is/-/core-util-is-1.0.2.tgz"
+                        },
+                        "isarray": {
+                          "version": "0.0.1",
+                          "from": "http://npm.softwaregroup-bg.com:5001/isarray/-/isarray-0.0.1.tgz",
+                          "resolved": "http://npm.softwaregroup-bg.com:5001/isarray/-/isarray-0.0.1.tgz"
+                        },
+                        "string_decoder": {
+                          "version": "0.10.31",
+                          "from": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz",
+                          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+                        },
+                        "inherits": {
+                          "version": "2.0.1",
+                          "from": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+                          "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
+                        }
+                      }
+                    },
+                    "entities": {
+                      "version": "1.0.0",
+                      "from": "http://npm.softwaregroup-bg.com:5001/entities/-/entities-1.0.0.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/entities/-/entities-1.0.0.tgz"
+                    }
+                  }
+                },
+                "minimatch": {
+                  "version": "2.0.10",
+                  "from": "https://registry.npmjs.org/minimatch/-/minimatch-2.0.10.tgz",
+                  "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-2.0.10.tgz",
+                  "dependencies": {
+                    "brace-expansion": {
+                      "version": "1.1.2",
+                      "from": "http://npm.softwaregroup-bg.com:5001/brace-expansion/-/brace-expansion-1.1.2.tgz",
+                      "resolved": "http://npm.softwaregroup-bg.com:5001/brace-expansion/-/brace-expansion-1.1.2.tgz",
+                      "dependencies": {
+                        "balanced-match": {
+                          "version": "0.3.0",
+                          "from": "http://npm.softwaregroup-bg.com:5001/balanced-match/-/balanced-match-0.3.0.tgz",
+                          "resolved": "http://npm.softwaregroup-bg.com:5001/balanced-match/-/balanced-match-0.3.0.tgz"
+                        },
+                        "concat-map": {
+                          "version": "0.0.1",
+                          "from": "http://npm.softwaregroup-bg.com:5001/concat-map/-/concat-map-0.0.1.tgz",
+                          "resolved": "http://npm.softwaregroup-bg.com:5001/concat-map/-/concat-map-0.0.1.tgz"
+                        }
+                      }
+                    }
+                  }
+                },
+                "shelljs": {
+                  "version": "0.3.0",
+                  "from": "https://registry.npmjs.org/shelljs/-/shelljs-0.3.0.tgz",
+                  "resolved": "https://registry.npmjs.org/shelljs/-/shelljs-0.3.0.tgz"
+                },
+                "strip-json-comments": {
+                  "version": "1.0.4",
+                  "from": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-1.0.4.tgz",
+                  "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-1.0.4.tgz"
+                },
+                "lodash": {
+                  "version": "3.7.0",
+                  "from": "http://npm.softwaregroup-bg.com:5001/lodash/-/lodash-3.7.0.tgz",
+                  "resolved": "http://npm.softwaregroup-bg.com:5001/lodash/-/lodash-3.7.0.tgz"
+                }
+              }
+            }
+          }
+        },
+        "require-reload": {
+          "version": "0.2.2",
+          "from": "http://npm.softwaregroup-bg.com:5001/require-reload/-/require-reload-0.2.2.tgz",
+          "resolved": "http://npm.softwaregroup-bg.com:5001/require-reload/-/require-reload-0.2.2.tgz"
+        }
+      }
+    },
+    "when": {
+      "version": "3.7.5",
+      "from": "when@>=3.7.2 <4.0.0",
+      "resolved": "http://npm.softwaregroup-bg.com:5001/when/-/when-3.7.5.tgz"
+    }
+  }
+}
