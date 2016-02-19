@@ -1,9 +1,8 @@
-var err = require('ut-error');
-var create = err.define;
+var create = require('ut-error').define;
 
 var Identity = create('identity');
-var Crypt = err.get('identity.crypt', Identity);
-var MultipleResults = create('identity.multipleResults', Identity);
+var Crypt = create('crypt', Identity);
+var MultipleResults = create('multipleResults', Identity);
 
 
 module.exports = {
