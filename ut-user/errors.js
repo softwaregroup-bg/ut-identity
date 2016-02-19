@@ -1,16 +1,12 @@
 var err = require('ut-error');
 var create = err.define;
 
-var PortSQL = err.get('PortSQL');
-var Crypt = err.get('Crypt');
-var MissingResultset = create('MissingResultset', PortSQL);
-var MultipleResults = create('MultipleResults', PortSQL);
+var Identity = create('identity');
+var Crypt = err.get('identity.crypt', Identity);
+var MultipleResults = create('identity.multipleResults', Identity);
 
 
 module.exports = {
-    missingResultset: function(params) {
-        return new MissingResultset({message: 'Missing resultset', params: params});
-    },
     multipleResults: function(params) {
         return new MultipleResults({message: 'Database returned multiple results', params: params});
     },

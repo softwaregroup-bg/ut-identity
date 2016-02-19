@@ -24,10 +24,8 @@ module.exports = {
     'check.request.send': function(msg, $meta) {
         return this.config['identity.getHashParams'](msg, $meta)
         .then(function(res) {
-            if (!res || !res[0]) {
-                throw errors.missingResultset(msg);
-            } else if (res[0].length > 1) {
-                throw errors.multipleResults(msg);
+            if (res[0].length > 1) {
+                throw errors.multipleResults({method: 'identity.getHashParams'});
             }
 
             return getHash(msg.password, res[0][0]);
