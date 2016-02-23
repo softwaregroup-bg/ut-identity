@@ -8,7 +8,6 @@ AS
 
 SET NOCOUNT ON;
 
-
 BEGIN TRY
     DECLARE @UserID BIGINT,
 			@UserPassword NVARCHAR(50),
