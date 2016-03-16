@@ -71,7 +71,7 @@ BEGIN CATCH
     DECLARE @errorInfo NVARCHAR(MAX) = ''
     EXEC [identity].[ErrorInfoGet] @errorInfo OUTPUT
         
-    -- INSERT INTO [identity].[_ErrorLog](ErrorInfo, Params)
+    INSERT INTO [identity].[_ErrorLog](ErrorInfo, Params)
     SELECT @errorInfo, 'userName: '+ @username +' password: '+ @password 
     
     raiserror(@errorMessage, @errorSeverity, @errorState);
