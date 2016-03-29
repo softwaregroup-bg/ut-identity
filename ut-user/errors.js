@@ -4,7 +4,6 @@ var Identity = create('identity');
 var Crypt = create('crypt', Identity);
 var MultipleResults = create('multipleResults', Identity);
 
-
 module.exports = {
     multipleResults: function(params) {
         return new MultipleResults({message: 'Database returned multiple results', params: params});

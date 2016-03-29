@@ -1,4 +1,4 @@
-/* global __dirname */
+var path = require('path');
 var errors = require('./errors');
 var crypto = require('crypto');
 var when = require('when');
@@ -9,7 +9,9 @@ function getHash(password, hashInfo) {
         switch (hashInfo.algorithm) {
             case 'pbkdf2':
                 crypto.pbkdf2(password, hashInfo.params.salt, hashInfo.params.iterations, hashInfo.params.keylen, hashInfo.params.digest, (err, key) => {
-                    if (err) throw errors.crypt(err);
+                    if (err) {
+                        throw errors.crypt(err);
+                    }
                     resolve(key.toString('hex'));
                 });
                 break;
@@ -19,7 +21,7 @@ function getHash(password, hashInfo) {
 
 module.exports = {
     schema: [
-        {path: __dirname + '/schema', linkSP: true}
+        {path: path.join(__dirname, 'schema'), linkSP: true}
     ],
     'check.request.send': function(msg, $meta) {
         return this.config['identity.getHashParams'](msg, $meta)

@@ -1,6 +1,7 @@
 var utTemplate = require('ut-template');
 var crypto = require('crypto');
-var _ = require('lodash');
+var assign = require('lodash/object/assign');
+var defaults = require('lodash/object/defaults');
 function getHash(user, pass) {
     var md5 = crypto.createHash('md5').update('SoftwareGroupBG', 'utf8');
     md5.update(pass, 'utf8');
@@ -8,7 +9,7 @@ function getHash(user, pass) {
     return md5.digest('hex').toString('hex').toUpperCase();
 }
 module.exports = function(templates) {
-    templates = _.assign({
+    templates = assign({
         check: utTemplate.load(require.resolve('./utswitch/check.sql.marko')),
         closeSession: utTemplate.load(require.resolve('./utswitch/closeSession.sql.marko')),
         invalidateSession: utTemplate.load(require.resolve('./utswitch/invalidateSession.sql.marko')),
@@ -16,7 +17,7 @@ module.exports = function(templates) {
     }, templates || {});
 
     function getParams(params) {
-        var config = _.assign({ // merge only once
+        var config = assign({ // merge only once
             'sessionTimeout': 600,
             'singleUserSession': 'false',
             'module': 'ut5',
@@ -35,7 +36,7 @@ module.exports = function(templates) {
             if (params.passwordNew) {
                 params.passwordHashNew = getHash(params.username, params.passwordNew);
             }
-            return _.defaults(params, config);
+            return defaults(params, config);
         };
         return getParamsReturn(params);
     }

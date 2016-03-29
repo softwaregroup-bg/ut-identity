@@ -1,9 +1,9 @@
 var bus;
 var utTemplate = require('ut-template');
-var _ = require('lodash');
+var assign = require('lodash/object/assign');
 
 module.exports = function(templates) {
-    templates = _.assign({
+    templates = assign({
         check: utTemplate.load(require.resolve('./utnet/check.sql.marko')),
         closeSession: utTemplate.load(require.resolve('./utnet/closeSession.sql.marko'))
     }, templates);

@@ -1,3 +1,4 @@
+var assign = require('lodash/object/assign');
 var joi = require('joi');
 var tags = ['api', 'identity'];
 var validation = {
@@ -13,8 +14,7 @@ var validation = {
 };
 
 module.exports = function(module, ns) {
-    var _ = require('lodash');
     Object.keys(module).forEach(function(value) {
-        _.assign(module[value], ns ? validation[ns][value] : validation[value]);
+        assign(module[value], ns ? validation[ns][value] : validation[value]);
     });
 };
