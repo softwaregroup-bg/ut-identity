@@ -30,9 +30,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^2.2.0",
-    "chai-as-promised": "^5.0.0",
-    "mocha": "^2.2.4",
     "ut-tools": "^5.3.1"
   },
   "publishConfig": {
@@ -40,9 +37,9 @@
   },
   "dependencies": {
     "ut-error": "~5.3.6",
-    "joi": "~6.6.1",
-    "lodash": "^3.10.1",
+    "joi": "6.6.1",
+    "lodash": "3.10.1",
     "ut-template": "~5.3.1",
-    "when": "^3.7.2"
+    "when": "3.7.7"
   }
 }
