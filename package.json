@@ -30,6 +30,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "blue-tape": "0.2.0",
     "ut-tools": "^5.3.1"
   },
   "publishConfig": {
