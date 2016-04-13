@@ -1,3 +1,13 @@
+<a name="5.3.6"></a>
+## [5.3.6](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.5...v5.3.6) (2016-04-13)
+
+
+### Bug Fixes
+
+* **getHash:** check for reqired params ([ed61e66](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/ed61e66))
+
+
+
 <a name="5.3.5"></a>
 ## [5.3.5](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.3...v5.3.5) (2016-04-05)
 
