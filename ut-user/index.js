@@ -1,4 +1,4 @@
-var errors = require('./errors');
+var errors = require('../errors');
 var crypto = require('crypto');
 var when = require('when');
 
@@ -12,7 +12,7 @@ function getHash(password, hashInfo) {
             case 'pbkdf2':
                 crypto.pbkdf2(password, hashInfo.params.salt, hashInfo.params.iterations, hashInfo.params.keylen, hashInfo.params.digest, (err, key) => {
                     if (err) {
-                        throw errors.crypt(err);
+                        return errors.crypt.reject();
                     }
                     resolve(key.toString('hex'));
                 });
@@ -31,13 +31,13 @@ module.exports = {
         } else if (typeof (msg.token) !== 'undefined') { // session
             msg.type = 'session';
         } else {
-            throw errors.nothingForValidation({method: 'identity.check'});
+            return errors.MissingCredentials.reject();
         }
 
         return this.bus.importMethod('user.identity.getHashParams')(msg, $meta)
         .then((res) => {
             if (res[0].length > 1) {
-                throw errors.multipleResults({method: 'user.identity.getHashParams'});
+                return errors.multipleResults.reject();
             }
             return getHash(msg.password, res[0][0]);
         })

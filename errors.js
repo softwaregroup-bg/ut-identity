@@ -7,7 +7,9 @@ module.exports = {
     ExpiredPassword: create('ExpiredPassword', Identity),
     SessionExpired: create('SessionExpired', Identity),
     InvalidFingerprint: create('InvalidFingerprint', Identity),
-    Identity: Identity
+    Identity: Identity,
+    Crypt: create('crypt', Identity),
+    MultipleResults: create('multipleResults', Identity)
 };
 
 Object.getOwnPropertyNames(module.exports).forEach(function(key) {
