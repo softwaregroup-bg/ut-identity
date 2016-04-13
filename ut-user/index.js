@@ -33,6 +33,7 @@ module.exports = {
         } else {
             throw errors.nothingForValidation({method: 'identity.check'});
         }
+
         return this.bus.importMethod('user.identity.getHashParams')(msg, $meta)
         .then((res) => {
             if (res[0].length > 1) {
@@ -43,6 +44,12 @@ module.exports = {
         .then((res) => {
             msg.password = res;
             return this.bus.importMethod('user.identity.check')(msg, $meta);
+        })
+        .then((res) => {
+            if (res[0] && res[0][0] && res[0][0].actorId) {
+                return this.bus.importMethod('permission.get')(res[0][0].actorId, $meta);
+            }
+            return res;
         });
     }
 };
