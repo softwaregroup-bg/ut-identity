@@ -1,4 +1,3 @@
-var path = require('path');
 var errors = require('./errors');
 var crypto = require('crypto');
 var when = require('when');
@@ -23,10 +22,7 @@ function getHash(password, hashInfo) {
 }
 
 module.exports = {
-    schema: [
-        {path: path.join(__dirname, 'schema'), linkSP: true}
-    ],
-    'check.request.send': function(msg, $meta) {
+    'check': function(msg, $meta) {
         msg.type = '';
         if (typeof (msg.username) !== 'undefined' && typeof (msg.password) !== 'undefined') {
             msg.type = 'user/pass';
@@ -37,18 +33,16 @@ module.exports = {
         } else {
             throw errors.nothingForValidation({method: 'identity.check'});
         }
-
-        return this.config['identity.getHashParams'](msg, $meta)
-        .then(function(res) {
+        return this.bus.importMethod('user.identity.getHashParams')(msg, $meta)
+        .then((res) => {
             if (res[0].length > 1) {
-                throw errors.multipleResults({method: 'identity.getHashParams'});
+                throw errors.multipleResults({method: 'user.identity.getHashParams'});
             }
-
             return getHash(msg.password, res[0][0]);
         })
-        .then(function(res) {
+        .then((res) => {
             msg.password = res;
-            return msg;
+            return this.bus.importMethod('user.identity.check')(msg, $meta);
         });
     }
 };

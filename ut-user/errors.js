@@ -2,7 +2,6 @@ var create = require('ut-error').define;
 
 var Identity = create('identity');
 var Crypt = create('crypt', Identity);
-var NotImplemented = create('notImplemented', Identity);
 var NothingForValidation = create('nothingForValidation', Identity);
 var MultipleResults = create('multipleResults', Identity);
 
@@ -15,8 +14,5 @@ module.exports = {
     },
     crypt: function(msg, params) {
         return new Crypt({message: msg, params: params});
-    },
-    notImplemented: function(msg, params) {
-        return new NotImplemented({message: 'This method is not yet implemented', params: params});
     }
 };
