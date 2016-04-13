@@ -4,6 +4,9 @@ var crypto = require('crypto');
 var when = require('when');
 
 function getHash(password, hashInfo) {
+    if (!hashInfo || !hashInfo.params) {
+        return false;
+    }
     hashInfo.params = JSON.parse(hashInfo.params);
     return when.promise(function(resolve) {
         switch (hashInfo.algorithm) {
