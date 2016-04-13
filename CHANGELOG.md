@@ -1,3 +1,13 @@
+<a name="5.3.7"></a>
+## [5.3.7](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.6...v5.3.7) (2016-04-13)
+
+
+### Bug Fixes
+
+* **identity.check:** make variable bigger ([a74df87](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/a74df87))
+
+
+
 <a name="5.3.6"></a>
 ## [5.3.6](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.5...v5.3.6) (2016-04-13)
 
