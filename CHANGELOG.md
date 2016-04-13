@@ -1,3 +1,18 @@
+<a name="5.3.8"></a>
+## [5.3.8](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.7...v5.3.8) (2016-04-13)
+
+
+### Bug Fixes
+
+* **permission:** returns perrmissions when indentity.check ([ad60de4](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/ad60de4))
+* **refactor:** move all sql into ut-user ([e29d35d](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/e29d35d))
+
+### Features
+
+* **authentication:** +session, +bio ([c1fe16e](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/c1fe16e))
+
+
+
 <a name="5.3.7"></a>
 ## [5.3.7](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.6...v5.3.7) (2016-04-13)
 
