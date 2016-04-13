@@ -27,6 +27,17 @@ module.exports = {
         {path: path.join(__dirname, 'schema'), linkSP: true}
     ],
     'check.request.send': function(msg, $meta) {
+        msg.type = '';
+        if (typeof (msg.username) !== 'undefined' && typeof (msg.password) !== 'undefined') {
+            msg.type = 'user/pass';
+        } else if (typeof (msg.fingerPrint) !== 'undefined') {
+            msg.type = 'bio';
+        } else if (typeof (msg.token) !== 'undefined') { // session
+            msg.type = 'session';
+        } else {
+            throw errors.nothingForValidation({method: 'identity.check'});
+        }
+
         return this.config['identity.getHashParams'](msg, $meta)
         .then(function(res) {
             if (res[0].length > 1) {
