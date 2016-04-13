@@ -7,7 +7,7 @@ SET NOCOUNT ON;
 
 BEGIN TRY
     DECLARE @UserID BIGINT,
-            @UserPassword NVARCHAR(50),
+            @UserPassword NVARCHAR(max),
             @LoginAttempts INT,
             @MaxLoginAttempts INT = 3, 
             @IsEnabled BIT = 0
