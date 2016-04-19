@@ -1,3 +1,13 @@
+<a name="5.3.11"></a>
+## [5.3.11](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.10...v5.3.11) (2016-04-19)
+
+
+### Bug Fixes
+
+* return the hash params ([450ea36](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/450ea36))
+
+
+
 <a name="5.3.10"></a>
 ## [5.3.10](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.9...v5.3.10) (2016-04-19)
 
