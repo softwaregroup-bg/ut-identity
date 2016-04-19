@@ -18,12 +18,18 @@ function getHash(password, hashInfo) {
 
 module.exports = {
     check: function(msg, $meta) {
-        // todo do some initial validation, to avoid unnecessary DB calls
-        return this.bus.importMethod('user.identity.get')(msg, $meta)
+        var get; // todo do some initial validation, to avoid unnecessary DB calls
+        if (msg.username && msg.password) {
+            get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((userParams) => {
                 // todo call bio.identity.check depending on userParams and msg
                 return getHash(msg.password, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0]);
-            })
+            });
+        } else {
+            get = Promise.resolve(null);
+        }
+
+        return get
             .then((hash) => {
                 msg.password = hash;
                 return this.bus.importMethod('user.identity.check')(msg, $meta);
@@ -31,9 +37,7 @@ module.exports = {
             .then((user) => {
                 if (user.length === 1 && user[0] && user[0][0] && user[0][0].userId) { // in case user.identity.check did not return the permissions
                     return this.bus.importMethod('permission.get')(user[0][0].userId, $meta)
-                        .then((permissions) => {
-                            [].concat(user, permissions);
-                        });
+                        .then((permissions) => ([].concat(user, permissions)));
                 }
                 return user;
             });
