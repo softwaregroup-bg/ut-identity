@@ -1,6 +1,6 @@
 {
   "name": "ut-identity",
-  "version": "5.3.11",
+  "version": "5.3.12",
   "description": "UT authentication module",
   "main": "index.js",
   "directories": {
