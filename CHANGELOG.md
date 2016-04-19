@@ -1,3 +1,13 @@
+<a name="5.3.10"></a>
+## [5.3.10](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.9...v5.3.10) (2016-04-19)
+
+
+### Features
+
+* integrate with ut-user module ([1f68ba8](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/1f68ba8))
+
+
+
 <a name="5.3.9"></a>
 ## [5.3.9](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.8...v5.3.9) (2016-04-15)
 
