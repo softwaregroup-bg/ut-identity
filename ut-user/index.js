@@ -22,7 +22,7 @@ module.exports = {
         return this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((userParams) => {
                 // todo call bio.identity.check depending on userParams and msg
-                getHash(msg.password, userParams.length === 1 && userParams[0].length === 1 && userParams[0][0]);
+                return getHash(msg.password, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0]);
             })
             .then((hash) => {
                 msg.password = hash;
