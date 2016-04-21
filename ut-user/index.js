@@ -36,7 +36,7 @@ module.exports = {
             })
             .then((user) => {
                 if (user.length === 1 && user[0] && user[0][0] && user[0][0].userId) { // in case user.identity.check did not return the permissions
-                    return this.bus.importMethod('permission.get')(user[0][0].userId, $meta)
+                    return this.bus.importMethod('permission.get')({userId: user[0][0].userId}, $meta)
                         .then((permissions) => ([].concat(user, permissions)));
                 }
                 return user;
