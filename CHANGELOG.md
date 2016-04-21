@@ -1,3 +1,13 @@
+<a name="5.3.13"></a>
+## [5.3.13](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.12...v5.3.13) (2016-04-21)
+
+
+### Bug Fixes
+
+* **permission.get:** params ([9f4cab2](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/9f4cab2))
+
+
+
 <a name="5.3.12"></a>
 ## [5.3.12](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.11...v5.3.12) (2016-04-19)
 
