@@ -5,7 +5,7 @@ function getHash(password, hashInfo) {
     if (!hashInfo || !hashInfo.params) {
         return errors.InvalidCredentials.reject();
     }
-    hashInfo.params = JSON.parse(hashInfo.params);
+    hashInfo.params = typeof (hashInfo.params) === 'string' ? JSON.parse(hashInfo.params) : hashInfo.params;
     switch (hashInfo.algorithm) {
         case 'pbkdf2':
             return new Promise((resolve, reject) => {
@@ -27,7 +27,9 @@ module.exports = {
                 .then((oldHash) => {
                     if (msg.newPassword) { // change password case
                         return getHash(msg.newPassword, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0])
-                        .then((newHash) => ({oldHash: oldHash, newHash: newHash}));
+                        .then((newHash) => {
+                            return {oldHash: oldHash, newHash: newHash};
+                        });
                     } else {
                         return {oldHash: oldHash};
                     }
@@ -39,9 +41,9 @@ module.exports = {
 
         return get
             .then((hashes) => {
-                msg.password = hashes.oldPassword;
-                if (hashes.newPassword) {
-                    msg.newPassword = hashes.newPassword;
+                msg.password = hashes.oldHash;
+                if (msg.newPassword) {
+                    msg.newPassword = hashes.newHash;
                 }
                 return this.bus.importMethod('user.identity.check')(msg, $meta);
             })
