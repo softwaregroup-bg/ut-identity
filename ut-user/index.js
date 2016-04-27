@@ -23,15 +23,26 @@ module.exports = {
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((userParams) => {
                 // todo call bio.identity.check depending on userParams and msg
-                return getHash(msg.password, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0]);
+                return getHash(msg.password, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0])
+                .then((oldHash) => {
+                    if (msg.newPassword) { // change password case
+                        return getHash(msg.newPassword, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0])
+                        .then((newHash) => ({oldHash: oldHash, newHash: newHash}));
+                    } else {
+                        return {oldHash: oldHash};
+                    }
+                });
             });
         } else {
             get = Promise.resolve(null);
         }
 
         return get
-            .then((hash) => {
-                msg.password = hash;
+            .then((hashes) => {
+                msg.password = hashes.oldPassword;
+                if (hashes.newPassword) {
+                    msg.newPassword = hashes.newPassword;
+                }
                 return this.bus.importMethod('user.identity.check')(msg, $meta);
             })
             .then((user) => {
