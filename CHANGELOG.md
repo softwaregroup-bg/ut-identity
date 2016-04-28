@@ -1,3 +1,14 @@
+<a name="5.3.15"></a>
+## [5.3.15](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.14...v5.3.15) (2016-04-28)
+
+
+### Bug Fixes
+
+* **identity.check:** doesnt need to got trough it when there is no user/password to be checked([c0915c9](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/c0915c9))
+* **identity.check:** pass msg to resolved promise([ff3568c](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/ff3568c))
+
+
+
 <a name="5.3.14"></a>
 ## [5.3.14](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.13...v5.3.14) (2016-04-28)
 
