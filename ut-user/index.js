@@ -34,17 +34,20 @@ module.exports = {
                         return {oldHash: oldHash};
                     }
                 });
+            })
+            .then((hashes) => {
+                msg.password = hashes.oldHash;
+                if (msg.newPassword) {
+                    msg.newPassword = hashes.newHash;
+                }
+                return msg;
             });
         } else {
             get = Promise.resolve(null);
         }
 
         return get
-            .then((hashes) => {
-                msg.password = hashes.oldHash;
-                if (msg.newPassword) {
-                    msg.newPassword = hashes.newHash;
-                }
+            .then((msg) => {
                 return this.bus.importMethod('user.identity.check')(msg, $meta);
             })
             .then((user) => {
