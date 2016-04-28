@@ -43,7 +43,7 @@ module.exports = {
                 return msg;
             });
         } else {
-            get = Promise.resolve(null);
+            get = Promise.resolve(msg);
         }
 
         return get
