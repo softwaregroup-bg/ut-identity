@@ -51,9 +51,12 @@ module.exports = {
                 return this.bus.importMethod('user.identity.check')(msg, $meta);
             })
             .then((user) => {
-                if (user.length === 1 && user[0] && user[0][0] && user[0][0].userId) { // in case user.identity.check did not return the permissions
-                    return this.bus.importMethod('permission.get')({userId: user[0][0].userId}, $meta)
-                        .then((permissions) => ([].concat(user, permissions)));
+                if (!user['permission.get']) { // in case user.identity.check did not return the permissions
+                    return this.bus.importMethod('permission.get')({}, {actorId: user['identity.check'][0].userId, actionId: 'identity.check'})
+                        .then((permissions) => {
+                            user['permission.get'] = permissions;
+                            return user;
+                        });
                 }
                 return user;
             });
