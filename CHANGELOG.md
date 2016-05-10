@@ -1,3 +1,13 @@
+<a name="5.3.16"></a>
+## [5.3.16](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.15...v5.3.16) (2016-05-10)
+
+
+### Bug Fixes
+
+* handle named resultsets([2d75d7b](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/2d75d7b))
+
+
+
 <a name="5.3.15"></a>
 ## [5.3.15](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.14...v5.3.15) (2016-04-28)
 
