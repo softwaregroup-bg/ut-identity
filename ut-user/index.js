@@ -22,7 +22,6 @@ module.exports = {
         if (msg.username && msg.password) {
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((userParams) => {
-                // todo call bio.identity.check depending on userParams and msg
                 return getHash(msg.password, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0])
                 .then((oldHash) => {
                     if (msg.newPassword) { // change password case
@@ -41,6 +40,12 @@ module.exports = {
                     msg.newPassword = hashes.newHash;
                 }
                 return msg;
+            });
+        } else if (msg.username && msg.fingerprints && msg.fingerprints.length > 0) {
+            msg.fingerprint = 1;
+            get = this.bus.importMethod('user.identity.get')(msg, $meta)
+            .then((r) => {
+                return this.bus.importMethod('bio.check')(msg, $meta);
             });
         } else {
             get = Promise.resolve(msg);
@@ -62,7 +67,7 @@ module.exports = {
             });
     },
     closeSession: function(msg, $meta) {
-        return this.bus.importMethod('user.identity.closeSession')(msg, $meta);
+        return this.bus.importMethod('user.session.delete')({sessionId: $meta.auth.sessionId}, $meta);
     },
     changePassword: function(msg, $meta) {
         return this.bus.importMethod('user.identity.changePassword')(msg, $meta);
