@@ -1,3 +1,13 @@
+<a name="5.3.20"></a>
+## [5.3.20](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.19...v5.3.20) (2016-05-13)
+
+
+### Bug Fixes
+
+* **bio.check:** added username to db req params ([438f5e6](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/438f5e6))
+
+
+
 <a name="5.3.19"></a>
 ## [5.3.19](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.18...v5.3.19) (2016-05-13)
 
