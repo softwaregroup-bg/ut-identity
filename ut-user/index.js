@@ -42,19 +42,16 @@ module.exports = {
                 return msg;
             });
         } else if (msg.username && msg.fingerprints && msg.fingerprints.length > 0) {
-            msg.fingerprint = 1;
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((r) => {
-                return this.bus.importMethod('bio.check')(msg, $meta);
+                return this.bus.importMethod('bio.check')({data: msg.fingerprints, bioId: r[0][0].bioid}, $meta);
             });
         } else {
             get = Promise.resolve(msg);
         }
 
         return get
-            .then((msg) => {
-                return this.bus.importMethod('user.identity.check')(msg, $meta);
-            })
+            .then((r) => (this.bus.importMethod('user.identity.check')(r, $meta)))
             .then((user) => {
                 if (!user['permission.get']) { // in case user.identity.check did not return the permissions
                     return this.bus.importMethod('permission.get')({}, {actorId: user['identity.check'][0].userId, actionId: 'identity.check'})
