@@ -45,7 +45,8 @@ module.exports = {
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((r) => {
                 return this.bus.importMethod('bio.check')({data: msg.fingerprints, bioId: r[0][0].bioid}, $meta);
-            });
+            })
+            .then((r) => ({bioid: r.bioId, username: msg.username}));
         } else {
             get = Promise.resolve(msg);
         }
