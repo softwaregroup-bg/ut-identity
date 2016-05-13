@@ -1,3 +1,13 @@
+<a name="5.3.19"></a>
+## [5.3.19](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.18...v5.3.19) (2016-05-13)
+
+
+### Bug Fixes
+
+* pass the current user ([df9f02b](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/df9f02b))
+
+
+
 <a name="5.3.18"></a>
 ## [5.3.18](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.17...v5.3.18) (2016-05-12)
 
