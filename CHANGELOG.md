@@ -1,3 +1,13 @@
+<a name="5.3.21"></a>
+## [5.3.21](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.20...v5.3.21) (2016-05-16)
+
+
+### Bug Fixes
+
+* do not expose error details to front end ([4055dea](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/4055dea))
+
+
+
 <a name="5.3.20"></a>
 ## [5.3.20](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.19...v5.3.20) (2016-05-13)
 
