@@ -3,7 +3,7 @@ var crypto = require('crypto');
 
 function getHash(password, hashInfo) {
     if (!hashInfo || !hashInfo.params) {
-        return errors.InvalidCredentials.reject();
+        return errors.MissingCredentials.reject();
     }
     hashInfo.params = typeof (hashInfo.params) === 'string' ? JSON.parse(hashInfo.params) : hashInfo.params;
     switch (hashInfo.algorithm) {
@@ -62,6 +62,9 @@ module.exports = {
                         });
                 }
                 return user;
+            })
+            .catch((err) => {
+                throw new errors.InvalidCredentials(err);
             });
     },
     closeSession: function(msg, $meta) {

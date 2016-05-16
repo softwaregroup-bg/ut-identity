@@ -2,8 +2,8 @@ var create = require('ut-error').define;
 
 var Identity = create('Identity');
 module.exports = {
-    MissingCredentials: create('MissingCredentials', Identity),
-    InvalidCredentials: create('InvalidCredentials', Identity),
+    MissingCredentials: create('MissingCredentials', Identity, 'Missing credentials'),
+    InvalidCredentials: create('InvalidCredentials', Identity, 'Invalid credentials'),
     ExpiredPassword: create('ExpiredPassword', Identity),
     SessionExpired: create('SessionExpired', Identity),
     InvalidFingerprint: create('InvalidFingerprint', Identity),
