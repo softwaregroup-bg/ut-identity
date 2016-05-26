@@ -46,7 +46,7 @@ module.exports = {
             .then((r) => {
                 return this.bus.importMethod('bio.check')({data: msg.fingerprints, bioId: r[0][0].bioid}, $meta);
             })
-            .then((r) => ({bioid: r.bioId, username: msg.username}));
+            .then((r) => ({bioid: r.bioId, username: msg.username, actionId: msg.actionId}));
         } else {
             get = Promise.resolve(msg);
         }
@@ -55,9 +55,10 @@ module.exports = {
             .then((r) => (this.bus.importMethod('user.identity.check')(r, $meta)))
             .then((user) => {
                 if (!user['permission.get']) { // in case user.identity.check did not return the permissions
-                    return this.bus.importMethod('permission.get')({}, {actorId: user['identity.check'][0].userId, actionId: 'identity.check'})
+                    return this.bus.importMethod('permission.get')({actionId: msg.actionId},
+                        {actorId: user['identity.check'].userId, actionId: 'identity.check'})
                         .then((permissions) => {
-                            user['permission.get'] = permissions;
+                            user['permission.get'] = permissions && permissions[0];
                             return user;
                         });
                 }
