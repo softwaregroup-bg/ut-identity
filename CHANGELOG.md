@@ -1,3 +1,13 @@
+<a name="5.3.22"></a>
+## [5.3.22](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.21...v5.3.22) (2016-05-26)
+
+
+### Bug Fixes
+
+* pass actionId parameter ([94640f4](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/94640f4))
+
+
+
 <a name="5.3.21"></a>
 ## [5.3.21](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.20...v5.3.21) (2016-05-16)
 
