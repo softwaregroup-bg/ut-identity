@@ -18,7 +18,7 @@ function getHash(password, hashInfo) {
 
 module.exports = {
     check: function(msg, $meta) {
-        var get; // todo do some initial validation, to avoid unnecessary DB calls
+        var get;
         if (msg.username && msg.password) {
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((userParams) => {
@@ -47,6 +47,9 @@ module.exports = {
                 return this.bus.importMethod('bio.check')({data: msg.fingerprints, bioId: r[0][0].bioid}, $meta);
             })
             .then((r) => ({bioid: r.bioId, username: msg.username, actionId: msg.actionId}));
+        } else if (msg.username && !msg.fingerprints && !msg.password) {
+            msg.identifier = msg.username;
+            return this.bus.importMethod('user.policy.get')(msg, $meta);
         } else {
             get = Promise.resolve(msg);
         }
