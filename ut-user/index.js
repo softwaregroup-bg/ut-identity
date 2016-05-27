@@ -47,14 +47,22 @@ module.exports = {
                 return this.bus.importMethod('bio.check')({data: msg.fingerprints, bioId: r[0][0].bioid}, $meta);
             })
             .then((r) => ({bioid: r.bioId, username: msg.username, actionId: msg.actionId}));
-        } else if (msg.username && !msg.fingerprints && !msg.password) {
+        } else if (msg.sessionId) {
+            get = Promise.resolve(msg);
+        } else if (msg.username) {
             msg.identifier = msg.username;
             return this.bus.importMethod('user.policy.get')(msg, $meta);
         } else {
-            get = Promise.resolve(msg);
+            get = Promise.resolve({});
         }
 
         return get
+            .then((r) => {
+                if (!r.actionId) {
+                    return errors.MissingCredentials.reject();
+                }
+                return r;
+            })
             .then((r) => (this.bus.importMethod('user.identity.check')(r, $meta)))
             .then((user) => {
                 if (!user['permission.get']) { // in case user.identity.check did not return the permissions
