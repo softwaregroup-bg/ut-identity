@@ -19,29 +19,8 @@ function getHash(password, hashInfo) {
 module.exports = {
     check: function(msg, $meta) {
         var get;
-        if (msg.username && msg.password) {
-            get = this.bus.importMethod('user.identity.get')(msg, $meta)
-            .then((userParams) => {
-                return getHash(msg.password, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0])
-                .then((oldHash) => {
-                    if (msg.newPassword) { // change password case
-                        return getHash(msg.newPassword, userParams.length >= 1 && userParams[0].length === 1 && userParams[0][0])
-                        .then((newHash) => {
-                            return {oldHash: oldHash, newHash: newHash};
-                        });
-                    } else {
-                        return {oldHash: oldHash};
-                    }
-                });
-            })
-            .then((hashes) => {
-                msg.password = hashes.oldHash;
-                if (msg.newPassword) {
-                    msg.newPassword = hashes.newHash;
-                }
-                return msg;
-            });
-        } else if (msg.username && msg.fingerprints && msg.fingerprints.length > 0) {
+        if (msg.fingerprints && msg.fingerprints.length > 0) {
+            // bio logic
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((r) => {
                 return this.bus.importMethod('bio.check')({data: msg.fingerprints, bioId: r[0][0].bioid}, $meta);
@@ -49,31 +28,53 @@ module.exports = {
             .then((r) => ({bioid: r.bioId, username: msg.username, actionId: msg.actionId}));
         } else if (msg.sessionId) {
             get = Promise.resolve(msg);
-        } else if (msg.username) {
-            msg.identifier = msg.username;
-            return this.bus.importMethod('user.policy.get')(msg, $meta);
         } else {
-            get = Promise.resolve({});
+            get = this.bus.importMethod('user.identity.get')(msg, $meta)
+            .then((userParams) => {
+                if (userParams.loginPolicy && userParams.loginPolicy.length > 0) {
+                    return {loginPolicy: userParams.loginPolicy};
+                }
+                var hashQueue = userParams.hashParams
+                .filter((hp) => (msg[hp.type]))
+                .map((hp) => {
+                    var hashValue = msg[hp.type]; // what to hash, otp or password
+                    return getHash(hashValue, hp)
+                    .then((oldHash) => {
+                        msg[hp.type] = oldHash;
+                        if (msg.newPassword && hp.type === 'password') { // change password case
+                            return getHash(msg.newPassword, hp)
+                            .then((newHash) => {
+                                msg.newPassword = newHash;
+                                return msg;
+                            });
+                        }
+                        return msg;
+                    });
+                });
+
+                return Promise.all(hashQueue)
+                .then(() => (msg));
+            });
         }
 
         return get
             .then((r) => {
-                if (!r.actionId) {
-                    return errors.MissingCredentials.reject();
+                if (r.loginPolicy) {
+                    return r;
                 }
-                return r;
-            })
-            .then((r) => (this.bus.importMethod('user.identity.check')(r, $meta)))
-            .then((user) => {
-                if (!user['permission.get']) { // in case user.identity.check did not return the permissions
-                    return this.bus.importMethod('permission.get')({actionId: msg.actionId},
-                        {actorId: user['identity.check'].userId, actionId: 'identity.check'})
-                        .then((permissions) => {
-                            user['permission.get'] = permissions && permissions[0];
-                            return user;
-                        });
-                }
-                return user;
+
+                return this.bus.importMethod('user.identity.check')(r, $meta)
+                .then((user) => {
+                    if (!user['permission.get']) { // in case user.identity.check did not return the permissions
+                        return this.bus.importMethod('permission.get')({actionId: msg.actionId},
+                            {actorId: user['identity.check'].userId, actionId: 'identity.check'})
+                            .then((permissions) => {
+                                user['permission.get'] = permissions && permissions[0];
+                                return user;
+                            });
+                    }
+                    return user;
+                });
             })
             .catch((err) => {
                 throw new errors.InvalidCredentials(err);
