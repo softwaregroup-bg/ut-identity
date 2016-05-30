@@ -86,7 +86,7 @@ module.exports = {
     changePassword: function(msg, $meta) {
         return this.bus.importMethod('user.identity.get')({userId: $meta.auth.actorId}, $meta)
         .then((r) => {
-            msg.hashParams = r[0][0];
+            msg.hashParams = r.hashParams[0];
             return this.bus.importMethod('user.changePassword')(msg, $meta);
         });
     }
