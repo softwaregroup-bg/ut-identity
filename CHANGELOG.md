@@ -1,3 +1,14 @@
+<a name="5.3.23"></a>
+## [5.3.23](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.22...v5.3.23) (2016-05-30)
+
+
+### Bug Fixes
+
+* **execution:** identity chek exec order ([5c3e3f6](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/5c3e3f6))
+* change user.identity.get to use namespaced resultset ([11f461b](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/11f461b))
+
+
+
 <a name="5.3.22"></a>
 ## [5.3.22](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.21...v5.3.22) (2016-05-26)
 
