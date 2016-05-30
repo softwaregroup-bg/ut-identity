@@ -31,9 +31,6 @@ module.exports = {
         } else {
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
             .then((userParams) => {
-                if (userParams.loginPolicy && userParams.loginPolicy.length > 0) {
-                    return {loginPolicy: userParams.loginPolicy};
-                }
                 var hashQueue = userParams.hashParams
                 .filter((hp) => (msg[hp.type]))
                 .map((hp) => {
@@ -59,12 +56,11 @@ module.exports = {
 
         return get
             .then((r) => {
-                if (r.loginPolicy) {
-                    return r;
-                }
-
                 return this.bus.importMethod('user.identity.check')(r, $meta)
                 .then((user) => {
+                    if (user.loginPolicy && user.loginPolicy.length > 0) {
+                        return {loginPolicy: user.loginPolicy};
+                    }
                     if (!user['permission.get']) { // in case user.identity.check did not return the permissions
                         return this.bus.importMethod('permission.get')({actionId: msg.actionId},
                             {actorId: user['identity.check'].userId, actionId: 'identity.check'})
