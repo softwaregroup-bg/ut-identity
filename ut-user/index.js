@@ -1,24 +1,17 @@
 var errors = require('../errors');
-var crypto = require('crypto');
-
+var genHash;
 function getHash(password, hashInfo) {
     if (!hashInfo || !hashInfo.params) {
         return errors.MissingCredentials.reject();
     }
     hashInfo.params = typeof (hashInfo.params) === 'string' ? JSON.parse(hashInfo.params) : hashInfo.params;
-    switch (hashInfo.algorithm) {
-        case 'pbkdf2':
-            return new Promise((resolve, reject) => {
-                crypto.pbkdf2(password, hashInfo.params.salt, hashInfo.params.iterations, hashInfo.params.keylen, hashInfo.params.digest, (err, key) => {
-                    err ? reject(errors.Crypt.reject()) : resolve(key.toString('hex'));
-                });
-            });
-    }
+    return genHash(password, hashInfo.params);
 }
 
 module.exports = {
     check: function(msg, $meta) {
         var get;
+        genHash = this.bus.importMethod('user.genHash');
         if (msg.fingerprints && msg.fingerprints.length > 0) {
             // bio logic
             get = this.bus.importMethod('user.identity.get')(msg, $meta)
