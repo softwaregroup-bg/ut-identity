@@ -1,3 +1,13 @@
+<a name="5.3.24"></a>
+## [5.3.24](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.23...v5.3.24) (2016-06-03)
+
+
+### Bug Fixes
+
+* **hash:** use exposed hash functions ([dd69ebf](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/dd69ebf))
+
+
+
 <a name="5.3.23"></a>
 ## [5.3.23](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.22...v5.3.23) (2016-05-30)
 
