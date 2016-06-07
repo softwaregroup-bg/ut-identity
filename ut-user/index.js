@@ -12,13 +12,25 @@ module.exports = {
     check: function(msg, $meta) {
         var get;
         genHash = this.bus.importMethod('user.genHash');
-        if (msg.fingerprints && msg.fingerprints.length > 0) {
+        if (msg.fingerprints) {
             // bio logic
             $meta.method = 'user.identity.get';
             get = this.bus.importMethod($meta.method)(msg, $meta)
             .then((r) => {
+                var id = r[0][0].actorId;
+                if (!id) {
+                    $meta.mtid = 'error';
+                    return {
+                        code: 4444,
+                        message: 'User is not bio enrolled'
+                    };
+                }
                 $meta.method = 'bio.check';
-                return this.bus.importMethod($meta.method)({data: msg.fingerprints, bioId: r[0][0].bioid}, $meta);
+                return this.bus.importMethod($meta.method)({
+                    id: id,
+                    departmentId: 'UT5',
+                    data: msg.fingerprints
+                }, $meta);
             })
             .then((r) => ({bioid: r.bioId, username: msg.username, actionId: msg.actionId}));
         } else if (msg.sessionId) {
