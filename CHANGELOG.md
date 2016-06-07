@@ -1,3 +1,13 @@
+<a name="5.3.25"></a>
+## [5.3.25](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.24...v5.3.25) (2016-06-07)
+
+
+### Bug Fixes
+
+* set meta methods explicitly before calling stored procedures ([efdd2b5](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/efdd2b5))
+
+
+
 <a name="5.3.24"></a>
 ## [5.3.24](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.23...v5.3.24) (2016-06-03)
 
