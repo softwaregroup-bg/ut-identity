@@ -41,7 +41,8 @@
   "dependencies": {
     "ut-error": "~5.3.6",
     "joi": "6.6.1",
-    "lodash": "3.10.1",
+    "lodash.assign": "4.0.9",
+    "lodash.defaults": "4.0.1",
     "ut-template": "~5.3.1",
     "when": "3.7.7"
   }

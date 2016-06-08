@@ -1,6 +1,6 @@
 var bus;
 var utTemplate = require('ut-template');
-var assign = require('lodash/object/assign');
+var assign = require('lodash.assign');
 
 module.exports = function(templates) {
     templates = assign({

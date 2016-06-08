@@ -1,4 +1,4 @@
-var assign = require('lodash/object/assign');
+var assign = require('lodash.assign');
 var joi = require('joi');
 var tags = ['api', 'identity'];
 var validation = {
