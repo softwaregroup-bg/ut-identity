@@ -1,3 +1,13 @@
+<a name="5.3.26"></a>
+## [5.3.26](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.25...v5.3.26) (2016-06-08)
+
+
+### Bug Fixes
+
+* upgrade lodash ([9cc7a8e](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/9cc7a8e))
+
+
+
 <a name="5.3.25"></a>
 ## [5.3.25](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.24...v5.3.25) (2016-06-07)
 
