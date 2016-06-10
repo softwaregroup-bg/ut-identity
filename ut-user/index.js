@@ -17,7 +17,7 @@ module.exports = {
             $meta.method = 'user.identity.get';
             get = this.bus.importMethod($meta.method)(msg, $meta)
             .then((r) => {
-                var params = r[0][0].params && JSON.parse(r[0][0].params);
+                var params = r.hashParams[0].params && JSON.parse(r.hashParams[0].params);
                 if (!params) {
                     $meta.mtid = 'error';
                     return {
@@ -32,7 +32,13 @@ module.exports = {
                     data: msg.fingerprints
                 }, $meta);
             })
-            .then((r) => ({bioid: r.bioId, username: msg.username, actionId: msg.actionId}));
+            .then(function(r) {
+                return {
+                    username: msg.username,
+                    password: '***', // workaround for now - bio has a priority but a session is not created if password IS NULL
+                    bio: '123' // change Api later to pass fingerprint index (identifier)
+                };
+            });
         } else if (msg.sessionId) {
             get = Promise.resolve(msg);
         } else {
