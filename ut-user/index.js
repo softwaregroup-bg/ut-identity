@@ -17,8 +17,8 @@ module.exports = {
             $meta.method = 'user.identity.get';
             get = this.bus.importMethod($meta.method)(msg, $meta)
             .then((r) => {
-                var id = r[0][0].actorId;
-                if (!id) {
+                var params = r[0][0].params && JSON.parse(r[0][0].params);
+                if (!params) {
                     $meta.mtid = 'error';
                     return {
                         code: 4444,
@@ -27,8 +27,8 @@ module.exports = {
                 }
                 $meta.method = 'bio.check';
                 return this.bus.importMethod($meta.method)({
-                    id: id,
-                    departmentId: 'UT5',
+                    id: params.id,
+                    departmentId: params.departmentId,
                     data: msg.fingerprints
                 }, $meta);
             })
