@@ -2,3 +2,4 @@ node_modules/**/*
 *.marko.js
 utnet/*.marko.js
 .idea
+*.log
