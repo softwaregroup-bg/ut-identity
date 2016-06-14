@@ -1,3 +1,15 @@
+<a name="5.3.27"></a>
+## [5.3.27](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.26...v5.3.27) (2016-06-14)
+
+
+### Bug Fixes
+
+* bio enrollment ([ac632d4](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/ac632d4))
+* bio enrollment fixes ([90f34c0](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/90f34c0))
+* ignore debug log ([a106e65](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/a106e65))
+
+
+
 <a name="5.3.26"></a>
 ## [5.3.26](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.25...v5.3.26) (2016-06-08)
 
