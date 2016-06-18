@@ -98,11 +98,14 @@ module.exports = {
     },
     changePassword: function(msg, $meta) {
         $meta.method = 'user.identity.get';
-        return this.bus.importMethod($meta.method)({userId: $meta.auth.actorId}, $meta)
-        .then((r) => {
-            msg.hashParams = r.hashParams[0];
-            $meta.method = 'user.changePassword';
-            return this.bus.importMethod($meta.method)(msg, $meta);
-        });
+        return this.bus.importMethod($meta.method)({
+            userId: $meta.auth.actorId,
+            type: 'password'
+        }, $meta)
+            .then((r) => {
+                msg.hashParams = r.hashParams[0];
+                $meta.method = 'user.changePassword';
+                return this.bus.importMethod($meta.method)(msg, $meta);
+            });
     }
 };
