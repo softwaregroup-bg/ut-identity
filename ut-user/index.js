@@ -1,24 +1,24 @@
 var errors = require('../errors');
 var bus;
-function getHash(password, hashInfo) {
-    if (!hashInfo || !hashInfo.params) {
+function getHash(password, hashData) {
+    if (!hashData || !hashData.params) {
         return errors.MissingCredentials.reject();
     }
-    hashInfo.params = typeof (hashInfo.params) === 'string' ? JSON.parse(hashInfo.params) : hashInfo.params;
-    return bus.importMethod('user.genHash')(password, hashInfo.params);
+    hashData.params = typeof (hashData.params) === 'string' ? JSON.parse(hashData.params) : hashData.params;
+    return bus.importMethod('user.genHash')(password, hashData.params);
 }
 var hashMethods = {
-    otp: function(value, hashParams) {
-        return getHash(value, hashParams);
+    otp: function(value, hashData) {
+        return getHash(value, hashData);
     },
-    password: function(value, hashParams) {
-        return getHash(value, hashParams);
+    password: function(value, hashData) {
+        return getHash(value, hashData);
     },
-    newPassword: function(value, hashParams) {
-        return getHash(value, hashParams);
+    newPassword: function(value, hashData) {
+        return getHash(value, hashData);
     },
-    bio: function(value, hashParams) {
-        var params = JSON.parse(hashParams);
+    bio: function(value, hashData) {
+        var params = JSON.parse(hashData.params);
         return bus.importMethod('bio.check')({
             id: params.id,
             departmentId: params.departmentId,
@@ -49,17 +49,17 @@ module.exports = {
                     if (!result.hashParams) {
                         throw new Error('no hash params');
                     }
-                    var hashParams = result.hashParams.reduce(function(all, record) {
-                        all[record.type] = record.params;
+                    var hashData = result.hashParams.reduce(function(all, record) {
+                        all[record.type] = record;
                         return all;
                     }, {});
                     return Promise.all(
                         Object.keys(hashMethods)
                             .filter(function(method) {
-                                return hashParams[method] && msg[method];
+                                return hashData[method] && msg[method];
                             })
                             .map(function(method) {
-                                return hashMethods[method](msg[method], hashParams[method])
+                                return hashMethods[method](msg[method], hashData[method])
                                     .then(function(value) {
                                         msg[method] = value;
                                     });
