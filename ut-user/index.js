@@ -12,6 +12,7 @@ module.exports = {
     check: function(msg, $meta) {
         var get;
         genHash = this.bus.importMethod('user.genHash');
+        delete msg.bio;
         if (msg.fingerprints) {
             // bio logic
             $meta.method = 'user.identity.get';
@@ -30,14 +31,15 @@ module.exports = {
                     id: params.id,
                     departmentId: params.departmentId,
                     data: msg.fingerprints
-                }, $meta);
-            })
-            .then(function(r) {
-                return {
-                    username: msg.username,
-                    password: '***', // workaround for now - bio has a priority but a session is not created if password IS NULL
-                    bio: '123' // change Api later to pass fingerprint index (identifier)
-                };
+                }, $meta)
+                    .then(function(r) {
+                        msg.bio = 1;
+                        return msg;
+                    })
+                    .catch(function(r) {
+                        msg.bio = 0;
+                        return msg;
+                    });
             });
         } else if (msg.sessionId) {
             get = Promise.resolve(msg);
