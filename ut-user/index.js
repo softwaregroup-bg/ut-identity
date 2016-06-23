@@ -73,19 +73,35 @@ module.exports = {
         return get
             .then(function(r) {
                 $meta.method = 'user.identity.check';
-                return bus.importMethod($meta.method)(r, $meta)
-                    .then(function(user) {
-                        if ((!user.loginPolicy || !user.loginPolicy.length) && !user['permission.get']) { // in case user.identity.check did not return the permissions
-                            $meta.method = 'permission.get';
-                            return bus.importMethod($meta.method)({actionId: msg.actionId},
-                                {actorId: user['identity.check'].userId, actionId: 'identity.check'})
-                                .then((permissions) => {
-                                    user['permission.get'] = permissions && permissions[0];
-                                    return user;
-                                });
-                        }
-                        return user;
-                    });
+                return this.bus.importMethod($meta.method)(r, $meta)
+                .then((user) => {
+                    if (user.loginPolicy && user.loginPolicy.length > 0) {
+                        return {loginPolicy: user.loginPolicy};
+                    }
+                    if (!user['permission.get']) { // in case user.identity.check did not return the permissions
+                        $meta.method = 'permission.get';
+                        return this.bus.importMethod($meta.method)({actionId: msg.actionId},
+                            {actorId: user['identity.check'].userId, actionId: 'identity.check'})
+                            .then((permissions) => {
+                                user['permission.get'] = permissions && permissions[0];
+                                return user;
+                            });
+                    }
+                    return user;
+                });
+            })
+            .catch((err) => {
+                switch (err.print) {
+                    case 'identy.expired.credentials':
+                        throw new errors.ExpiredPassword(err);
+                    case 'identy.disabled.inactivity':
+                        throw new errors.DisabledUserInactivity(err);
+                    case 'identy.disabled.credentials':
+                        throw new errors.DisabledUser(err);
+
+                    default:
+                        throw new errors.InvalidCredentials(err);
+                }
             });
     },
     closeSession: function(msg, $meta) {
