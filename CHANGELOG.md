@@ -1,3 +1,13 @@
+<a name="5.3.30"></a>
+## [5.3.30](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.29...v5.3.30) (2016-06-24)
+
+
+### Bug Fixes
+
+* MCTUNE-172 ([b758501](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/b758501))
+
+
+
 <a name="5.3.29"></a>
 ## [5.3.29](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.28...v5.3.29) (2016-06-21)
 
