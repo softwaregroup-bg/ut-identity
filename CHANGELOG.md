@@ -1,3 +1,13 @@
+<a name="5.3.32"></a>
+## [5.3.32](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.31...v5.3.32) (2016-06-25)
+
+
+### Bug Fixes
+
+* remove hardcoded email ([783a841](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/783a841))
+
+
+
 <a name="5.3.31"></a>
 ## [5.3.31](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.30...v5.3.31) (2016-06-25)
 
