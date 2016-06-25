@@ -19,7 +19,7 @@ module.exports = {
             .then((identity) => {
                 return this.bus.importMethod('alert.queue.push')({
                     port: 'email',
-                    recipient: 'kalin.krustev@gmail.com',
+                    recipient: msg.email,
                     content: {
                         subject: 'self registration',
                         text: 'You have successfully registered. Your temporary password is:' + password

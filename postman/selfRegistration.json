@@ -72,7 +72,7 @@
 			"tests": null,
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"rawModeData": "{\n    \"id\":1,\n    \"jsonrpc\":\"2.0\",\n    \"method\":\"identity.add\",\n    \"params\":{\n        \"username\": \"mobileAppId\",\n        \"person\": {\n            \"firstName\":\"Test\",\n            \"lastName\":\"Testov\",\n            \"dateOfBirth\":\"1989-02-20\"\n        }\n    }\n}"
+			"rawModeData": "{\n    \"id\":1,\n    \"jsonrpc\":\"2.0\",\n    \"method\":\"identity.add\",\n    \"params\":{\n        \"username\": \"mobileAppId\",\n        \"email\": \"kalin.krustev@softwaregroup-bg.com\",\n        \"person\": {\n            \"firstName\":\"Test\",\n            \"lastName\":\"Testov\",\n            \"dateOfBirth\":\"1989-02-20\"\n        }\n    }\n}"
 		}
 	]
 }
