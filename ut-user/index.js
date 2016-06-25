@@ -1,77 +1,95 @@
 var errors = require('../errors');
-var bus;
-function getHash(password, hashData) {
-    if (!hashData || !hashData.params) {
+function getHash(genHash, password, hashInfo) {
+    if (!hashInfo || !hashInfo.params) {
         return errors.MissingCredentials.reject();
     }
-    hashData.params = typeof (hashData.params) === 'string' ? JSON.parse(hashData.params) : hashData.params;
-    return bus.importMethod('user.genHash')(password, hashData.params);
+    hashInfo.params = typeof (hashInfo.params) === 'string' ? JSON.parse(hashInfo.params) : hashInfo.params;
+    return genHash(password, hashInfo.params);
 }
-var hashMethods = {
-    otp: function(value, hashData) {
-        return getHash(value, hashData);
-    },
-    password: function(value, hashData) {
-        return getHash(value, hashData);
-    },
-    newPassword: function(value, hashData) {
-        return getHash(value, hashData);
-    },
-    bio: function(value, hashData) {
-        var params = JSON.parse(hashData.params);
-        return bus.importMethod('bio.check')({
-            id: params.id,
-            departmentId: params.departmentId,
-            data: value
-        })
-        .then(function(r) {
-            return 1;
-        })
-        .catch(function(r) {
-            return 0;
-        });
-    }
-};
 
 module.exports = {
-    init: function(b) {
-        bus = b;
+    add: function(msg, $meta) {
+        var crypto = require('crypto');
+        var password = crypto.randomBytes(10).toString('hex');
+        return this.bus.importMethod('user.getHash')({value: password, type: 'password', identifier: msg.username})
+            .then((hash) => {
+                msg.hash = hash;
+                return this.bus.importMethod('user.identity.add')(msg);
+            })
+            .then((identity) => {
+                return this.bus.importMethod('alert.queue.push')({
+                    port: 'email',
+                    recipient: 'kalin.krustev@gmail.com',
+                    content: {
+                        subject: 'self registration',
+                        text: 'You have successfully registered. Your temporary password is:' + password
+                    },
+                    priority: 1
+                }, {auth: {actorId: identity.actor.actorId}});
+            });
     },
     check: function(msg, $meta) {
-        delete msg.type;
         var get;
-        if (msg.sessionId) {
+        delete msg.bio;
+        if (msg.fingerprints) {
+            // bio logic
+            $meta.method = 'user.identity.get';
+            get = this.bus.importMethod($meta.method)(msg, $meta)
+            .then((r) => {
+                var params = r.hashParams[0].params && JSON.parse(r.hashParams[0].params);
+                if (!params) {
+                    $meta.mtid = 'error';
+                    return {
+                        code: 4444,
+                        message: 'User is not bio enrolled'
+                    };
+                }
+                $meta.method = 'bio.check';
+                return this.bus.importMethod($meta.method)({
+                    id: params.id,
+                    departmentId: params.departmentId,
+                    data: msg.fingerprints
+                }, $meta)
+                    .then(function(r) {
+                        msg.bio = 1;
+                        return msg;
+                    })
+                    .catch(function(r) {
+                        msg.bio = 0;
+                        return msg;
+                    });
+            });
+        } else if (msg.sessionId) {
             get = Promise.resolve(msg);
         } else {
-            $meta.method = 'user.identity.get'; // get hashes info
-            get = bus.importMethod($meta.method)(msg, $meta)
-                .then(function(result) {
-                    if (!result.hashParams) {
-                        throw new Error('no hash params');
-                    }
-                    var hashData = result.hashParams.reduce(function(all, record) {
-                        all[record.type] = record;
-                        return all;
-                    }, {});
-                    return Promise.all(
-                        Object.keys(hashMethods)
-                            .filter(function(method) {
-                                return hashData[method] && msg[method];
-                            })
-                            .map(function(method) {
-                                return hashMethods[method](msg[method], hashData[method])
-                                    .then(function(value) {
-                                        msg[method] = value;
-                                    });
-                            })
-                    )
-                    .then(function() {
+            $meta.method = 'user.identity.get';
+            get = this.bus.importMethod($meta.method)(msg, $meta)
+            .then((userParams) => {
+                var hashQueue = userParams.hashParams
+                .filter((hp) => (msg[hp.type]))
+                .map((hp) => {
+                    var hashValue = msg[hp.type]; // what to hash, otp or password
+                    return getHash(this.bus.importMethod('user.genHash'), hashValue, hp)
+                    .then((oldHash) => {
+                        msg[hp.type] = oldHash;
+                        if (msg.newPassword && hp.type === 'password') { // change password case
+                            return getHash(this.bus.importMethod('user.genHash'), msg.newPassword, hp)
+                            .then((newHash) => {
+                                msg.newPassword = newHash;
+                                return msg;
+                            });
+                        }
                         return msg;
                     });
                 });
+
+                return Promise.all(hashQueue)
+                .then(() => (msg));
+            });
         }
+
         return get
-            .then(function(r) {
+            .then((r) => {
                 $meta.method = 'user.identity.check';
                 return this.bus.importMethod($meta.method)(r, $meta)
                 .then((user) => {
@@ -106,18 +124,18 @@ module.exports = {
     },
     closeSession: function(msg, $meta) {
         $meta.method = 'user.session.delete';
-        return bus.importMethod($meta.method)({sessionId: $meta.auth.sessionId}, $meta);
+        return this.bus.importMethod($meta.method)({sessionId: $meta.auth.sessionId}, $meta);
     },
     changePassword: function(msg, $meta) {
         $meta.method = 'user.identity.get';
-        return bus.importMethod($meta.method)({
+        return this.bus.importMethod($meta.method)({
             userId: $meta.auth.actorId,
             type: 'password'
         }, $meta)
             .then((r) => {
                 msg.hashParams = r.hashParams[0];
                 $meta.method = 'user.changePassword';
-                return bus.importMethod($meta.method)(msg, $meta);
+                return this.bus.importMethod($meta.method)(msg, $meta);
             });
     }
 };
