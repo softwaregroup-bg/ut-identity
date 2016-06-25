@@ -1,3 +1,13 @@
+<a name="5.3.31"></a>
+## [5.3.31](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.30...v5.3.31) (2016-06-25)
+
+
+### Features
+
+* add method identity.add for self registration ([9cde3db](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/9cde3db))
+
+
+
 <a name="5.3.30"></a>
 ## [5.3.30](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.29...v5.3.30) (2016-06-24)
 
