@@ -1,3 +1,13 @@
+<a name="5.3.33"></a>
+## [5.3.33](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.32...v5.3.33) (2016-06-29)
+
+
+### Bug Fixes
+
+* **self-registration:** Change self registration to send SMS instead of email. ([32a41f3](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/32a41f3))
+
+
+
 <a name="5.3.32"></a>
 ## [5.3.32](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.31...v5.3.32) (2016-06-25)
 
