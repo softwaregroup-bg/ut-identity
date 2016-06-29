@@ -30,6 +30,13 @@ module.exports = {
                 }, {auth: {actorId: identity.actor.actorId}});
             }).then(function() {
                 return result;
+            }).catch(function(err) {
+                if (err.type === 'PortSQL') {
+                    if (err.message === 'identity.notFound') {
+                        throw new errors.InvalidCredentials(err);
+                    }
+                }
+                throw err;
             });
     },
     check: function(msg, $meta) {
