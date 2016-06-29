@@ -1,3 +1,13 @@
+<a name="5.3.34"></a>
+## [5.3.34](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.33...v5.3.34) (2016-06-29)
+
+
+### Bug Fixes
+
+* **self-registration:** Make "identity.add" return proper error if customer not found. ([d3491dc](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/d3491dc))
+
+
+
 <a name="5.3.33"></a>
 ## [5.3.33](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.32...v5.3.33) (2016-06-29)
 
