@@ -1,3 +1,13 @@
+<a name="5.3.35"></a>
+## [5.3.35](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.34...v5.3.35) (2016-06-30)
+
+
+### Bug Fixes
+
+* change fingerprint to bio for bio login to match hash typ ([73597cc](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/73597cc))
+
+
+
 <a name="5.3.34"></a>
 ## [5.3.34](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.33...v5.3.34) (2016-06-29)
 
