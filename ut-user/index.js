@@ -8,15 +8,9 @@ function getHash(password, hashData) {
     return importMethod('user.genHash')(password, hashData.params);
 }
 var hashMethods = {
-    otp: function(value, hashData) {
-        return getHash(value, hashData);
-    },
-    password: function(value, hashData) {
-        return getHash(value, hashData);
-    },
-    newPassword: function(value, hashData) {
-        return getHash(value, hashData);
-    },
+    otp: getHash,
+    password: getHash,
+    newPassword: getHash,
     bio: function(value, hashData) {
         var params = JSON.parse(hashData.params);
         return importMethod('bio.check')({
