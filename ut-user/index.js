@@ -16,7 +16,9 @@ var hashMethods = {
         return importMethod('bio.check')({
             id: params.id,
             departmentId: params.departmentId,
-            data: value
+            data: {
+                UK: [value]
+            }
         })
         .then(function(r) {
             return 1;
