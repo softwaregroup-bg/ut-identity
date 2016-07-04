@@ -42,17 +42,26 @@ module.exports = {
                 return importMethod('user.identity.add')(msg);
             })
             .then((identity) => {
-                var phoneNumber = identity.actor.phoneNumber;
-                if (phoneNumber.charAt(0) === '+') {
-                    phoneNumber = phoneNumber.substr(1);
-                }
-
-                return importMethod('alert.queue.push')({
-                    port: 'smsc',
-                    recipient: phoneNumber,
-                    content: 'You have successfully registered. Your temporary password is: ' + password,
+                var msg = {
                     priority: 1
-                }, {auth: {actorId: identity.actor.actorId}});
+                };
+                if (msg.email) {
+                    msg.port = 'email';
+                    msg.recipient = msg.email;
+                    msg.content = {
+                        subject: 'self registration',
+                        text: 'You have successfully registered. Your temporary password is:' + password
+                    };
+                } else {
+                    var phoneNumber = identity.actor.phoneNumber;
+                    if (phoneNumber.charAt(0) === '+') {
+                        phoneNumber = phoneNumber.substr(1);
+                    }
+                    msg.port = 'smsc';
+                    msg.recipient = phoneNumber;
+                    msg.content = 'You have successfully registered. Your temporary password is: ' + password;
+                }
+                return importMethod('alert.queue.push')(msg, {auth: {actorId: identity.actor.actorId}});
             }).then(function() {
                 return result;
             }).catch(function(err) {
