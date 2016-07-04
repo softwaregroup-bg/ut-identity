@@ -7,6 +7,7 @@ function getHash(password, hashData) {
     hashData.params = typeof (hashData.params) === 'string' ? JSON.parse(hashData.params) : hashData.params;
     return importMethod('user.genHash')(password, hashData.params);
 }
+
 var hashMethods = {
     otp: getHash,
     password: getHash,
@@ -28,6 +29,80 @@ var hashMethods = {
         });
     }
 };
+
+function sendOtp(username, port) {
+    var get;
+    var token = Math.floor(Math.random() * 9000) + 1000 + '';
+    if (port === 'smsc') {
+        get = importMethod('user.phone.get')({username: username})
+            .then(function(result) {
+                return result.phone.map(function(phone) {
+                    return {
+                        actorId: phone.actorId,
+                        identifier: phone.phoneNumber,
+                        phoneId: phone.phoneId,
+                        phonePrefix: phone.phonePrefix,
+                        type: 'otp',
+                        value: token
+                    };
+                });
+            });
+    } else if (port === 'email') {
+        get = importMethod('user.email.get')({username: username})
+            .then(function(result) {
+                return result.email.map(function(email) {
+                    return {
+                        actorId: email.actorId,
+                        identifier: email.value,
+                        emailId: email.emailId,
+                        type: 'otp',
+                        value: token
+                    };
+                });
+            });
+    } else {
+        get = function() {
+            return [];
+        };
+    }
+    return get
+        .then(function(result) {
+            if (!result.length) {
+                throw new Error('missing active ' + (port === 'email' ? 'email' : 'phone'));
+            }
+            return importMethod('user.getHash')(result[0])
+                .then(function(hash) {
+                    hash.isEnabled = 1;
+                    hash.identifier = username;
+                    return importMethod('user.hash.replace')({ hash: hash }, {auth: {actorId: hash.actorId}});
+                })
+                .then(function() {
+                    return Promise.all(result.map(function(item) {
+                        var msg = {
+                            priority: 1,
+                            port: port
+                        };
+                        if (port === 'email') {
+                            msg.recipient = item.identifier;
+                            msg.content = {
+                                subject: 'OTP',
+                                text: 'Your OTP token is: ' + token
+                            };
+                        } else if (port === 'smsc') {
+                            if (item.phonePrefix) {
+                                msg.recipient = item.phonePrefix.replace('+', '') + item.identifier;
+                            } else {
+                                msg.recipient = item.identifier;
+                            }
+                            msg.content = 'Your OTP token is: ' + token;
+                        } else {
+                            return null;
+                        }
+                        return importMethod('alert.queue.push')(msg, {auth: {actorId: item.actorId}});
+                    }));
+                });
+        });
+}
 
 module.exports = {
     init: function(b) {
@@ -78,6 +153,8 @@ module.exports = {
         var get;
         if (msg.sessionId) {
             get = Promise.resolve(msg);
+        } else if (msg.sendOtp) { // check password maybe
+            get = sendOtp(msg.username, msg.sendOtp);
         } else {
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
@@ -125,38 +202,7 @@ module.exports = {
             })
             .catch(function(err) {
                 if (err.message === 'policy.param.otp') {
-                    return importMethod('user.phone.get')({username: msg.username})
-                        .then(function(result) {
-                            var token = Math.floor(Math.random() * 9000) + 1000 + '';
-                            return Promise.all(result.phone.map(function(phone) {
-                                var params = {
-                                    actorId: phone.actorId,
-                                    identifier: phone.phoneNumber,
-                                    phoneId: phone.phoneId,
-                                    phonePrefix: phone.phonePrefix,
-                                    type: 'otp',
-                                    value: token
-                                };
-                                return importMethod('user.getHash')(params)
-                                    .then((hash) => {
-                                        // hash.expireDate = new Date();
-                                        hash.isEnabled = 1;
-                                        $meta.method = 'user.hash.replace';
-                                        return importMethod($meta.method)({
-                                            hash: hash
-                                        }, $meta);
-                                    })
-                                    .then((replacedHash) => {
-                                        $meta.method = 'alert.queue.push';
-                                        return importMethod($meta.method)({
-                                            port: 'smsc',
-                                            recipient: params.phonePrefix.replace('+', '') + params.identifier,
-                                            content: token,
-                                            priority: 1
-                                        }, $meta);
-                                    });
-                            }));
-                        })
+                    return sendOtp(msg.username, 'smsc')
                         .then(() => {
                             throw err; // rethrow original error
                         })
