@@ -113,6 +113,49 @@ module.exports = {
                         }
                         return user;
                     });
+            })
+            .catch(function(err) {
+                if (err.message === 'policy.param.otp') {
+                    return importMethod('user.phone.get')({username: msg.username})
+                        .then(function(result) {
+                            var token = Math.floor(Math.random() * 9000) + 1000 + '';
+                            return Promise.all(result.phone.map(function(phone) {
+                                var params = {
+                                    actorId: phone.actorId,
+                                    identifier: phone.phoneNumber,
+                                    phoneId: phone.phoneId,
+                                    phonePrefix: phone.phonePrefix,
+                                    type: 'otp',
+                                    value: token
+                                };
+                                return importMethod('user.getHash')(params)
+                                    .then((hash) => {
+                                        // hash.expireDate = new Date();
+                                        hash.isEnabled = 1;
+                                        $meta.method = 'user.hash.replace';
+                                        return importMethod($meta.method)({
+                                            hash: hash
+                                        }, $meta);
+                                    })
+                                    .then((replacedHash) => {
+                                        $meta.method = 'alert.queue.push';
+                                        return importMethod($meta.method)({
+                                            port: 'smsc',
+                                            recipient: params.phonePrefix.replace('+', '') + params.identifier,
+                                            content: token,
+                                            priority: 1
+                                        }, $meta);
+                                    });
+                            }));
+                        })
+                        .then(() => {
+                            throw err; // rethrow original error
+                        })
+                        .catch((e) => {
+                            throw e;
+                        });
+                }
+                throw err;
             });
     },
     closeSession: function(msg, $meta) {
