@@ -30,79 +30,79 @@ var hashMethods = {
     }
 };
 
-function sendOtp(username, port) {
-    var get;
-    var token = Math.floor(Math.random() * 9000) + 1000 + '';
-    if (port === 'smsc') {
-        get = importMethod('user.phone.get')({username: username})
-            .then(function(result) {
-                return result.phone.map(function(phone) {
-                    return {
-                        actorId: phone.actorId,
-                        identifier: phone.phoneNumber,
-                        phoneId: phone.phoneId,
-                        phonePrefix: phone.phonePrefix,
-                        type: 'otp',
-                        value: token
-                    };
-                });
-            });
-    } else if (port === 'email') {
-        get = importMethod('user.email.get')({username: username})
-            .then(function(result) {
-                return result.email.map(function(email) {
-                    return {
-                        actorId: email.actorId,
-                        identifier: email.value,
-                        emailId: email.emailId,
-                        type: 'otp',
-                        value: token
-                    };
-                });
-            });
-    } else {
-        get = function() {
-            return [];
-        };
-    }
-    return get
-        .then(function(result) {
-            if (!result.length) {
-                throw new Error('missing active ' + (port === 'email' ? 'email' : 'phone'));
-            }
-            return importMethod('user.getHash')(result[0])
-                .then(function(hash) {
-                    hash.isEnabled = 1;
-                    hash.identifier = username;
-                    return importMethod('user.hash.replace')({ hash: hash }, {auth: {actorId: hash.actorId}});
-                })
-                .then(function() {
-                    return Promise.all(result.map(function(item) {
-                        var msg = {
-                            priority: 1,
-                            port: port
-                        };
-                        if (port === 'email') {
-                            msg.recipient = item.identifier;
-                            msg.content = {
-                                subject: 'OTP',
-                                text: 'Your OTP token is: ' + token
-                            };
-                        } else if (port === 'smsc') {
-                            if (item.phonePrefix) {
-                                msg.recipient = item.phonePrefix.replace('+', '') + item.identifier;
-                            } else {
-                                msg.recipient = item.identifier;
-                            }
-                            msg.content = 'Your OTP token is: ' + token;
-                        } else {
-                            return null;
-                        }
-                        return importMethod('alert.queue.push')(msg, {auth: {actorId: item.actorId}});
-                    }));
-                });
-        });
-}
+// function sendOtp(username, port) {
+//     var get;
+//     var token = Math.floor(Math.random() * 9000) + 1000 + '';
+//     if (port === 'smsc') {
+//         get = importMethod('user.phone.get')({username: username})
+//             .then(function(result) {
+//                 return result.phone.map(function(phone) {
+//                     return {
+//                         actorId: phone.actorId,
+//                         identifier: phone.phoneNumber,
+//                         phoneId: phone.phoneId,
+//                         phonePrefix: phone.phonePrefix,
+//                         type: 'otp',
+//                         value: token
+//                     };
+//                 });
+//             });
+//     } else if (port === 'email') {
+//         get = importMethod('user.email.get')({username: username})
+//             .then(function(result) {
+//                 return result.email.map(function(email) {
+//                     return {
+//                         actorId: email.actorId,
+//                         identifier: email.value,
+//                         emailId: email.emailId,
+//                         type: 'otp',
+//                         value: token
+//                     };
+//                 });
+//             });
+//     } else {
+//         get = function() {
+//             return [];
+//         };
+//     }
+//     return get
+//         .then(function(result) {
+//             if (!result.length) {
+//                 throw new Error('missing active ' + (port === 'email' ? 'email' : 'phone'));
+//             }
+//             return importMethod('user.getHash')(result[0])
+//                 .then(function(hash) {
+//                     hash.isEnabled = 1;
+//                     hash.identifier = username;
+//                     return importMethod('user.hash.replace')({ hash: hash }, {auth: {actorId: hash.actorId}});
+//                 })
+//                 .then(function() {
+//                     return Promise.all(result.map(function(item) {
+//                         var msg = {
+//                             priority: 1,
+//                             port: port
+//                         };
+//                         if (port === 'email') {
+//                             msg.recipient = item.identifier;
+//                             msg.content = {
+//                                 subject: 'OTP',
+//                                 text: 'Your OTP token is: ' + token
+//                             };
+//                         } else if (port === 'smsc') {
+//                             if (item.phonePrefix) {
+//                                 msg.recipient = item.phonePrefix.replace('+', '') + item.identifier;
+//                             } else {
+//                                 msg.recipient = item.identifier;
+//                             }
+//                             msg.content = 'Your OTP token is: ' + token;
+//                         } else {
+//                             return null;
+//                         }
+//                         return importMethod('alert.queue.push')(msg, {auth: {actorId: item.actorId}});
+//                     }));
+//                 });
+//         });
+// }
 
 module.exports = {
     init: function(b) {
@@ -153,8 +153,8 @@ module.exports = {
         var get;
         if (msg.sessionId) {
             get = Promise.resolve(msg);
-        } else if (msg.sendOtp) { // check password maybe
-            get = sendOtp(msg.username, msg.sendOtp);
+        // } else if (msg.sendOtp) { // check password maybe
+        //     get = sendOtp(msg.username, msg.sendOtp);
         } else {
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
@@ -199,19 +199,19 @@ module.exports = {
                         }
                         return user;
                     });
-            })
-            .catch(function(err) {
-                if (err.message === 'policy.param.otp') {
-                    return sendOtp(msg.username, 'smsc')
-                        .then(() => {
-                            throw err; // rethrow original error
-                        })
-                        .catch((e) => {
-                            throw e;
-                        });
-                }
-                throw err;
             });
+            // .catch(function(err) {
+            //     if (err.message === 'policy.param.otp') {
+            //         return sendOtp(msg.username, 'smsc')
+            //             .then(() => {
+            //                 throw err; // rethrow original error
+            //             })
+            //             .catch((e) => {
+            //                 throw e;
+            //             });
+            //     }
+            //     throw err;
+            // });
     },
     closeSession: function(msg, $meta) {
         $meta.method = 'user.session.delete';
