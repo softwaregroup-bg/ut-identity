@@ -1,3 +1,24 @@
+<a name="5.3.36"></a>
+## [5.3.36](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.35...v5.3.36) (2016-07-06)
+
+
+### Bug Fixes
+
+* add identity.add method ([10000e7](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/10000e7))
+* identity.check fixes for new policy ([b550250](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/b550250))
+* policy refactoring fixes ([7dd25c6](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/7dd25c6))
+* policy refactoring prepared ([8d7de33](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/8d7de33))
+* put back code for sending temporary password to email ([32672b1](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/32672b1))
+* small change in order to adopt new approach with policies ([ebcd814](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/ebcd814))
+
+
+### Features
+
+* add possibility to send one time password to sms ([bd13b6a](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/bd13b6a))
+* sql controlled otp hashing and sending ([42224df](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/42224df))
+
+
+
 <a name="5.3.35"></a>
 ## [5.3.35](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.34...v5.3.35) (2016-06-30)
 
