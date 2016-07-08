@@ -1,3 +1,13 @@
+<a name="5.3.37"></a>
+## [5.3.37](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.36...v5.3.37) (2016-07-08)
+
+
+### Bug Fixes
+
+* **MCTUNE-228:** Set identity.add to send SMS using specified MNO. ([77e5573](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/77e5573))
+
+
+
 <a name="5.3.36"></a>
 ## [5.3.36](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.35...v5.3.36) (2016-07-06)
 
