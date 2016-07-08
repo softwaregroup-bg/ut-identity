@@ -132,7 +132,7 @@ module.exports = {
                     if (phoneNumber.charAt(0) === '+') {
                         phoneNumber = phoneNumber.substr(1);
                     }
-                    msg.port = 'smsc';
+                    msg.port = identity.actor.mnoKey;
                     msg.recipient = phoneNumber;
                     msg.content = 'You have successfully registered. Your temporary password is: ' + password;
                 }
