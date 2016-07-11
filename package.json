@@ -1,6 +1,6 @@
 {
   "name": "ut-identity",
-  "version": "5.3.37",
+  "version": "5.4.0",
   "description": "UT authentication module",
   "main": "index.js",
   "directories": {
@@ -33,17 +33,17 @@
   "license": "ISC",
   "devDependencies": {
     "blue-tape": "0.2.0",
-    "ut-tools": "^5.3.13"
+    "ut-tools": "^5.4.1"
   },
   "publishConfig": {
     "registry": "https://nexus.softwaregroup-bg.com/repository/npm-internal"
   },
   "dependencies": {
-    "ut-error": "~5.3.6",
-    "joi": "6.6.1",
+    "ut-error": "^5.3.12",
+    "joi": "9.0.0",
     "lodash.assign": "4.0.9",
     "lodash.defaults": "4.0.1",
-    "ut-template": "~5.3.1",
+    "ut-template": "~5.4.1",
     "when": "3.7.7"
   }
 }
