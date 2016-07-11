@@ -1,3 +1,13 @@
+<a name="5.4.1"></a>
+## [5.4.1](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.37...v5.4.1) (2016-07-11)
+
+
+### Features
+
+* upgrade dependencies ([b80f607](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/b80f607))
+
+
+
 <a name="5.3.37"></a>
 ## [5.3.37](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.36...v5.3.37) (2016-07-08)
 
