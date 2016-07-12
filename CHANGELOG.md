@@ -1,3 +1,13 @@
+<a name="5.4.2"></a>
+## [5.4.2](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.1...v5.4.2) (2016-07-12)
+
+
+### Bug Fixes
+
+* self-registration ([f11f695](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/f11f695))
+
+
+
 <a name="5.4.1"></a>
 ## [5.4.1](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.3.37...v5.4.1) (2016-07-11)
 
