@@ -125,24 +125,26 @@ module.exports = {
                     });
             })
             .catch(function(err) {
-                if (
-                    err.type === 'identity.wrongPassword' ||
-                    err.type === 'identity.notFound' ||
-                    err.type === 'identity.disabledCredentials' ||
-                    err.type === 'identity.disabledUser' ||
-                    err.type === 'identity.disabledUserInactivity' ||
-                    err.type === 'identity.credentialsLocked' ||
-                    err.type.startsWith('policy.term.')
-                ) {
-                    throw new errors.InvalidCredentials(err);
-                }
-                if (
-                    err.type === 'identity.expiredPassword' ||
-                    err.type === 'identity.invalidCredentials' ||
-                    err.type === 'identity.invalidFingerprint' ||
-                    err.type.startsWith('policy.param.')
-                ) {
-                    throw err;
+                if (typeof err.type === 'string') {
+                    if (
+                        err.type === 'identity.wrongPassword' ||
+                        err.type === 'identity.notFound' ||
+                        err.type === 'identity.disabledCredentials' ||
+                        err.type === 'identity.disabledUser' ||
+                        err.type === 'identity.disabledUserInactivity' ||
+                        err.type === 'identity.credentialsLocked' ||
+                        err.type.startsWith('policy.term.')
+                    ) {
+                        throw new errors.InvalidCredentials(err);
+                    }
+                    if (
+                        err.type === 'identity.expiredPassword' ||
+                        err.type === 'identity.invalidCredentials' ||
+                        err.type === 'identity.invalidFingerprint' ||
+                        err.type.startsWith('policy.param.')
+                    ) {
+                        throw err;
+                    }
                 }
                 throw new errors.SystemError(err);
             });
