@@ -127,6 +127,14 @@ module.exports = {
             .catch(function(err) {
                 if (typeof err.type === 'string') {
                     if (
+                        err.type === 'policy.term.checkBio' ||
+                        err.type === 'identity.expiredPassword' ||
+                        err.type === 'identity.invalidCredentials' ||
+                        err.type === 'identity.invalidFingerprint' ||
+                        err.type.startsWith('policy.param.')
+                    ) {
+                        throw err;
+                    } else if (
                         err.type === 'identity.wrongPassword' ||
                         err.type === 'identity.notFound' ||
                         err.type === 'identity.disabledCredentials' ||
@@ -136,14 +144,6 @@ module.exports = {
                         err.type.startsWith('policy.term.')
                     ) {
                         throw new errors.InvalidCredentials(err);
-                    }
-                    if (
-                        err.type === 'identity.expiredPassword' ||
-                        err.type === 'identity.invalidCredentials' ||
-                        err.type === 'identity.invalidFingerprint' ||
-                        err.type.startsWith('policy.param.')
-                    ) {
-                        throw err;
                     }
                 }
                 throw new errors.SystemError(err);
