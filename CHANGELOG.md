@@ -1,3 +1,13 @@
+<a name="5.4.4"></a>
+## [5.4.4](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.3...v5.4.4) (2016-07-20)
+
+
+### Bug Fixes
+
+* preserve error if type equals 'policy.term.checkBio' in order to have control over what screen appears in front-end ([98dcd4a](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/98dcd4a))
+
+
+
 <a name="5.4.3"></a>
 ## [5.4.3](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.2...v5.4.3) (2016-07-12)
 
