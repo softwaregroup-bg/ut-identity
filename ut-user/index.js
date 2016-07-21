@@ -72,6 +72,22 @@ module.exports = {
     check: function(msg, $meta) {
         delete msg.type;
         var get;
+        var doLogin = function(r) {
+            $meta.method = checkMethod || 'user.identity.checkPolicy';
+            return importMethod($meta.method)(r, $meta)
+                .then(function(user) {
+                    if ((!user.loginPolicy || !user.loginPolicy.length) && !user['permission.get']) { // in case user.identity.check did not return the permissions
+                        $meta.method = 'permission.get';
+                        return importMethod($meta.method)({actionId: msg.actionId},
+                            {actorId: user['identity.check'].userId, actionId: 'identity.check'})
+                            .then((permissions) => {
+                                user['permission.get'] = permissions && permissions[0];
+                                return user;
+                            });
+                    }
+                    return user;
+                });
+        };
         if (msg.sessionId) {
             get = Promise.resolve(msg);
         // } else if (msg.sendOtp) { // check password maybe
@@ -90,6 +106,10 @@ module.exports = {
                     if (msg.newPassword && hashData.password) {
                         hashData.newPassword = hashData.password;
                     }
+                    if (msg.action === 'forgotPassword') {
+                        hashData.password = hashData.forgotPassword;
+                        delete hashData.forgotPassword;
+                    }
                     return Promise.all(
                         Object.keys(hashMethods)
                             .filter(function(method) {
@@ -107,23 +127,22 @@ module.exports = {
                     });
                 });
         }
+        if (msg.action === 'forgotPassword') {
+            get = get.then(function(r) {
+                $meta.method = 'user.identity.forgotPassword';
+                return importMethod($meta.method)(r, $meta).then(function(result) {
+                    if (r.newPassword) {
+                        r.password = r.newPassword;
+                        delete r.newPassword;
+                        return doLogin(r);
+                    }
+                    return result;
+                });
+            });
+        } else {
+            get = get.then(doLogin);
+        }
         return get
-            .then(function(r) {
-                $meta.method = checkMethod || 'user.identity.checkPolicy';
-                return importMethod($meta.method)(r, $meta)
-                    .then(function(user) {
-                        if ((!user.loginPolicy || !user.loginPolicy.length) && !user['permission.get']) { // in case user.identity.check did not return the permissions
-                            $meta.method = 'permission.get';
-                            return importMethod($meta.method)({actionId: msg.actionId},
-                                {actorId: user['identity.check'].userId, actionId: 'identity.check'})
-                                .then((permissions) => {
-                                    user['permission.get'] = permissions && permissions[0];
-                                    return user;
-                                });
-                        }
-                        return user;
-                    });
-            })
             .catch(function(err) {
                 if (typeof err.type === 'string') {
                     if (
@@ -164,5 +183,34 @@ module.exports = {
                 $meta.method = 'user.changePassword';
                 return importMethod($meta.method)(msg, $meta);
             });
+    },
+    forgotPassword: function(msg, $meta) {
+        // Use or to enum all possible channels here
+        if (msg.channel !== 'sms') {
+            throw new errors.NotFound();
+        }
+        $meta.method = 'user.identity.get';
+        return importMethod($meta.method)({
+            username: msg.username,
+            type: 'password'
+        }).then(function(hash) {
+            if (!hash || !Array.isArray(hash.hashParams) || hash.hashParams.length < 1 || !hash.hashParams[0] || !hash.hashParams[0].actorId) {
+                throw new errors.NotFound();
+            }
+            var actorId = hash.hashParams[0].actorId;
+            $meta.method = 'user.sendOtp';
+            return importMethod($meta.method)({
+                channel: msg.channel,
+                type: 'forgotPassword',
+                actorId: actorId
+            }).then(function(result) {
+                if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[0]) && result[0].length >= 1 && result[0][0] && result[0][0].success) {
+                    return {
+                        sent: true
+                    };
+                }
+                throw new errors.NotFound();
+            });
+        });
     }
 };
