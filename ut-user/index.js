@@ -12,6 +12,7 @@ function getHash(password, hashData) {
 var hashMethods = {
     otp: getHash,
     password: getHash,
+    forgottenPassword: getHash,
     newPassword: getHash,
     bio: function(value, hashData) {
         var params = JSON.parse(hashData.params);
@@ -29,6 +30,31 @@ var hashMethods = {
             return 0;
         });
     }
+};
+
+var handleError = function(err) {
+    if (typeof err.type === 'string') {
+        if (
+            err.type === 'policy.term.checkBio' ||
+            err.type === 'identity.expiredPassword' ||
+            err.type === 'identity.invalidCredentials' ||
+            err.type === 'identity.invalidFingerprint' ||
+            err.type.startsWith('policy.param.')
+        ) {
+            throw err;
+        } else if (
+            err.type === 'identity.wrongPassword' ||
+            err.type === 'identity.notFound' ||
+            err.type === 'identity.disabledCredentials' ||
+            err.type === 'identity.disabledUser' ||
+            err.type === 'identity.disabledUserInactivity' ||
+            err.type === 'identity.credentialsLocked' ||
+            err.type.startsWith('policy.term.')
+        ) {
+            throw new errors.InvalidCredentials(err);
+        }
+    }
+    throw new errors.SystemError(err);
 };
 
 module.exports = {
@@ -107,6 +133,20 @@ module.exports = {
                     });
                 });
         }
+        if (msg.hasOwnProperty('forgottenPassword')) {
+            if (msg.hasOwnProperty('password')) {
+                throw new errors.SystemError('invalid.request');
+            }
+            get = get.then(function(r) {
+                $meta.method = 'user.identity.forgottenPasswordChange';
+                return importMethod($meta.method)(r).then(function() {
+                    r.password = r.newPassword;
+                    delete r.forgottenPassword;
+                    delete r.newPassword;
+                    return r;
+                });
+            });
+        }
         return get
             .then(function(r) {
                 $meta.method = checkMethod || 'user.identity.checkPolicy';
@@ -124,30 +164,7 @@ module.exports = {
                         return user;
                     });
             })
-            .catch(function(err) {
-                if (typeof err.type === 'string') {
-                    if (
-                        err.type === 'policy.term.checkBio' ||
-                        err.type === 'identity.expiredPassword' ||
-                        err.type === 'identity.invalidCredentials' ||
-                        err.type === 'identity.invalidFingerprint' ||
-                        err.type.startsWith('policy.param.')
-                    ) {
-                        throw err;
-                    } else if (
-                        err.type === 'identity.wrongPassword' ||
-                        err.type === 'identity.notFound' ||
-                        err.type === 'identity.disabledCredentials' ||
-                        err.type === 'identity.disabledUser' ||
-                        err.type === 'identity.disabledUserInactivity' ||
-                        err.type === 'identity.credentialsLocked' ||
-                        err.type.startsWith('policy.term.')
-                    ) {
-                        throw new errors.InvalidCredentials(err);
-                    }
-                }
-                throw new errors.SystemError(err);
-            });
+            .catch(handleError);
     },
     closeSession: function(msg, $meta) {
         $meta.method = 'user.session.delete';
@@ -164,5 +181,93 @@ module.exports = {
                 $meta.method = 'user.changePassword';
                 return importMethod($meta.method)(msg, $meta);
             });
+    },
+    forgottenPasswordRequest: function(msg, $meta) {
+        // Use or to enum all possible channels here
+        if (msg.channel !== 'sms') {
+            throw new errors.NotFound();
+        }
+        $meta.method = 'user.identity.get';
+        return importMethod($meta.method)({
+            username: msg.username,
+            type: 'password'
+        }).then(function(hash) {
+            if (!hash || !Array.isArray(hash.hashParams) || hash.hashParams.length < 1 || !hash.hashParams[0] || !hash.hashParams[0].actorId) {
+                throw new errors.NotFound();
+            }
+            var actorId = hash.hashParams[0].actorId;
+            $meta.method = 'user.sendOtp';
+            return importMethod($meta.method)({
+                channel: msg.channel,
+                type: 'forgottenPassword',
+                actorId: actorId
+            }).then(function(result) {
+                if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[0]) && result[0].length >= 1 && result[0][0] && result[0][0].success) {
+                    return {
+                        sent: true
+                    };
+                }
+                throw new errors.NotFound();
+            });
+        }).catch(handleError);
+    },
+    forgottenPasswordValidate: function(msg, $meta) {
+        $meta.method = 'user.identity.get';
+        return importMethod($meta.method)({
+            username: msg.username,
+            type: 'forgottenPassword'
+        }, $meta).then(function(response) {
+            var hashParams;
+            response.hashParams.some(function(h) {
+                if (h.type === 'forgottenPassword') {
+                    hashParams = h;
+                    return true;
+                }
+                return false;
+            });
+            if (!hashParams) {
+                throw errors.NotFound();
+            }
+            return hashMethods.forgottenPassword(msg.forgottenPassword, hashParams);
+        }).then(function(forgottenPassword) {
+            msg.forgottenPassword = forgottenPassword;
+            $meta.method = 'user.identity.forgottenPasswordValidate';
+            return importMethod($meta.method)(msg, $meta);
+        }).catch(handleError);
+    },
+    forgottenPassword: function(msg, $meta) {
+        $meta.method = 'user.identity.get';
+        var hashType = function(key, type, ErrorWhenNotFound) {
+            return importMethod($meta.method)({
+                username: msg.username,
+                type: type
+            }, $meta).then(function(response) {
+                var hashParams;
+                response.hashParams.some(function(h) {
+                    if (h.type === type) {
+                        hashParams = h;
+                        return true;
+                    }
+                    return false;
+                });
+                if (!hashParams) {
+                    if (ErrorWhenNotFound) {
+                        throw new ErrorWhenNotFound();
+                    } else {
+                        return null;
+                    }
+                }
+                return msg[key] ? hashMethods[type](msg[key], hashParams) : null;
+            });
+        };
+        return Promise.all([
+            hashType('forgottenPassword', 'forgottenPassword', errors.NotFound),
+            hashType('newPassword', 'password', null)
+        ]).then(function(p) {
+            msg.forgottenPassword = p[0];
+            msg.newPassword = p[1];
+            $meta.method = 'user.identity.forgottenPasswordChange';
+            return importMethod($meta.method)(msg, $meta);
+        }).catch(handleError);
     }
 };
