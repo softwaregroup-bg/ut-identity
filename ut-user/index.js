@@ -209,7 +209,7 @@ module.exports = {
                 }
                 throw new errors.NotFound();
             });
-        });
+        }).catch(handleError);
     },
     forgottenPasswordValidate: function(msg, $meta) {
         $meta.method = 'user.identity.get';
