@@ -12,6 +12,7 @@ function getHash(password, hashData) {
 var hashMethods = {
     otp: getHash,
     password: getHash,
+    forgottenPassword: getHash,
     newPassword: getHash,
     bio: function(value, hashData) {
         var params = JSON.parse(hashData.params);
@@ -29,6 +30,31 @@ var hashMethods = {
             return 0;
         });
     }
+};
+
+var handleError = function(err) {
+    if (typeof err.type === 'string') {
+        if (
+            err.type === 'identity.wrongPassword' ||
+            err.type === 'identity.notFound' ||
+            err.type === 'identity.disabledCredentials' ||
+            err.type === 'identity.disabledUser' ||
+            err.type === 'identity.disabledUserInactivity' ||
+            err.type === 'identity.credentialsLocked' ||
+            err.type.startsWith('policy.term.')
+        ) {
+            throw new errors.InvalidCredentials(err);
+        }
+        if (
+            err.type === 'identity.expiredPassword' ||
+            err.type === 'identity.invalidCredentials' ||
+            err.type === 'identity.invalidFingerprint' ||
+            err.type.startsWith('policy.param.')
+        ) {
+            throw err;
+        }
+    }
+    throw new errors.SystemError(err);
 };
 
 module.exports = {
@@ -72,22 +98,6 @@ module.exports = {
     check: function(msg, $meta) {
         delete msg.type;
         var get;
-        var doLogin = function(r) {
-            $meta.method = checkMethod || 'user.identity.checkPolicy';
-            return importMethod($meta.method)(r, $meta)
-                .then(function(user) {
-                    if ((!user.loginPolicy || !user.loginPolicy.length) && !user['permission.get']) { // in case user.identity.check did not return the permissions
-                        $meta.method = 'permission.get';
-                        return importMethod($meta.method)({actionId: msg.actionId},
-                            {actorId: user['identity.check'].userId, actionId: 'identity.check'})
-                            .then((permissions) => {
-                                user['permission.get'] = permissions && permissions[0];
-                                return user;
-                            });
-                    }
-                    return user;
-                });
-        };
         if (msg.sessionId) {
             get = Promise.resolve(msg);
         // } else if (msg.sendOtp) { // check password maybe
@@ -106,10 +116,6 @@ module.exports = {
                     if (msg.newPassword && hashData.password) {
                         hashData.newPassword = hashData.password;
                     }
-                    if (msg.action === 'forgotPassword') {
-                        hashData.password = hashData.forgotPassword;
-                        delete hashData.forgotPassword;
-                    }
                     return Promise.all(
                         Object.keys(hashMethods)
                             .filter(function(method) {
@@ -127,46 +133,38 @@ module.exports = {
                     });
                 });
         }
-        if (msg.action === 'forgotPassword') {
+        if (msg.hasOwnProperty('forgottenPassword')) {
+            if (msg.hasOwnProperty('password')) {
+                throw new errors.SystemError('invalid.request');
+            }
             get = get.then(function(r) {
-                $meta.method = 'user.identity.forgotPassword';
-                return importMethod($meta.method)(r, $meta).then(function(result) {
-                    if (r.newPassword) {
-                        r.password = r.newPassword;
-                        delete r.newPassword;
-                        return doLogin(r);
-                    }
-                    return result;
+                $meta.method = 'user.identity.forgottenPasswordChange';
+                return importMethod($meta.method)(r).then(function() {
+                    r.password = r.newPassword;
+                    delete r.forgottenPassword;
+                    delete r.newPassword;
+                    return r;
                 });
             });
-        } else {
-            get = get.then(doLogin);
         }
         return get
-            .catch(function(err) {
-                if (typeof err.type === 'string') {
-                    if (
-                        err.type === 'identity.wrongPassword' ||
-                        err.type === 'identity.notFound' ||
-                        err.type === 'identity.disabledCredentials' ||
-                        err.type === 'identity.disabledUser' ||
-                        err.type === 'identity.disabledUserInactivity' ||
-                        err.type === 'identity.credentialsLocked' ||
-                        err.type.startsWith('policy.term.')
-                    ) {
-                        throw new errors.InvalidCredentials(err);
-                    }
-                    if (
-                        err.type === 'identity.expiredPassword' ||
-                        err.type === 'identity.invalidCredentials' ||
-                        err.type === 'identity.invalidFingerprint' ||
-                        err.type.startsWith('policy.param.')
-                    ) {
-                        throw err;
-                    }
-                }
-                throw new errors.SystemError(err);
-            });
+            .then(function(r) {
+                $meta.method = checkMethod || 'user.identity.checkPolicy';
+                return importMethod($meta.method)(r, $meta)
+                    .then(function(user) {
+                        if ((!user.loginPolicy || !user.loginPolicy.length) && !user['permission.get']) { // in case user.identity.check did not return the permissions
+                            $meta.method = 'permission.get';
+                            return importMethod($meta.method)({actionId: msg.actionId},
+                                {actorId: user['identity.check'].userId, actionId: 'identity.check'})
+                                .then((permissions) => {
+                                    user['permission.get'] = permissions && permissions[0];
+                                    return user;
+                                });
+                        }
+                        return user;
+                    });
+            })
+            .catch(handleError);
     },
     closeSession: function(msg, $meta) {
         $meta.method = 'user.session.delete';
@@ -184,7 +182,7 @@ module.exports = {
                 return importMethod($meta.method)(msg, $meta);
             });
     },
-    forgotPassword: function(msg, $meta) {
+    forgottenPasswordRequest: function(msg, $meta) {
         // Use or to enum all possible channels here
         if (msg.channel !== 'sms') {
             throw new errors.NotFound();
@@ -201,7 +199,7 @@ module.exports = {
             $meta.method = 'user.sendOtp';
             return importMethod($meta.method)({
                 channel: msg.channel,
-                type: 'forgotPassword',
+                type: 'forgottenPassword',
                 actorId: actorId
             }).then(function(result) {
                 if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[0]) && result[0].length >= 1 && result[0][0] && result[0][0].success) {
@@ -212,5 +210,64 @@ module.exports = {
                 throw new errors.NotFound();
             });
         });
+    },
+    forgottenPasswordValidate: function(msg, $meta) {
+        $meta.method = 'user.identity.get';
+        return importMethod($meta.method)({
+            username: msg.username,
+            type: 'forgottenPassword'
+        }, $meta).then(function(response) {
+            var hashParams;
+            response.hashParams.some(function(h) {
+                if (h.type === 'forgottenPassword') {
+                    hashParams = h;
+                    return true;
+                }
+                return false;
+            });
+            if (!hashParams) {
+                throw errors.NotFound();
+            }
+            return hashMethods.forgottenPassword(msg.forgottenPassword, hashParams);
+        }).then(function(forgottenPassword) {
+            msg.forgottenPassword = forgottenPassword;
+            $meta.method = 'user.identity.forgottenPasswordValidate';
+            return importMethod($meta.method)(msg, $meta);
+        }).catch(handleError);
+    },
+    forgottenPassword: function(msg, $meta) {
+        $meta.method = 'user.identity.get';
+        var hashType = function(key, type, ErrorWhenNotFound) {
+            return importMethod($meta.method)({
+                username: msg.username,
+                type: type
+            }, $meta).then(function(response) {
+                var hashParams;
+                response.hashParams.some(function(h) {
+                    if (h.type === type) {
+                        hashParams = h;
+                        return true;
+                    }
+                    return false;
+                });
+                if (!hashParams) {
+                    if (ErrorWhenNotFound) {
+                        throw new ErrorWhenNotFound();
+                    } else {
+                        return null;
+                    }
+                }
+                return msg[key] ? hashMethods[type](msg[key], hashParams) : null;
+            });
+        };
+        return Promise.all([
+            hashType('forgottenPassword', 'forgottenPassword', errors.NotFound),
+            hashType('newPassword', 'password', null)
+        ]).then(function(p) {
+            msg.forgottenPassword = p[0];
+            msg.newPassword = p[1];
+            $meta.method = 'user.identity.forgottenPasswordChange';
+            return importMethod($meta.method)(msg, $meta);
+        }).catch(handleError);
     }
 };
