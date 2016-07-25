@@ -12,6 +12,7 @@ module.exports = {
     InvalidFingerprint: create('invalidFingerprint', Identity),
     CredentialsLocked: create('credentialsLocked', Identity),
     WrongPassword: create('wrongPassword', Identity),
+    ExistingIdentifier: create('existingIdentifier', Identity),
     Identity: Identity,
     Crypt: create('crypt', Identity),
     NotFound: create('notFound', Identity, 'Identity not found.'),
