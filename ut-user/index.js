@@ -71,6 +71,31 @@ module.exports = {
                 return importMethod('user.identity.add')(msg);
             })
             .then((identity) => {
+                return importMethod('customer.activityReport.add')({
+                    activity: {
+                        installationId: msg.username,
+                        action: 'identity.register',
+                        actionStatus: 'success',
+                        operationDate: (new Date()).toISOString(),
+                        channel: 'online'
+                    }
+                }, {
+                    auth: {
+                        actorId: identity.actor.actorId
+                    }
+                }).then(() => identity);
+            }, (err) => {
+                return importMethod('customer.activityReport.add')({
+                    activity: {
+                        installationId: msg.username,
+                        action: 'identity.register',
+                        actionStatus: 'failure',
+                        operationDate: (new Date()).toISOString(),
+                        channel: 'online'
+                    }
+                }).then(() => { throw err; });
+            })
+            .then((identity) => {
                 var msg = {
                     priority: 1
                 };
@@ -97,12 +122,14 @@ module.exports = {
     },
     check: function(msg, $meta) {
         delete msg.type;
+        var creatingSession = false;
         var get;
         if (msg.sessionId) {
             get = Promise.resolve(msg);
         // } else if (msg.sendOtp) { // check password maybe
         //     get = sendOtp(msg.username, msg.sendOtp);
         } else {
+            creatingSession = true;
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
@@ -111,6 +138,7 @@ module.exports = {
                     }
                     var hashData = result.hashParams.reduce(function(all, record) {
                         all[record.type] = record;
+                        msg.actorId = record.actorId;
                         return all;
                     }, {});
                     if (msg.newPassword && hashData.password) {
@@ -144,6 +172,34 @@ module.exports = {
                     delete r.forgottenPassword;
                     delete r.newPassword;
                     return r;
+                }).then((fpResult) => {
+                    return importMethod('customer.activityReport.add')({
+                        activity: {
+                            installationId: msg.username,
+                            action: 'identity.forgottenPassword',
+                            actionStatus: 'success',
+                            operationDate: (new Date()).toISOString(),
+                            channel: 'online'
+                        }
+                    }, {
+                        auth: {
+                            actorId: msg.actorId
+                        }
+                    }).then(() => fpResult);
+                }).catch((err) => {
+                    return importMethod('customer.activityReport.add')({
+                        activity: {
+                            installationId: msg.username,
+                            action: 'identity.forgottenPassword',
+                            actionStatus: 'failure',
+                            operationDate: (new Date()).toISOString(),
+                            channel: 'online'
+                        }
+                    }, {
+                        auth: {
+                            actorId: msg.actorId
+                        }
+                    }).then(() => { throw err; });
                 });
             });
         }
@@ -163,6 +219,23 @@ module.exports = {
                         }
                         return user;
                     });
+            }).then(function(response) {
+                if (creatingSession && response.roles.some((role) => role.name === 'BaobabClientApplication')) {
+                    return importMethod('customer.activityReport.add')({
+                        activity: {
+                            installationId: msg.username,
+                            action: 'identity.login',
+                            actionStatus: 'success',
+                            operationDate: (new Date()).toISOString(),
+                            channel: 'online'
+                        }
+                    }, {
+                        auth: {
+                            actorId: response['identity.check'].actorId
+                        }
+                    }).then(() => response);
+                }
+                return response;
             })
             .catch(handleError);
     },
