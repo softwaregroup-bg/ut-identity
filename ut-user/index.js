@@ -154,16 +154,6 @@ module.exports = {
             return importMethod($meta.method)(msg, $meta);
         }).catch(handleError);
     },
-    // TODO: Split this method in parts
-    // TODO: 1a. If has forgottenPassword property, call identity.forgottenPasswordChange
-    // TODO: 1b. If has registerPassword property, call identity.registerPasswordChange
-    // TODO: 1c. Noop
-    // TODO: 2. Call identity.hashPasswordFields
-    // TODO: 3. Call identity.login
-    // TODO: identity.registerPasswordChange should accept [registerPassword] and [newPassword] properties.
-    // TODO: - It must call user.getHash (not getHash, because it calls user.genHash) to generate new hash object based on the "newPassword" field.
-    // TODO: - It must insert/update with the data of the new hash object.
-    // TODO: - It must return {"password": ..., "username": ...} where "password" is hash from the "newPassword" field.
     check: function(msg, $meta) {
         delete msg.type;
         var get;
