@@ -12,6 +12,7 @@ function getHash(password, hashData) {
 var hashMethods = {
     otp: getHash,
     password: getHash,
+    registerPassword: getHash,
     forgottenPassword: getHash,
     newPassword: getHash,
     bio: function(value, hashData) {
@@ -95,6 +96,64 @@ module.exports = {
                 return result;
             });
     },
+    registerRequest: function(msg, $meta) {
+        var password = Math.floor(1000 + Math.random() * 9000) + '';
+        var data = {};
+        var result = {};
+        var promises = [];
+        // We have following flows in registration request:
+        // 1. Registration flow (independent) - Create a password, hash it, try find/create/replace user.hash
+        // 2. Template flow (independent) - Load a template to send SMS/email to user.
+        // 3. Message flow (depends on 1 and 2) - If registration is successful and we have template, enqueue message to customer.
+        promises.push(importMethod('user.getHash')(
+            {
+                value: password,
+                type: 'registerPassword',
+                identifier: msg.username
+            }
+        ).then(function(passwordHash) {
+            msg.hash = passwordHash;
+            return importMethod('user.identity.registerClient')(msg);
+        }).then(function(identity) {
+            data.identity = identity;
+        }));
+        // TODO: Replace with flow 2
+        data.template = 'You have successfully registered. Your temporary password is:' + password;
+        return Promise.all(promises).then(function() {
+            var customerMessage = {
+                // This data comes from flow 1
+                port: data.identity.phone.mnoKey,
+                recipient: data.identity.phone.phoneNumber,
+                // TODO: this must be parsed template at flow 2
+                content: data.template,
+                priority: 1
+            };
+            return importMethod('alert.queue.push')(customerMessage, {
+                auth: {
+                    // This data comes from flow 1
+                    actorId: data.identity.customer.actorId
+                }
+            });
+        }).then(function() {
+            return result;
+        });
+    },
+    registerValidate: function(msg, $meta) {
+        $meta.method = 'user.hash.return';
+        return importMethod($meta.method)({
+            identifier: msg.username,
+            type: 'registerPassword'
+        }, $meta).then(function(response) {
+            if (!response.hashParams) {
+                throw errors.NotFound();
+            }
+            return hashMethods.registerPassword(msg.registerPassword, response.hashParams);
+        }).then(function(registerPassword) {
+            msg.registerPassword = registerPassword;
+            $meta.method = 'user.identity.registerPasswordValidate';
+            return importMethod($meta.method)(msg, $meta);
+        }).catch(handleError);
+    },
     check: function(msg, $meta) {
         delete msg.type;
         var get;
@@ -134,7 +193,7 @@ module.exports = {
                 });
         }
         if (msg.hasOwnProperty('forgottenPassword')) {
-            if (msg.hasOwnProperty('password')) {
+            if (msg.hasOwnProperty('password') || msg.hasOwnProperty('registerPassword')) {
                 throw new errors.SystemError('invalid.request');
             }
             get = get.then(function(r) {
@@ -142,6 +201,31 @@ module.exports = {
                 return importMethod($meta.method)(r).then(function() {
                     r.password = r.newPassword;
                     delete r.forgottenPassword;
+                    delete r.newPassword;
+                    return r;
+                });
+            });
+        }
+        if (msg.hasOwnProperty('registerPassword')) {
+            if (msg.hasOwnProperty('password') || msg.hasOwnProperty('forgottenPassword')) {
+                throw new errors.SystemError('invalid.request');
+            }
+            var hash = msg.newPassword == null ? Promise.resolve([]) : importMethod('user.getHash')({
+                identifier: msg.username,
+                value: msg.newPassword,
+                type: 'password'
+            });
+            get = Promise.all([get, hash]).then(function() {
+                var r = arguments[0][0];
+                var hash = arguments[0][1];
+                $meta.method = 'user.identity.registerPasswordChange';
+                return importMethod($meta.method)({
+                    username: r.username,
+                    registerPassword: r.registerPassword,
+                    hash: hash
+                }).then(function() {
+                    r.password = hash.value;
+                    delete r.registerPassword;
                     delete r.newPassword;
                     return r;
                 });
