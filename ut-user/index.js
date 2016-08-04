@@ -1,3 +1,4 @@
+var assign = require('lodash.assign');
 var errors = require('../errors');
 var importMethod;
 var checkMethod;
@@ -72,26 +73,24 @@ module.exports = {
                 return importMethod('user.identity.add')(msg);
             })
             .then((identity) => {
-                var msg = {
+                var message = {
                     priority: 1
                 };
-                if (msg.email) {
-                    msg.port = 'email';
-                    msg.recipient = msg.email;
-                    msg.content = {
-                        subject: 'self registration',
-                        text: 'You have successfully registered. Your temporary password is:' + password
-                    };
-                } else {
-                    var phoneNumber = identity.actor.phoneNumber;
-                    if (phoneNumber.charAt(0) === '+') {
-                        phoneNumber = phoneNumber.substr(1);
-                    }
-                    msg.port = identity.actor.mnoKey;
-                    msg.recipient = phoneNumber;
-                    msg.content = 'You have successfully registered. Your temporary password is: ' + password;
-                }
-                return importMethod('alert.queue.push')(msg, {auth: {actorId: identity.actor.actorId}});
+                // TODO: Insert template "customer.self.registration.otp" with type "emailSubjectTemplate" and "emailTextTemplate" before attempt to send email.
+                message.port = /* msg.email ? 'email' : */identity.actor.mnoKey;
+                message.recipient = identity.actor.phoneNumber;
+                message.template = 'customer.self.registration.otp';
+                message.data = {
+                    firstName: identity.actor.firstName,
+                    hash: password
+                };
+                message.languageCode = msg.language; // If this language does not exists, it'll be set to default system language.
+                return importMethod('alert.message.send')(message, assign({}, $meta, {
+                    auth: {
+                        actorId: identity.actor.actorId
+                    },
+                    method: 'alert.message.send'
+                }));
             }).then(function() {
                 return result;
             });
@@ -117,23 +116,25 @@ module.exports = {
         }).then(function(identity) {
             data.identity = identity;
         }));
-        // TODO: Replace with flow 2
-        data.template = 'You have successfully registered. Your temporary password is:' + password;
         return Promise.all(promises).then(function() {
             var customerMessage = {
                 // This data comes from flow 1
                 port: data.identity.phone.mnoKey,
                 recipient: data.identity.phone.phoneNumber,
-                // TODO: this must be parsed template at flow 2
-                content: data.template,
+                template: 'customer.self.registration.otp',
+                data: {
+                    firstName: data.identity.person.firstName,
+                    hash: password
+                },
+                languageCode: msg.language,
                 priority: 1
             };
-            return importMethod('alert.queue.push')(customerMessage, {
+            return importMethod('alert.message.send')(customerMessage, assign({}, $meta, {
                 auth: {
-                    // This data comes from flow 1
                     actorId: data.identity.customer.actorId
-                }
-            });
+                },
+                method: 'alert.message.send'
+            }));
         }).then(function() {
             return result;
         });
