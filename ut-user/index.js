@@ -38,6 +38,7 @@ var handleError = function(err) {
     if (typeof err.type === 'string') {
         if (
             err.type === 'policy.term.checkBio' ||
+            err.type === 'policy.term.checkOTP' ||
             err.type === 'identity.expiredPassword' ||
             err.type === 'identity.invalidCredentials' ||
             err.type === 'identity.invalidFingerprint' ||
