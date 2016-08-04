@@ -73,24 +73,26 @@ module.exports = {
                 return importMethod('user.identity.add')(msg);
             })
             .then((identity) => {
-                var message = {
+                var msg = {
                     priority: 1
                 };
-                // TODO: Insert template "customer.self.registration.otp" with type "emailSubjectTemplate" and "emailTextTemplate" before attempt to send email.
-                message.port = /* msg.email ? 'email' : */identity.actor.mnoKey;
-                message.recipient = identity.actor.phoneNumber;
-                message.template = 'customer.self.registration.otp';
-                message.data = {
-                    firstName: identity.actor.firstName,
-                    hash: password
-                };
-                message.languageCode = msg.language; // If this language does not exists, it'll be set to default system language.
-                return importMethod('alert.message.send')(message, assign({}, $meta, {
-                    auth: {
-                        actorId: identity.actor.actorId
-                    },
-                    method: 'alert.message.send'
-                }));
+                if (msg.email) {
+                    msg.port = 'email';
+                    msg.recipient = msg.email;
+                    msg.content = {
+                        subject: 'self registration',
+                        text: 'You have successfully registered. Your temporary password is:' + password
+                    };
+                } else {
+                    var phoneNumber = identity.actor.phoneNumber;
+                    if (phoneNumber.charAt(0) === '+') {
+                        phoneNumber = phoneNumber.substr(1);
+                    }
+                    msg.port = identity.actor.mnoKey;
+                    msg.recipient = phoneNumber;
+                    msg.content = 'You have successfully registered. Your temporary password is: ' + password;
+                }
+                return importMethod('alert.queue.push')(msg, {auth: {actorId: identity.actor.actorId}});
             }).then(function() {
                 return result;
             });
