@@ -1,3 +1,14 @@
+<a name="5.4.10"></a>
+## [5.4.10](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.9...v5.4.10) (2016-08-04)
+
+
+### Bug Fixes
+
+* **identity.add:** Revert changes, as they should only appear in identity.registerRequest. ([26601db](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/26601db))
+* **self-registration:** Make self registration use template for SMS. ([1bb54ad](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/1bb54ad))
+
+
+
 <a name="5.4.9"></a>
 ## [5.4.9](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.8...v5.4.9) (2016-08-02)
 
