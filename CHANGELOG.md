@@ -1,3 +1,13 @@
+<a name="5.4.11"></a>
+## [5.4.11](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.10...v5.4.11) (2016-08-04)
+
+
+### Bug Fixes
+
+* MCTUNE-339 ([3ba5ba8](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/3ba5ba8))
+
+
+
 <a name="5.4.10"></a>
 ## [5.4.10](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.9...v5.4.10) (2016-08-04)
 
