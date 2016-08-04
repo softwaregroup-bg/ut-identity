@@ -1,3 +1,4 @@
+var assign = require('lodash.assign');
 var errors = require('../errors');
 var importMethod;
 var checkMethod;
@@ -117,23 +118,25 @@ module.exports = {
         }).then(function(identity) {
             data.identity = identity;
         }));
-        // TODO: Replace with flow 2
-        data.template = 'You have successfully registered. Your temporary password is:' + password;
         return Promise.all(promises).then(function() {
             var customerMessage = {
                 // This data comes from flow 1
                 port: data.identity.phone.mnoKey,
                 recipient: data.identity.phone.phoneNumber,
-                // TODO: this must be parsed template at flow 2
-                content: data.template,
+                template: 'customer.self.registration.otp',
+                data: {
+                    firstName: data.identity.person.firstName,
+                    hash: password
+                },
+                languageCode: msg.language,
                 priority: 1
             };
-            return importMethod('alert.queue.push')(customerMessage, {
+            return importMethod('alert.message.send')(customerMessage, assign({}, $meta, {
                 auth: {
-                    // This data comes from flow 1
                     actorId: data.identity.customer.actorId
-                }
-            });
+                },
+                method: 'alert.message.send'
+            }));
         }).then(function() {
             return result;
         });
