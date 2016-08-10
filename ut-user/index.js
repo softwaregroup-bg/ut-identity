@@ -142,6 +142,9 @@ module.exports = {
             msg.hash = passwordHash;
             return importMethod('user.identity.registerClient')(msg);
         }).then(function(identity) {
+            if (!identity.phone || !identity.phone.phoneNumber) {
+                throw errors.NotFound();
+            }
             data.identity = identity;
         }));
         return Promise.all(promises).then(function() {
@@ -235,34 +238,6 @@ module.exports = {
                     delete r.forgottenPassword;
                     delete r.newPassword;
                     return r;
-                }).then((fpResult) => {
-                    return importMethod('customer.activityReport.add')({
-                        activity: {
-                            installationId: msg.username,
-                            action: 'identity.forgottenPassword',
-                            actionStatus: 'success',
-                            operationDate: (new Date()).toISOString(),
-                            channel: 'online'
-                        }
-                    }, {
-                        auth: {
-                            actorId: msg.actorId
-                        }
-                    }).then(() => fpResult);
-                }).catch((err) => {
-                    return importMethod('customer.activityReport.add')({
-                        activity: {
-                            installationId: msg.username,
-                            action: 'identity.forgottenPassword',
-                            actionStatus: 'failure',
-                            operationDate: (new Date()).toISOString(),
-                            channel: 'online'
-                        }
-                    }, {
-                        auth: {
-                            actorId: msg.actorId
-                        }
-                    }).then(() => { throw err; });
                 });
             });
         }
