@@ -1,3 +1,13 @@
+<a name="5.4.12"></a>
+## [5.4.12](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.11...v5.4.12) (2016-08-11)
+
+
+### Bug Fixes
+
+* **activity-report:** Add data to activity report. ([91e98cc](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/91e98cc))
+
+
+
 <a name="5.4.11"></a>
 ## [5.4.11](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.10...v5.4.11) (2016-08-04)
 
