@@ -1,3 +1,13 @@
+<a name="5.4.13"></a>
+## [5.4.13](https://github.com/softwaregroup-bg/ut-identity/compare/v5.4.12...v5.4.13) (2016-08-12)
+
+
+### Bug Fixes
+
+* publish to npm ([bffb7ef](https://github.com/softwaregroup-bg/ut-identity/commit/bffb7ef))
+
+
+
 <a name="5.4.12"></a>
 ## [5.4.12](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.11...v5.4.12) (2016-08-11)
 
