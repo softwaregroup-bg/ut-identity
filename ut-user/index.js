@@ -39,18 +39,22 @@ var handleError = function(err) {
         if (
             err.type === 'policy.term.checkBio' ||
             err.type === 'policy.term.checkOTP' ||
-            err.type === 'identity.expiredPassword' ||
-            err.type === 'identity.invalidCredentials' ||
+            err.type === 'user.identity.registerPasswordValidate.expiredPassword' ||
+            err.type === 'user.identity.registerPasswordChange.expiredPassword' ||
+            err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
+            err.type === 'user.identity.registerPasswordChange.invalidCredentials' ||
             err.type === 'identity.invalidFingerprint' ||
             err.type.startsWith('policy.param.')
         ) {
             throw err;
         } else if (
-            err.type === 'identity.wrongPassword' ||
-            err.type === 'identity.notFound' ||
-            err.type === 'identity.disabledCredentials' ||
-            err.type === 'identity.disabledUser' ||
-            err.type === 'identity.disabledUserInactivity' ||
+            err.type === 'user.identity.check.userPassword.wrongPassword' ||
+            err.type === 'user.identity.checkPolicy.notFound' ||
+            err.type === 'user.identity.check.userPassword.notFound' ||
+            err.type === 'user.identity.checkPolicy.disabledCredentials' ||
+            err.type === 'user.identity.check.disabledUser' ||
+            err.type === 'user.identity.check.disabledUserInactivity' ||
+            err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
             err.type === 'identity.credentialsLocked' ||
             err.type.startsWith('policy.term.')
         ) {
