@@ -1,3 +1,13 @@
+<a name="5.5.0"></a>
+# [5.5.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.4.13...v5.5.0) (2016-08-19)
+
+
+### Features
+
+* UIS-35 ([99b3962](https://github.com/softwaregroup-bg/ut-identity/commit/99b3962))
+
+
+
 <a name="5.4.13"></a>
 ## [5.4.13](https://github.com/softwaregroup-bg/ut-identity/compare/v5.4.12...v5.4.13) (2016-08-12)
 
