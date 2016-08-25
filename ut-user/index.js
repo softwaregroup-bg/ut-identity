@@ -174,7 +174,7 @@ module.exports = {
             }));
         }).then(function() {
             if (debug) {
-                result.opt = password;
+                result.otp = password;
             }
             return result;
         });
