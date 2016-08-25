@@ -2,6 +2,7 @@ var assign = require('lodash.assign');
 var errors = require('../errors');
 var importMethod;
 var checkMethod;
+var debug;
 function getHash(password, hashData) {
     if (!hashData || !hashData.params) {
         return errors.MissingCredentials.reject();
@@ -68,6 +69,7 @@ module.exports = {
     init: function(b) {
         importMethod = b.importMethod.bind(b);
         checkMethod = b.config['identity.check'];
+        debug = b.config.debug;
     },
     add: function(msg, $meta) {
         var password = Math.floor(1000 + Math.random() * 9000) + '';
@@ -171,6 +173,9 @@ module.exports = {
                 method: 'alert.message.send'
             }));
         }).then(function() {
+            if (debug) {
+                result.otp = password;
+            }
             return result;
         });
     },
