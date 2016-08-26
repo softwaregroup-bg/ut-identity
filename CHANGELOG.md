@@ -1,3 +1,13 @@
+<a name="5.6.0"></a>
+# [5.6.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.5.1...v5.6.0) (2016-08-26)
+
+
+### Features
+
+* balance by sms ([c78b066](https://github.com/softwaregroup-bg/ut-identity/commit/c78b066))
+
+
+
 <a name="5.5.1"></a>
 ## [5.5.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.5.0...v5.5.1) (2016-08-25)
 
