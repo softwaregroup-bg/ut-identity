@@ -124,7 +124,7 @@ module.exports = {
                     msg.recipient = phoneNumber;
                     msg.content = 'You have successfully registered. Your temporary password is: ' + password;
                 }
-                return importMethod('alert.queue.push')(msg, {auth: {actorId: identity.actor.actorId}});
+                return importMethod('alert.queueOut.push')(msg, {auth: {actorId: identity.actor.actorId}});
             }).then(function() {
                 return result;
             });
