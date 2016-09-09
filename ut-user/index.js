@@ -57,6 +57,7 @@ var handleError = function(err) {
             err.type === 'user.identity.check.disabledUserInactivity' ||
             err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
             err.type === 'identity.credentialsLocked' ||
+            err.type === 'identity.notFound' ||
             err.type.startsWith('policy.term.')
         ) {
             throw new errors.InvalidCredentials(err);
@@ -177,7 +178,7 @@ module.exports = {
                 result.otp = password;
             }
             return result;
-        });
+        }).catch(handleError);
     },
     registerValidate: function(msg, $meta) {
         $meta.method = 'user.hash.return';
@@ -325,7 +326,8 @@ module.exports = {
                 msg.hashParams = r.hashParams[0];
                 $meta.method = 'user.changePassword';
                 return importMethod($meta.method)(msg, $meta);
-            });
+            })
+            .catch(handleError);
     },
     forgottenPasswordRequest: function(msg, $meta) {
         // Use or to enum all possible channels here
