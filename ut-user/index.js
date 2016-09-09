@@ -49,6 +49,9 @@ var handleError = function(err) {
         ) {
             throw err;
         } else if (
+            err.type === 'user.identity.forgottenPasswordValidate.invalidCredentials' ||
+            err.type === 'user.identity.forgottenPasswordValidate.expiredPassword' ||
+            err.type === 'user.identity.forgottenPasswordValidate.notFound' ||
             err.type === 'user.identity.check.userPassword.wrongPassword' ||
             err.type === 'user.identity.checkPolicy.notFound' ||
             err.type === 'user.identity.check.userPassword.notFound' ||
