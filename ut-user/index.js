@@ -61,6 +61,7 @@ var handleError = function(err) {
             err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
             err.type === 'identity.credentialsLocked' ||
             err.type === 'identity.notFound' ||
+            err.type === 'identity.multipleResults' ||
             err.type.startsWith('policy.term.')
         ) {
             throw new errors.InvalidCredentials(err);
