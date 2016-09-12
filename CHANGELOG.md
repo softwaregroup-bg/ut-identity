@@ -1,3 +1,13 @@
+<a name="5.6.6"></a>
+## [5.6.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.5...v5.6.6) (2016-09-12)
+
+
+### Bug Fixes
+
+* sanity check ([20988b0](https://github.com/softwaregroup-bg/ut-identity/commit/20988b0))
+
+
+
 <a name="5.6.5"></a>
 ## [5.6.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.4...v5.6.5) (2016-09-12)
 
