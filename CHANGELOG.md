@@ -1,3 +1,13 @@
+<a name="5.6.3"></a>
+## [5.6.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.2...v5.6.3) (2016-09-12)
+
+
+### Bug Fixes
+
+* MCTUNE-317 ([993d9bd](https://github.com/softwaregroup-bg/ut-identity/commit/993d9bd))
+
+
+
 <a name="5.6.2"></a>
 ## [5.6.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.1...v5.6.2) (2016-09-12)
 
