@@ -76,67 +76,6 @@ module.exports = {
         checkMethod = b.config['identity.check'];
         debug = b.config.debug;
     },
-    // !!!!!!!!!!!!!!!! pachFix
-    // obsolete code, please remove after a month of not complaining!(todays date is: 12.IX.2016)
-    // add: function(msg, $meta) {
-    //     var password = Math.floor(1000 + Math.random() * 9000) + '';
-    //     var result = {};
-    //     return importMethod('user.getHash')({value: password, type: 'password', identifier: msg.username})
-    //         .then((hash) => {
-    //             msg.hash = hash;
-    //             return importMethod('user.identity.add')(msg);
-    //         })
-    //         .then((identity) => {
-    //             return importMethod('customer.activityReport.add')({
-    //                 activity: {
-    //                     installationId: msg.username,
-    //                     action: 'identity.register',
-    //                     actionStatus: 'success',
-    //                     operationDate: (new Date()).toISOString(),
-    //                     channel: 'online'
-    //                 }
-    //             }, {
-    //                 auth: {
-    //                     actorId: identity.actor.actorId
-    //                 }
-    //             }).then(() => identity);
-    //         }, (err) => {
-    //             return importMethod('customer.activityReport.add')({
-    //                 activity: {
-    //                     installationId: msg.username,
-    //                     action: 'identity.register',
-    //                     actionStatus: 'failure',
-    //                     operationDate: (new Date()).toISOString(),
-    //                     channel: 'online'
-    //                 }
-    //             }).then(() => { throw err; });
-    //         })
-    //         .then((identity) => {
-    //             var msg = {
-    //                 priority: 1
-    //             };
-    //             if (msg.email) {
-    //                 msg.port = 'email';
-    //                 msg.recipient = msg.email;
-    //                 msg.content = {
-    //                     subject: 'self registration',
-    //                     text: 'You have successfully registered. Your temporary password is:' + password
-    //                 };
-    //             } else {
-    //                 var phoneNumber = identity.actor.phoneNumber;
-    //                 if (phoneNumber.charAt(0) === '+') {
-    //                     phoneNumber = phoneNumber.substr(1);
-    //                 }
-    //                 msg.port = identity.actor.mnoKey;
-    //                 msg.recipient = phoneNumber;
-    //                 msg.content = 'You have successfully registered. Your temporary password is: ' + password;
-    //             }
-    //             return importMethod('alert.queueOut.push')(msg, {auth: {actorId: identity.actor.actorId}});
-    //         }).then(function() {
-    //             return result;
-    //         });
-    // },
-    // !!!!!!!!!!!!!!!! pachFix
     registerRequest: function(msg, $meta) {
         var password = Math.floor(1000 + Math.random() * 9000) + '';
         var data = {};
