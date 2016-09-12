@@ -1,3 +1,13 @@
+<a name="5.6.4"></a>
+## [5.6.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.3...v5.6.4) (2016-09-12)
+
+
+### Bug Fixes
+
+* error added to invalid credentials list ([984c1e8](https://github.com/softwaregroup-bg/ut-identity/commit/984c1e8))
+
+
+
 <a name="5.6.3"></a>
 ## [5.6.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.2...v5.6.3) (2016-09-12)
 
