@@ -1,3 +1,13 @@
+<a name="5.7.0"></a>
+# [5.7.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.6...v5.7.0) (2016-10-07)
+
+
+### Features
+
+* joi validation added ([#17](https://github.com/softwaregroup-bg/ut-identity/issues/17)) ([bde132a](https://github.com/softwaregroup-bg/ut-identity/commit/bde132a))
+
+
+
 <a name="5.6.6"></a>
 ## [5.6.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.5...v5.6.6) (2016-09-12)
 
