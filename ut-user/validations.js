@@ -9,6 +9,6 @@ module.exports = {
         params: joi.object({
             username: joi.string().required()
         }),
-        result: undefined
+        result: joi.any()
     }
 };
