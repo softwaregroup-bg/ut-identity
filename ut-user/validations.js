@@ -7,10 +7,12 @@ module.exports = {
         notes: ['identity check'],
         tags: ['identity'],
         params: joi.object({
-            uri: joi.string(),
             username: joi.string().required(),
             timezone: joi.string().required(),
-            password: joi.string().min(1)
+
+            uri: joi.string(),
+            otp: joi.string().allow(''),
+            password: joi.string().allow('').min(1)
         }),
         auth: false,
         route: '/login',
