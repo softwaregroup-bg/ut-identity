@@ -9,8 +9,6 @@ module.exports = {
         params: joi.object({
             username: joi.string().required()
         }),
-        result: joi.object({
-            username: joi.number().integer()
-        })
+        result: undefined
     }
 };
