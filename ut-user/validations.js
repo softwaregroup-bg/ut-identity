@@ -12,6 +12,8 @@ module.exports = {
 
             uri: joi.string(),
             otp: joi.string().allow(''),
+            registerPassword: joi.string(),
+            newPassword: joi.string(),
             password: joi.string().allow('').min(1)
         }),
         auth: false,
