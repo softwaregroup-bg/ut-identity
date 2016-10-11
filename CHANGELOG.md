@@ -1,3 +1,13 @@
+<a name="5.7.3"></a>
+## [5.7.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.2...v5.7.3) (2016-10-11)
+
+
+### Bug Fixes
+
+* login validations ([#20](https://github.com/softwaregroup-bg/ut-identity/issues/20)) ([00762f0](https://github.com/softwaregroup-bg/ut-identity/commit/00762f0))
+
+
+
 <a name="5.7.2"></a>
 ## [5.7.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.1...v5.7.2) (2016-10-11)
 
