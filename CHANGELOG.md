@@ -1,3 +1,13 @@
+<a name="5.7.2"></a>
+## [5.7.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.1...v5.7.2) (2016-10-11)
+
+
+### Bug Fixes
+
+* indentity check req params added ([#19](https://github.com/softwaregroup-bg/ut-identity/issues/19)) ([0ed0ffe](https://github.com/softwaregroup-bg/ut-identity/commit/0ed0ffe))
+
+
+
 <a name="5.7.1"></a>
 ## [5.7.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.0...v5.7.1) (2016-10-10)
 
