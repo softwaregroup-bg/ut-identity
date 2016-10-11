@@ -11,6 +11,7 @@ module.exports = {
             timezone: joi.string().required(),
 
             uri: joi.string(),
+            bio: joi.string().allow(''),
             otp: joi.string().allow(''),
             registerPassword: joi.string(),
             newPassword: joi.string(),
