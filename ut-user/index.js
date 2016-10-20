@@ -293,6 +293,7 @@ module.exports = {
             return importMethod($meta.method)({
                 channel: msg.channel,
                 type: 'forgottenPassword',
+                template: 'user.forgottenPassword.otp',
                 actorId: actorId
             }).then(function(result) {
                 if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[0]) && result[0].length >= 1 && result[0][0] && result[0][0].success) {
