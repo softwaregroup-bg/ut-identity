@@ -1,3 +1,13 @@
+<a name="5.7.4"></a>
+## [5.7.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.3...v5.7.4) (2016-10-20)
+
+
+### Bug Fixes
+
+*  add template, closes MCTUNE-327 ([#21](https://github.com/softwaregroup-bg/ut-identity/issues/21)) ([c8c3c8d](https://github.com/softwaregroup-bg/ut-identity/commit/c8c3c8d))
+
+
+
 <a name="5.7.3"></a>
 ## [5.7.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.2...v5.7.3) (2016-10-11)
 
