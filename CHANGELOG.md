@@ -1,3 +1,13 @@
+<a name="5.7.5"></a>
+## [5.7.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.4...v5.7.5) (2016-10-28)
+
+
+### Bug Fixes
+
+* MCTUNE-1157 ([#22](https://github.com/softwaregroup-bg/ut-identity/issues/22)) ([20c3955](https://github.com/softwaregroup-bg/ut-identity/commit/20c3955))
+
+
+
 <a name="5.7.4"></a>
 ## [5.7.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.3...v5.7.4) (2016-10-20)
 
