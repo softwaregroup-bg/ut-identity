@@ -14,6 +14,7 @@ module.exports = {
             bio: joi.string().allow(''),
             otp: joi.string().allow(''),
             registerPassword: joi.string(),
+            forgottenPassword: joi.string(),
             newPassword: joi.string(),
             password: joi.string().allow('').min(1)
         }),
