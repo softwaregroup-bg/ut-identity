@@ -277,7 +277,7 @@ module.exports = {
     },
     forgottenPasswordRequest: function(msg, $meta) {
         // Use or to enum all possible channels here
-        if (msg.channel !== 'sms') {
+        if (msg.channel !== 'sms' && msg.channel !== 'email') {
             throw new errors.NotFound();
         }
         $meta.method = 'user.identity.get';
