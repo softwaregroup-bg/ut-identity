@@ -17,7 +17,8 @@ module.exports = {
     Crypt: create('crypt', Identity),
     NotFound: create('notFound', Identity, 'Identity not found.'),
     MultipleResults: create('multipleResults', Identity),
-    SystemError: create('systemError', Identity)
+    SystemError: create('systemError', Identity),
+    ThrottleError: create('throttleError', Identity, '')
 };
 
 Object.getOwnPropertyNames(module.exports).forEach(function(key) {
