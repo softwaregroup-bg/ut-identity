@@ -67,8 +67,8 @@ var handleError = function(err) {
             throw new errors.InvalidCredentials(err);
         }
     }
-    if (err.type === 'core.throttle' && err.message === 'core.throttle') {
-        throw errors.ThrottleError(err);
+    if (err.type === 'core.throttle' || err.message === 'core.throttle') {
+        throw new errors.ThrottleError(err);
     }
     throw new errors.SystemError(err);
 };
