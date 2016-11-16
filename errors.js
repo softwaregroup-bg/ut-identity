@@ -1,9 +1,12 @@
 var create = require('ut-error').define;
 
 var Identity = create('identity');
+var Policy = create('policy');
 module.exports = {
     MissingCredentials: create('missingCredentials', Identity, 'Missing credentials'),
     InvalidCredentials: create('invalidCredentials', Identity, 'Invalid credentials'),
+    PolicyInvalidNewPassword: create('param.invalidNewPassword', Policy, 'Invalid new password'),
+    PolicyMatchingPrevPassword: create('param.matchingPrevPassword', Policy, 'Invalid new password. New password matches any of your previous passwords.'),
     ExpiredPassword: create('expiredPassword', Identity, 'Your password has expired! Please contact the system administrator.'),
     DisabledUserInactivity: create('disabledUserInactivity', Identity, 'Your account has been locked because of inactivity! Please contact the system administrator.'),
     DisabledUser: create('disabledUser', Identity, 'Your account has been locked! Please contact the system administrator.'),
