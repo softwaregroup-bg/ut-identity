@@ -41,6 +41,7 @@
     "lodash.assign": "4.0.9",
     "lodash.defaults": "4.0.1",
     "ut-template": "~5.4.1",
+    "ut-user": "^5.28.12",
     "when": "3.7.7"
   }
 }
