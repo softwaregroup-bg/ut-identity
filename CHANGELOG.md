@@ -1,3 +1,13 @@
+<a name="5.8.0"></a>
+# [5.8.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.8...v5.8.0) (2016-11-18)
+
+
+### Features
+
+* moved some routes from http server port ([46c8fcc](https://github.com/softwaregroup-bg/ut-identity/commit/46c8fcc))
+
+
+
 <a name="5.7.8"></a>
 ## [5.7.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.7...v5.7.8) (2016-11-11)
 
