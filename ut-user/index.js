@@ -1,5 +1,7 @@
 var assign = require('lodash.assign');
 var errors = require('../errors');
+var helpers = require('./helpers');
+var utUserHelpers = require('ut-user/helpers');
 var importMethod;
 var checkMethod;
 var debug;
@@ -17,21 +19,55 @@ var hashMethods = {
     registerPassword: getHash,
     forgottenPassword: getHash,
     newPassword: getHash,
-    bio: function(value, hashData) {
-        var params = JSON.parse(hashData.params);
-        return importMethod('bio.check')({
+    bio: function(values, hashData) {
+        // values - array like: [{finger: "L1", templates: ["RRMNDKSF...]}, {finger: "L2", templates: ["RRMNDKSF...]}].
+        // where finger could be one of 'L1', 'L2', 'L3', 'L4', 'L5', 'R1', 'R2', 'R3', 'R4', 'R5'
+        // Joi validations validates that
+        var mappedBioData = {};
+        var successDataResponse = [];
+        values.forEach(function(val) {
+            mappedBioData[val.finger] = val.templates;
+            successDataResponse.push(val.finger);
+        });
+
+        // Validate output object
+        if (Object.keys(mappedBioData).length === 0) {
+            return new Promise(function(resolve, reject) {
+                resolve(['']);
+            });
+        }
+
+        /*
+            Bio server example request:
             id: params.id,
             departmentId: params.departmentId,
             data: {
                 UK: [value]
             }
-        })
-        .then(function(r) {
-            return 1;
-        })
-        .catch(function(r) {
-            return 0;
-        });
+        */
+
+        // On this stage BIO server can check one finger at time.
+        var bioCheckPromises = [];
+        var params = JSON.parse(hashData.params);
+        for (var finger in mappedBioData) {
+            if (mappedBioData.hasOwnProperty(finger)) {
+                var currentData = {};
+                currentData[finger] = mappedBioData[finger];
+                bioCheckPromises.push(importMethod('bio.check')({
+                    id: params.id,
+                    departmentId: params.departmentId,
+                    data: currentData
+                }));
+            }
+        }
+
+        return Promise.all(bioCheckPromises)
+            .then(function(r) {
+                return successDataResponse;
+            })
+            .catch(function(r) {
+                return [''];
+            });
     }
 };
 
@@ -40,6 +76,8 @@ var handleError = function(err) {
         if (
             err.type === 'policy.term.checkBio' ||
             err.type === 'policy.term.checkOTP' ||
+            err.type === 'policy.term.invalidNewPassword' ||
+            err.type === 'policy.term.matchingPrevPassword' ||
             err.type === 'user.identity.registerPasswordValidate.expiredPassword' ||
             err.type === 'user.identity.registerPasswordChange.expiredPassword' ||
             err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
@@ -65,6 +103,9 @@ var handleError = function(err) {
             err.type.startsWith('policy.term.')
         ) {
             throw new errors.InvalidCredentials(err);
+        } else if (err.type === 'PortSQL' && (err.message.startsWith('policy.param.bio.fingerprints')) || err.message.startsWith('policy.term.checkBio')) {
+            err.type = err.message;
+            throw err;
         }
     }
     if (err.type === 'core.throttle' || err.message === 'core.throttle') {
@@ -155,6 +196,9 @@ module.exports = {
         } else {
             creatingSession = true;
             $meta.method = 'user.identity.get'; // get hashes info
+            if (msg.newPassword) {
+                msg.newPasswordRaw = msg.newPassword;
+            }
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
                     if (!result.hashParams) {
@@ -168,6 +212,7 @@ module.exports = {
                     if (msg.newPassword && hashData.password) {
                         hashData.newPassword = hashData.password;
                     }
+
                     return Promise.all(
                         Object.keys(hashMethods)
                             .filter(function(method) {
@@ -197,6 +242,73 @@ module.exports = {
                     delete r.forgottenPassword;
                     delete r.newPassword;
                     return r;
+                });
+            });
+        }
+        if (msg.hasOwnProperty('newPassword')) {
+            // Validate new password access policy
+            get = Promise.all([get]).then(function() {
+                var rawNewPassword = arguments[0][0]['newPasswordRaw'];
+                var okReturn = arguments[0][0];
+
+                return importMethod('policy.passwordCredentials.get')({
+                    username: msg.username,
+                    password: msg.password
+                }).then(function(policyRes) {
+                    // Validate password policy
+                    var passwordCredentials = policyRes['passwordCredentials'][0];
+                    var isPasswordValid = utUserHelpers.isParamValid(msg.newPasswordRaw, passwordCredentials);
+                    if (isPasswordValid) {
+                        // Validate previous password
+                        var previousPasswords = policyRes['previousPasswords'];
+
+                        var genHashPromises = [];
+                        var cachedHashPromises = {};
+                        var cachedHashPromisesPrevPassMap = {}; // stores index from genHash to which prevPassword index is, in order to avoid generating the same hash multiple times
+
+                        var prevPassMapIndex = -1;
+                        for (var i = 0; i < previousPasswords.length; i += 1) {
+                            var currentPrevPasswordObj = previousPasswords[i];
+                            var currentPassWillBeCached = cachedHashPromises[currentPrevPasswordObj.params];
+                            if (!currentPassWillBeCached) {
+                                genHashPromises.push(utUserHelpers.genHash(rawNewPassword, JSON.parse(currentPrevPasswordObj.params)));
+                                cachedHashPromises[currentPrevPasswordObj.params] = true;
+                                prevPassMapIndex += 1;
+                            }
+
+                            cachedHashPromisesPrevPassMap[i] = prevPassMapIndex;
+                        }
+
+                        return Promise.all(genHashPromises).then((res) => {
+                            var newPassMatchPrev = false;
+
+                            for (var i = 0; i < previousPasswords.length && !newPassMatchPrev; i += 1) {
+                                var currentPrevPassword = previousPasswords[i];
+                                var currentHashIndex = cachedHashPromisesPrevPassMap[i];
+                                var currentNewHashedPassword = res[currentHashIndex];
+                                if (currentPrevPassword.value === currentNewHashedPassword) {
+                                    newPassMatchPrev = true;
+                                }
+                            }
+
+                            if (newPassMatchPrev) {
+                                throw new errors.PolicyMatchingPrevPassword('policy.credentials.matchingPrevPassword');
+                            } else {
+                                return okReturn;
+                            }
+                        });
+                    } else {
+                        $meta['auth.actorId'] = msg.actorId;
+                        return importMethod('core.itemTranslation.fetch')({
+                            itemTypeName: 'regexInfo',
+                            languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
+                        }, $meta).then(function(res) {
+                            var printMessage = helpers.buildPolicyErrorMessage(res.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
+                            var ivanlidNewPasswordError = new errors.PolicyInvalidNewPassword(printMessage);
+                            ivanlidNewPasswordError.message = printMessage;
+                            throw ivanlidNewPasswordError;
+                        });
+                    }
                 });
             });
         }
