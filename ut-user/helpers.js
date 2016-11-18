@@ -31,11 +31,11 @@ var buildPolicyErrorMessage = function(itemsTranslation, errorString, minLength,
 
     // build error message for regex
     errorMessage += ' ' + getTranslationString('and') + ' ' + getTranslationString('must contain') + ': ';
-    var splittedErrorString = errorString.split(',');
+    var splittedErrorString = errorString.split(', ');
     var mappedErrorStrings = splittedErrorString.map((errString) => {
         return getTranslationString(errString);
     });
-    errorMessage += mappedErrorStrings.join(', ');
+    errorMessage += mappedErrorStrings.join(',');
     return errorMessage;
 };
 
