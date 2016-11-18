@@ -1,3 +1,58 @@
+<a name="5.8.0"></a>
+# [5.8.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.8...v5.8.0) (2016-11-18)
+
+
+### Features
+
+* moved some routes from http server port ([46c8fcc](https://github.com/softwaregroup-bg/ut-identity/commit/46c8fcc))
+
+
+
+<a name="5.7.8"></a>
+## [5.7.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.7...v5.7.8) (2016-11-11)
+
+
+
+<a name="5.7.7"></a>
+## [5.7.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.6...v5.7.7) (2016-11-10)
+
+
+### Bug Fixes
+
+* MCTUNE-1345 ([fb45c66](https://github.com/softwaregroup-bg/ut-identity/commit/fb45c66))
+
+
+
+<a name="5.7.6"></a>
+## [5.7.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.5...v5.7.6) (2016-11-08)
+
+
+### Bug Fixes
+
+* MCTUNE-1186 ([9fd7f18](https://github.com/softwaregroup-bg/ut-identity/commit/9fd7f18))
+
+
+
+<a name="5.7.5"></a>
+## [5.7.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.4...v5.7.5) (2016-10-28)
+
+
+### Bug Fixes
+
+* MCTUNE-1157 ([#22](https://github.com/softwaregroup-bg/ut-identity/issues/22)) ([20c3955](https://github.com/softwaregroup-bg/ut-identity/commit/20c3955))
+
+
+
+<a name="5.7.4"></a>
+## [5.7.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.3...v5.7.4) (2016-10-20)
+
+
+### Bug Fixes
+
+*  add template, closes MCTUNE-327 ([#21](https://github.com/softwaregroup-bg/ut-identity/issues/21)) ([c8c3c8d](https://github.com/softwaregroup-bg/ut-identity/commit/c8c3c8d))
+
+
+
 <a name="5.7.3"></a>
 ## [5.7.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.2...v5.7.3) (2016-10-11)
 

@@ -6,6 +6,7 @@ var test = require('blue-tape');
 test('Should succeed with valid password', function(t) {
     return identity.check({username: 'test', password: 'valid'}).then((result) => {
         t.ok(result.userId, 'return userId');
+        return;
     });
 });
 
@@ -20,6 +21,7 @@ test('Should detect expired password', function(t) {
 test('Should succeed with valid fingerprint', function(t) {
     return identity.check({fingerPrint: 'valid'}).then((result) => {
         t.ok(result.userId, 'return userId');
+        return;
     });
 });
 
@@ -30,6 +32,7 @@ test('Should fail with invalid fingerprint', function(t) {
 test('Should succeed with valid session', function(t) {
     return identity.check({sessionId: 'valid'}).then((result) => {
         t.ok(result.userId, 'return userId');
+        return;
     });
 });
 

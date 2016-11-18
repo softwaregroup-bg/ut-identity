@@ -108,6 +108,9 @@ var handleError = function(err) {
             throw err;
         }
     }
+    if (err.type === 'core.throttle' || err.message === 'core.throttle') {
+        throw new errors.ThrottleError(err);
+    }
     throw new errors.SystemError(err);
 };
 
@@ -140,6 +143,7 @@ module.exports = {
                 throw errors.NotFound();
             }
             data.identity = identity;
+            return;
         }));
         return Promise.all(promises).then(function() {
             var customerMessage = {
@@ -189,8 +193,6 @@ module.exports = {
         var get;
         if (msg.sessionId) {
             get = Promise.resolve(msg);
-        // } else if (msg.sendOtp) { // check password maybe
-        //     get = sendOtp(msg.username, msg.sendOtp);
         } else {
             creatingSession = true;
             $meta.method = 'user.identity.get'; // get hashes info
@@ -220,6 +222,7 @@ module.exports = {
                                 return hashMethods[method](msg[method], hashData[method])
                                     .then(function(value) {
                                         msg[method] = value;
+                                        return;
                                     });
                             })
                     )
@@ -389,7 +392,7 @@ module.exports = {
     },
     forgottenPasswordRequest: function(msg, $meta) {
         // Use or to enum all possible channels here
-        if (msg.channel !== 'sms') {
+        if (msg.channel !== 'sms' && msg.channel !== 'email') {
             throw new errors.NotFound();
         }
         $meta.method = 'user.identity.get';
@@ -405,6 +408,7 @@ module.exports = {
             return importMethod($meta.method)({
                 channel: msg.channel,
                 type: 'forgottenPassword',
+                template: 'user.forgottenPassword.otp',
                 actorId: actorId
             }).then(function(result) {
                 if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[0]) && result[0].length >= 1 && result[0][0] && result[0][0].success) {
@@ -462,7 +466,8 @@ module.exports = {
                         return null;
                     }
                 }
-                return msg[key] ? hashMethods[type](msg[key], hashParams) : null;
+                var rr = msg[key] ? hashMethods[type](msg[key], hashParams) : null;
+                return rr;
             });
         };
         return Promise.all([
