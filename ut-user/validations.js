@@ -11,7 +11,12 @@ module.exports = {
             timezone: joi.string().required(),
 
             uri: joi.string(),
-            bio: joi.string().allow(''),
+            bio: joi.array().items(
+                joi.object().keys({
+                    finger: joi.string().valid(['L1', 'L2', 'L3', 'L4', 'L5', 'R1', 'R2', 'R3', 'R4', 'R5']).required(),
+                    templates: joi.array().items(joi.string()).required()
+                })
+            ),
             otp: joi.string().allow(''),
             registerPassword: joi.string(),
             newPassword: joi.string(),
