@@ -19,27 +19,55 @@ var hashMethods = {
     registerPassword: getHash,
     forgottenPassword: getHash,
     newPassword: getHash,
-    bio: function(value, hashData) {
-        // var params = JSON.parse(hashData.params);
-        return new Promise(function(resolve, reject) {
-            resolve(1);
+    bio: function(values, hashData) {
+        // values - array like: [{finger: "L1", templates: ["RRMNDKSF...]}, {finger: "L2", templates: ["RRMNDKSF...]}].
+        // where finger could be one of 'L1', 'L2', 'L3', 'L4', 'L5', 'R1', 'R2', 'R3', 'R4', 'R5'
+        // Joi validations validates that
+        var mappedBioData = {};
+        var successDataResponse = [];
+        values.forEach(function(val) {
+            mappedBioData[val.finger] = val.templates;
+            successDataResponse.push(val.finger);
         });
 
+        // Validate output object
+        if (Object.keys(mappedBioData).length === 0) {
+            return new Promise(function(resolve, reject) {
+                resolve(['']);
+            });
+        }
+
         /*
-        return importMethod('bio.check')({
+            Bio server example request:
             id: params.id,
             departmentId: params.departmentId,
             data: {
                 UK: [value]
             }
-        })
-        .then(function(r) {
-            return 1;
-        })
-        .catch(function(r) {
-            return 0;
-        });
         */
+
+        // On this stage BIO server can check one finger at time.
+        var bioCheckPromises = [];
+        var params = JSON.parse(hashData.params);
+        for (var finger in mappedBioData) {
+            if (mappedBioData.hasOwnProperty(finger)) {
+                var currentData = {};
+                currentData[finger] = mappedBioData[finger];
+                bioCheckPromises.push(importMethod('bio.check')({
+                    id: params.id,
+                    departmentId: params.departmentId,
+                    data: currentData
+                }));
+            }
+        }
+
+        return Promise.all(bioCheckPromises)
+            .then(function(r) {
+                return successDataResponse;
+            })
+            .catch(function(r) {
+                return [''];
+            });
     }
 };
 
@@ -48,6 +76,8 @@ var handleError = function(err) {
         if (
             err.type === 'policy.term.checkBio' ||
             err.type === 'policy.term.checkOTP' ||
+            err.type === 'policy.term.invalidNewPassword' ||
+            err.type === 'policy.term.matchingPrevPassword' ||
             err.type === 'user.identity.registerPasswordValidate.expiredPassword' ||
             err.type === 'user.identity.registerPasswordChange.expiredPassword' ||
             err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
@@ -73,7 +103,7 @@ var handleError = function(err) {
             err.type.startsWith('policy.term.')
         ) {
             throw new errors.InvalidCredentials(err);
-        } else if (err.type === 'PortSQL' && err.message.startsWith('policy.param.bio.fingerprints')) {
+        } else if (err.type === 'PortSQL' && (err.message.startsWith('policy.param.bio.fingerprints')) || err.message.startsWith('policy.term.checkBio')) {
             err.type = err.message;
             throw err;
         }
@@ -307,7 +337,6 @@ module.exports = {
         return get
             .then(function(r) {
                 $meta.method = checkMethod || 'user.identity.checkPolicy';
-                // r.bio = ['L1:0'];
                 return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
                         if ((!user.loginPolicy || !user.loginPolicy.length) && !user['permission.get']) { // in case user.identity.check did not return the permissions
