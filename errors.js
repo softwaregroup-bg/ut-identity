@@ -21,7 +21,7 @@ module.exports = {
     NotFound: create('notFound', Identity, 'Identity not found.'),
     MultipleResults: create('multipleResults', Identity),
     SystemError: create('systemError', Identity),
-    ThrottleError: create('throttleError', Identity, '')
+    ThrottleError: create('throttleError', Identity, 'After several attempts, the registration has been locked, please start again in 60min')
 };
 
 Object.getOwnPropertyNames(module.exports).forEach(function(key) {
