@@ -1,3 +1,13 @@
+<a name="5.9.0"></a>
+# [5.9.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.8.0...v5.9.0) (2016-11-18)
+
+
+### Features
+
+* improve bio and new password handling ([4f26b59](https://github.com/softwaregroup-bg/ut-identity/commit/4f26b59))
+
+
+
 <a name="5.8.0"></a>
 # [5.8.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.8...v5.8.0) (2016-11-18)
 
