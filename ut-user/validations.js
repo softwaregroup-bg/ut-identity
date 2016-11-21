@@ -29,9 +29,7 @@ module.exports = {
         tags: ['identity'],
 
         params: joi.object({}),
-        result: joi.any(),
-
-        auth: false
+        result: joi.any()
     },
     'forgottenPassword': {
         description: 'forgotten password',
