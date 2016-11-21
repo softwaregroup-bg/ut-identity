@@ -1,3 +1,13 @@
+<a name="5.10.0"></a>
+# [5.10.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.9.2...v5.10.0) (2016-11-21)
+
+
+### Features
+
+* MCTUNE-1425 change message for throttle error ([61396c5](https://github.com/softwaregroup-bg/ut-identity/commit/61396c5))
+
+
+
 <a name="5.9.2"></a>
 ## [5.9.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.9.1...v5.9.2) (2016-11-18)
 
