@@ -1,3 +1,13 @@
+<a name="5.10.3"></a>
+## [5.10.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.2...v5.10.3) (2016-11-21)
+
+
+### Bug Fixes
+
+* logout route ([fb61953](https://github.com/softwaregroup-bg/ut-identity/commit/fb61953))
+
+
+
 <a name="5.10.2"></a>
 ## [5.10.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.1...v5.10.2) (2016-11-21)
 
