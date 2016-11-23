@@ -33,7 +33,9 @@ module.exports = {
         notes: ['identity cleanup'],
         tags: ['identity'],
 
-        params: joi.object({}),
+        params: joi.object({
+            sessionId: joi.string().min(1)
+        }),
         result: joi.any()
     },
     'forgottenPassword': {
