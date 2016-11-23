@@ -1,3 +1,23 @@
+<a name="5.10.6"></a>
+## [5.10.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.5...v5.10.6) (2016-11-23)
+
+
+### Bug Fixes
+
+* login ([372747a](https://github.com/softwaregroup-bg/ut-identity/commit/372747a))
+
+
+
+<a name="5.10.5"></a>
+## [5.10.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.4...v5.10.5) (2016-11-23)
+
+
+### Bug Fixes
+
+* translation split helper ([#32](https://github.com/softwaregroup-bg/ut-identity/issues/32)) ([9a31287](https://github.com/softwaregroup-bg/ut-identity/commit/9a31287))
+
+
+
 <a name="5.10.4"></a>
 ## [5.10.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.3...v5.10.4) (2016-11-23)
 
