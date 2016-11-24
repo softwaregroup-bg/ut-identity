@@ -1,3 +1,13 @@
+<a name="5.10.7"></a>
+## [5.10.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.6...v5.10.7) (2016-11-24)
+
+
+### Bug Fixes
+
+* regsiter request ([77c8903](https://github.com/softwaregroup-bg/ut-identity/commit/77c8903))
+
+
+
 <a name="5.10.6"></a>
 ## [5.10.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.5...v5.10.6) (2016-11-23)
 
