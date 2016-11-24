@@ -98,7 +98,7 @@ module.exports = {
         notes: ['forgotten password'],
         tags: ['identity'],
 
-        params: joi.object({}),
+        params: joi.object(),
         result: joi.array(),
 
         auth: false,
