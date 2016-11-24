@@ -76,8 +76,8 @@ var handleError = function(err) {
         if (
             err.type === 'policy.term.checkBio' ||
             err.type === 'policy.term.checkOTP' ||
-            err.type === 'policy.term.invalidNewPassword' ||
-            err.type === 'policy.term.matchingPrevPassword' ||
+            err.type === 'identity.term.invalidNewPassword' ||
+            err.type === 'identity.term.matchingPrevPassword' ||
             err.type === 'user.identity.registerPasswordValidate.expiredPassword' ||
             err.type === 'user.identity.registerPasswordChange.expiredPassword' ||
             err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
