@@ -304,7 +304,7 @@ module.exports = {
                             languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
                         }, $meta).then(function(res) {
                             var printMessage = helpers.buildPolicyErrorMessage(res.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
-                            var ivanlidNewPasswordError = new errors['identity.term.invalidNewPassword'](printMessage);
+                            var ivanlidNewPasswordError = errors['identity.term.invalidNewPassword'](printMessage);
                             ivanlidNewPasswordError.message = printMessage;
                             throw ivanlidNewPasswordError;
                         });
