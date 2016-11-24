@@ -304,7 +304,7 @@ module.exports = {
                             languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
                         }, $meta).then(function(res) {
                             var printMessage = helpers.buildPolicyErrorMessage(res.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
-                            var ivanlidNewPasswordError = new errors.['identity.term.invalidNewPassword'](printMessage);
+                            var ivanlidNewPasswordError = new errors['identity.term.invalidNewPassword'](printMessage);
                             ivanlidNewPasswordError.message = printMessage;
                             throw ivanlidNewPasswordError;
                         });
@@ -471,7 +471,7 @@ module.exports = {
             });
         };
         return Promise.all([
-            hashType('forgottenPassword', 'forgottenPassword', errors['identity.notFound']()p),
+            hashType('forgottenPassword', 'forgottenPassword', errors['identity.notFound']()),
             hashType('newPassword', 'password', null)
         ]).then(function(p) {
             msg.forgottenPassword = p[0];
