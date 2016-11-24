@@ -61,12 +61,17 @@ module.exports = {
             language: joi.string().min(2).max(2),
             dateOfBirth: joi.string().min(10),
             uri: joi.string().min(1),
-            username: joi.string().min(1)
+            username: joi.string().min(1).required()
         }),
         result: joi.any(),
 
         auth: false,
         route: '/register',
         paramsMethod: ['identity.registerRequest', 'identity.registerValidate']
+    },
+    'changePassword': {
+        description: 'change Password',
+        params: joi.object(),
+        result: joi.any()
     }
 };
