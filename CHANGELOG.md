@@ -1,3 +1,14 @@
+<a name="5.10.9"></a>
+## [5.10.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.8...v5.10.9) (2016-11-24)
+
+
+### Bug Fixes
+
+* change forgotten pass validation ([85ae767](https://github.com/softwaregroup-bg/ut-identity/commit/85ae767))
+* UIS-351: add joi validations ([8f4a8db](https://github.com/softwaregroup-bg/ut-identity/commit/8f4a8db))
+
+
+
 <a name="5.10.8"></a>
 ## [5.10.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.7...v5.10.8) (2016-11-24)
 
