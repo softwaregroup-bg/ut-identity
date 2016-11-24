@@ -76,8 +76,8 @@ var handleError = function(err) {
         if (
             err.type === 'policy.term.checkBio' ||
             err.type === 'policy.term.checkOTP' ||
-            err.type === 'policy.term.invalidNewPassword' ||
-            err.type === 'policy.term.matchingPrevPassword' ||
+            err.type === 'identity.term.invalidNewPassword' ||
+            err.type === 'identity.term.matchingPrevPassword' ||
             err.type === 'user.identity.registerPasswordValidate.expiredPassword' ||
             err.type === 'user.identity.registerPasswordChange.expiredPassword' ||
             err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
@@ -102,16 +102,16 @@ var handleError = function(err) {
             err.type === 'identity.multipleResults' ||
             err.type.startsWith('policy.term.')
         ) {
-            throw new errors.InvalidCredentials(err);
+            throw errors['identity.invalidCredentials'](err);
         } else if (err.type === 'PortSQL' && (err.message.startsWith('policy.param.bio.fingerprints')) || err.message.startsWith('policy.term.checkBio')) {
             err.type = err.message;
             throw err;
         }
     }
     if (err.type === 'core.throttle' || err.message === 'core.throttle') {
-        throw new errors.ThrottleError(err);
+        throw errors['identity.throttleError'](err);
     }
-    throw new errors.SystemError(err);
+    throw errors['identity.systemError'](err);
 };
 
 module.exports = {
@@ -140,7 +140,7 @@ module.exports = {
             return importMethod('user.identity.registerClient')(msg);
         }).then(function(identity) {
             if (!identity.phone || !identity.phone.phoneNumber) {
-                throw errors.NotFound();
+                throw errors['identity.notFound']();
             }
             data.identity = identity;
             return;
@@ -178,7 +178,7 @@ module.exports = {
             type: 'registerPassword'
         }, $meta).then(function(response) {
             if (!response.hashParams) {
-                throw errors.NotFound();
+                throw errors['identity.notFound']();
             }
             return hashMethods.registerPassword(msg.registerPassword, response.hashParams);
         }).then(function(registerPassword) {
@@ -202,7 +202,7 @@ module.exports = {
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
                     if (!result.hashParams) {
-                        throw new Error('no hash params');
+                        throw errors['identity.hashParams']();
                     }
                     var hashData = result.hashParams.reduce(function(all, record) {
                         all[record.type] = record;
@@ -233,7 +233,7 @@ module.exports = {
         }
         if (msg.hasOwnProperty('forgottenPassword')) {
             if (msg.hasOwnProperty('password') || msg.hasOwnProperty('registerPassword')) {
-                throw new errors.SystemError('invalid.request');
+                throw errors['identity.systemError']('invalid.request');
             }
             get = get.then(function(r) {
                 $meta.method = 'user.identity.forgottenPasswordChange';
@@ -292,7 +292,7 @@ module.exports = {
                             }
 
                             if (newPassMatchPrev) {
-                                throw new errors.PolicyMatchingPrevPassword('policy.credentials.matchingPrevPassword');
+                                throw errors['identity.term.matchingPrevPassword']();
                             } else {
                                 return okReturn;
                             }
@@ -304,7 +304,7 @@ module.exports = {
                             languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
                         }, $meta).then(function(res) {
                             var printMessage = helpers.buildPolicyErrorMessage(res.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
-                            var ivanlidNewPasswordError = new errors.PolicyInvalidNewPassword(printMessage);
+                            var ivanlidNewPasswordError = new errors.['identity.term.invalidNewPassword'](printMessage);
                             ivanlidNewPasswordError.message = printMessage;
                             throw ivanlidNewPasswordError;
                         });
@@ -314,7 +314,7 @@ module.exports = {
         }
         if (msg.hasOwnProperty('registerPassword')) {
             if (msg.hasOwnProperty('password') || msg.hasOwnProperty('forgottenPassword')) {
-                throw new errors.SystemError('invalid.request');
+                throw errors['identity.systemError']('invalid.request');
             }
             var hash = msg.newPassword == null ? Promise.resolve([]) : importMethod('user.getHash')({
                 identifier: msg.username,
@@ -393,7 +393,7 @@ module.exports = {
     forgottenPasswordRequest: function(msg, $meta) {
         // Use or to enum all possible channels here
         if (msg.channel !== 'sms' && msg.channel !== 'email') {
-            throw new errors.NotFound();
+            throw errors['identity.notFound']();
         }
         $meta.method = 'user.identity.get';
         return importMethod($meta.method)({
@@ -401,7 +401,7 @@ module.exports = {
             type: 'password'
         }).then(function(hash) {
             if (!hash || !Array.isArray(hash.hashParams) || hash.hashParams.length < 1 || !hash.hashParams[0] || !hash.hashParams[0].actorId) {
-                throw new errors.NotFound();
+                throw errors['identity.notFound']();
             }
             var actorId = hash.hashParams[0].actorId;
             $meta.method = 'user.sendOtp';
@@ -416,7 +416,7 @@ module.exports = {
                         sent: true
                     };
                 }
-                throw new errors.NotFound();
+                throw errors['identity.notFound']();
             });
         }).catch(handleError);
     },
@@ -435,7 +435,7 @@ module.exports = {
                 return false;
             });
             if (!hashParams) {
-                throw errors.NotFound();
+                throw errors['identity.notFound']();
             }
             return hashMethods.forgottenPassword(msg.forgottenPassword, hashParams);
         }).then(function(forgottenPassword) {
@@ -471,7 +471,7 @@ module.exports = {
             });
         };
         return Promise.all([
-            hashType('forgottenPassword', 'forgottenPassword', errors.NotFound),
+            hashType('forgottenPassword', 'forgottenPassword', errors['identity.notFound']()p),
             hashType('newPassword', 'password', null)
         ]).then(function(p) {
             msg.forgottenPassword = p[0];

@@ -2,12 +2,24 @@ var create = require('ut-error').define;
 
 module.exports = [
     {
+        name: 'identity',
+        defaultMessage: 'Identity'
+    },
+    {
         name: 'identity.missingCredentials',
         defaultMessage: 'Missing credentials'
     },
     {
         name: 'identity.invalidCredentials',
         defaultMessage: 'Invalid credentials'
+    },
+    {
+        name: 'identity.hashParams',
+        defaultMessage: 'No hash params'
+    },
+    {
+        name: 'identity.term',
+        defaultMessage: 'ut-identity identity.term error'
     },
     {
         name: 'identity.term.invalidNewPassword',
@@ -72,7 +84,7 @@ module.exports = [
     {
         name: 'identity.throttleError',
         defaultMessage: 'After several attempts, the registration has been locked, please start again in 60 min.'
-    },
+    }
 ].reduce(function(prev, next) {
     var spec = next.name.split('.');
     var Ctor = create(spec.pop(), spec.join('.'), next.defaultMessage);
@@ -81,9 +93,3 @@ module.exports = [
     };
     return prev;
 }, {});
-
-
-// {
-//     Identity: Identity,
-// };
-
