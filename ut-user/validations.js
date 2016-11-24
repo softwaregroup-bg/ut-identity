@@ -55,7 +55,14 @@ module.exports = {
         notes: ['register request'],
         tags: ['identity'],
 
-        params: joi.object({}),
+        params: joi.object({
+            countryCode: joi.string().min(2).max(3),
+            phoneNumber: joi.string().min(1),
+            language: joi.string().min(2).max(2),
+            dateOfBirth: joi.string().min(10),
+            uri: joi.string().min(1),
+            username: joi.string().min(1)
+        }),
         result: joi.any(),
 
         auth: false,
