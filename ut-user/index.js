@@ -72,7 +72,11 @@ var hashMethods = {
 };
 
 var handleError = function(err) {
-    if (typeof err.type === 'string') {
+    if (err.cause &&
+        (err.cause.code === 'ELOGIN' || err.cause.name === 'ConnectionError') // sql server login error
+    ) {
+        throw new errors.SystemError();
+    } else if (typeof err.type === 'string') {
         if (
             err.type === 'policy.term.checkBio' ||
             err.type === 'policy.term.checkOTP' ||
