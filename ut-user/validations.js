@@ -23,7 +23,62 @@ module.exports = {
             newPassword: joi.string(),
             password: joi.string().allow('').min(1)
         }),
-        result: joi.any(),
+        result: joi.object().keys({
+            'identity.check': joi.object().keys({
+                sessionId: joi.string().required(),
+                actorId: joi.number().integer().required(),
+                cookie: joi.string().required(),
+                language: joi.string().required(),
+                module: joi.string().allow('').allow(null).required(),
+                remoteIP: joi.string().allow(null).required(),
+                userAgent: joi.string().allow('').allow(null).required(),
+                expire: joi.date().required(),
+                dateCreated: joi.date().required()
+            }),
+            'permission.get': joi.array().items({
+                actionId: joi.string().required(),
+                objectId: joi.string().required(),
+                description: joi.string().required()
+            }),
+            person: joi.object().keys({
+                actorId: joi.number().integer().required(),
+                frontEndRecordId: joi.string().allow(null).required(),
+                firstName: joi.string().required(),
+                lastName: joi.string().required(),
+                nationalId: joi.string().allow(null),
+                dateOfBirth: joi.date(),
+                placeOfBirth: joi.string().allow(null),
+                nationality: joi.string().allow(null),
+                gender: joi.string(),
+                bioId: joi.string().allow(null),
+                oldValues: joi.string().allow(null),
+                udf: joi.string().allow(null),
+                phoneModel: joi.string().allow(null),
+                computerModel: joi.string().allow(null),
+                isEnabled: joi.boolean(),
+                isDeleted: joi.boolean(),
+                maritalStatusId: joi.string().allow(null),
+                age: joi.number().integer()
+            }),
+            language: joi.object().keys({
+                languageId: joi.number().required(),
+                iso2Code: joi.string().required(),
+                name: joi.string().required(),
+                locale: joi.string().required()
+            }),
+            localisation: joi.object().keys({
+                dateFormat: joi.string().allow(null),
+                numberFormat: joi.string().allow(null)
+            }),
+            roles: joi.array(),
+            emails: joi.array(),
+            screenHeader: joi.string().allow(null),
+            loginFactors: joi.array().items({
+                type: joi.string(),
+                params: joi.string().allow(null),
+                allowedAttempts: joi.number().integer()
+            }).optional()
+        }),
 
         auth: false,
         route: '/login'
@@ -33,10 +88,8 @@ module.exports = {
         notes: ['identity cleanup'],
         tags: ['identity'],
 
-        params: joi.object({
-            sessionId: joi.string().min(1)
-        }),
-        result: joi.any()
+        params: joi.object({}),
+        result: joi.array()
     },
     'forgottenPassword': {
         description: 'forgotten password',
@@ -44,7 +97,7 @@ module.exports = {
         tags: ['identity'],
 
         params: joi.object({}),
-        result: joi.any(),
+        result: joi.array(),
 
         auth: false,
         route: '/forgottenPassword',
@@ -55,15 +108,8 @@ module.exports = {
         notes: ['register request'],
         tags: ['identity'],
 
-        params: joi.object({
-            countryCode: joi.string().min(2).max(3),
-            phoneNumber: joi.string().min(1),
-            language: joi.string().min(2).max(2),
-            dateOfBirth: joi.string().min(10),
-            uri: joi.string().min(1),
-            username: joi.string().min(1)
-        }),
-        result: joi.any(),
+        params: joi.object({}),
+        result: joi.array(),
 
         auth: false,
         route: '/register',
