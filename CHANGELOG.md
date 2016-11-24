@@ -1,3 +1,13 @@
+<a name="5.10.8"></a>
+## [5.10.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.7...v5.10.8) (2016-11-24)
+
+
+### Bug Fixes
+
+* replace params with identity to follow conventions ([239991b](https://github.com/softwaregroup-bg/ut-identity/commit/239991b))
+
+
+
 <a name="5.10.7"></a>
 ## [5.10.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.6...v5.10.7) (2016-11-24)
 
