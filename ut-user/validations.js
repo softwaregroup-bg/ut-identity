@@ -88,7 +88,9 @@ module.exports = {
         notes: ['identity cleanup'],
         tags: ['identity'],
 
-        params: joi.object({}),
+        params: joi.object({
+            sessionId: joi.string()
+        }),
         result: joi.array()
     },
     'forgottenPassword': {
@@ -96,7 +98,7 @@ module.exports = {
         notes: ['forgotten password'],
         tags: ['identity'],
 
-        params: joi.object({}),
+        params: joi.object(),
         result: joi.array(),
 
         auth: false,
@@ -107,19 +109,23 @@ module.exports = {
         description: 'register request',
         notes: ['register request'],
         tags: ['identity'],
-
         params: joi.object({
             countryCode: joi.string().min(2).max(3),
             phoneNumber: joi.string().min(1),
             language: joi.string().min(2).max(2),
             dateOfBirth: joi.string().min(10),
             uri: joi.string().min(1),
-            username: joi.string().min(1)
+            username: joi.string().min(1).required()
         }),
         result: joi.any(),
 
         auth: false,
         route: '/register',
         paramsMethod: ['identity.registerRequest', 'identity.registerValidate']
+    },
+    'changePassword': {
+        description: 'change Password',
+        params: joi.object(),
+        result: joi.any()
     }
 };
