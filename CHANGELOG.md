@@ -1,3 +1,13 @@
+<a name="5.10.11"></a>
+## [5.10.11](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.10...v5.10.11) (2016-11-25)
+
+
+### Bug Fixes
+
+* boolean ([84e535b](https://github.com/softwaregroup-bg/ut-identity/commit/84e535b))
+
+
+
 <a name="5.10.10"></a>
 ## [5.10.10](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.9...v5.10.10) (2016-11-25)
 
