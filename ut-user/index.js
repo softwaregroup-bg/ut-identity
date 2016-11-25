@@ -245,7 +245,7 @@ module.exports = {
                 });
             });
         }
-        if (msg.hasOwnProperty('newPassword')) {
+        if (msg.hasOwnProperty('newPassword') && !msg.hasOwnProperty('registerPassword')) {
             // Validate new password access policy
             get = Promise.all([get]).then(function() {
                 var rawNewPassword = arguments[0][0]['newPasswordRaw'];
