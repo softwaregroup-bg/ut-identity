@@ -55,8 +55,8 @@ module.exports = {
                 udf: joi.string().allow(null),
                 phoneModel: joi.string().allow(null),
                 computerModel: joi.string().allow(null),
-                isEnabled: joi.boolean(),
-                isDeleted: joi.boolean(),
+                isEnabled: joi.boolean().allow(0, 1, '0', '1'),
+                isDeleted: joi.boolean().allow(0, 1, '0', '1'),
                 maritalStatusId: joi.string().allow(null),
                 age: joi.number().integer()
             }),
