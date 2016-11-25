@@ -12,27 +12,27 @@ module.exports = {
                     sessionData.sessionId = 'valid';
                     return when.resolve(sessionData);
                 } else if (auth.username === 'test' && auth.password === 'expired') {
-                    return errors.ExpiredPassword.reject();
+                    return errors['identity.expiredPassword']();
                 } else {
-                    return errors.InvalidCredentials.reject();
+                    return errors['identity.invalidCredentials']();
                 }
             } else if (auth.fingerPrint) {
                 if (auth.fingerPrint === 'valid') {
                     return when.resolve({userId: 1});
                 } else {
-                    return errors.InvalidFingerprint.reject();
+                    return errors['identity.invalidFingerprint']();
                 }
             } else if (auth.sessionId) {
                 if (auth.sessionId === 'valid') {
                     return when.resolve({userId: 1});
                 } else {
-                    return errors.SessionExpired.reject();
+                    return errors['identity.sessionExpired']();
                 }
             } else {
-                return errors.MissingCredentials.reject();
+                return errors['identity.missingCredentials']();
             }
         }
-        return errors.MissingCredentials.reject();
+        return errors['identity.missingCredentials']();
     },
     closeSession: function(criteria) {
 
