@@ -1,3 +1,26 @@
+<a name="5.10.11"></a>
+## [5.10.11](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.10...v5.10.11) (2016-11-25)
+
+
+### Bug Fixes
+
+* boolean ([84e535b](https://github.com/softwaregroup-bg/ut-identity/commit/84e535b))
+
+
+
+<a name="5.10.10"></a>
+## [5.10.10](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.9...v5.10.10) (2016-11-25)
+
+
+### Bug Fixes
+
+* tests ([106fb78](https://github.com/softwaregroup-bg/ut-identity/commit/106fb78))
+* UIS-233: fix linting ([598c2e8](https://github.com/softwaregroup-bg/ut-identity/commit/598c2e8))
+* UIS-233: fix linting ([2da4c43](https://github.com/softwaregroup-bg/ut-identity/commit/2da4c43))
+* UIS-233: rename errors in errors.js ([ccc2990](https://github.com/softwaregroup-bg/ut-identity/commit/ccc2990))
+
+
+
 <a name="5.10.9"></a>
 ## [5.10.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.8...v5.10.9) (2016-11-24)
 
