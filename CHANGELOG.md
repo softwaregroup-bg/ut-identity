@@ -1,3 +1,13 @@
+<a name="5.10.12"></a>
+## [5.10.12](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.11...v5.10.12) (2016-11-27)
+
+
+### Bug Fixes
+
+* (temp) register password ([f9ee1eb](https://github.com/softwaregroup-bg/ut-identity/commit/f9ee1eb))
+
+
+
 <a name="5.10.11"></a>
 ## [5.10.11](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.10...v5.10.11) (2016-11-25)
 
