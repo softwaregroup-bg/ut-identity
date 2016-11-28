@@ -231,29 +231,35 @@ module.exports = {
                     });
                 });
         }
-        if (msg.hasOwnProperty('forgottenPassword')) {
-            if (msg.hasOwnProperty('password') || msg.hasOwnProperty('registerPassword')) {
-                throw errors['identity.systemError']('invalid.request');
-            }
-            get = get.then(function(r) {
-                $meta.method = 'user.identity.forgottenPasswordChange';
-                return importMethod($meta.method)(r).then(function() {
-                    r.password = r.newPassword;
-                    delete r.forgottenPassword;
-                    delete r.newPassword;
-                    return r;
-                });
-            });
-        }
         if (msg.hasOwnProperty('newPassword') && !msg.hasOwnProperty('registerPassword')) {
+            if (msg.hasOwnProperty('forgottenPassword') && msg.hasOwnProperty('registerPassword')) {
+                throw new errors.SystemError('invalid.request');
+            }
+
             // Validate new password access policy
             get = Promise.all([get]).then(function() {
                 var rawNewPassword = arguments[0][0]['newPasswordRaw'];
                 var okReturn = arguments[0][0];
 
+                // The SP receives type param which determines which action should be taken
+                var type;
+                var password;
+
+                if (msg.hasOwnProperty('forgottenPassword')) {
+                    type = 'forgottenPassword';
+                    password = msg.forgottenPassword;
+                } else if (msg.hasOwnProperty('registerPassword')) {
+                    type = 'registerPassword';
+                    password = msg.registerPassword;
+                } else {
+                    type = 'password';
+                    password = msg.password;
+                }
+
                 return importMethod('policy.passwordCredentials.get')({
                     username: msg.username,
-                    password: msg.password
+                    type: type,
+                    password: password
                 }).then(function(policyRes) {
                     // Validate password policy
                     var passwordCredentials = policyRes['passwordCredentials'][0];
@@ -309,6 +315,20 @@ module.exports = {
                             throw ivanlidNewPasswordError;
                         });
                     }
+                });
+            });
+        }
+        if (msg.hasOwnProperty('forgottenPassword')) {
+            if (msg.hasOwnProperty('password') || msg.hasOwnProperty('registerPassword')) {
+                throw errors['identity.systemError']('invalid.request');
+            }
+            get = get.then(function(r) {
+                $meta.method = 'user.identity.forgottenPasswordChange';
+                return importMethod($meta.method)(r).then(function() {
+                    r.password = r.newPassword;
+                    delete r.forgottenPassword;
+                    delete r.newPassword;
+                    return r;
                 });
             });
         }
