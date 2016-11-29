@@ -83,6 +83,7 @@ var handleError = function(err) {
             err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
             err.type === 'user.identity.registerPasswordChange.invalidCredentials' ||
             err.type === 'identity.invalidFingerprint' ||
+            err.type === 'user.identity.checkPolicy.invalidLoginTime' ||
             err.type.startsWith('policy.param.')
         ) {
             throw err;
@@ -99,6 +100,7 @@ var handleError = function(err) {
             err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
             err.type === 'identity.credentialsLocked' ||
             err.type === 'identity.notFound' ||
+            
             err.type === 'identity.multipleResults' ||
             err.type.startsWith('policy.term.')
         ) {
