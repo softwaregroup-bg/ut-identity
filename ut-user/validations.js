@@ -72,7 +72,11 @@ module.exports = {
             }),
             roles: joi.array(),
             emails: joi.array(),
-            screenHeader: joi.string().allow(null),
+            screenHeader: joi.object().keys({
+                fieldOfWorkId: joi.string(),
+                fieldOfWork: joi.string(),
+                itemCode: joi.string()
+            }).allow(null),
             loginFactors: joi.array().items({
                 type: joi.string(),
                 params: joi.string().allow(null),
@@ -115,7 +119,8 @@ module.exports = {
             language: joi.string().min(2).max(2),
             dateOfBirth: joi.string().min(10),
             uri: joi.string().min(1),
-            username: joi.string().min(1).required()
+            username: joi.string().min(1).required(),
+            registerPassword: joi.string()
         }),
         result: joi.any(),
 
