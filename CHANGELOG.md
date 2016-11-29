@@ -1,3 +1,15 @@
+<a name="5.10.19"></a>
+## [5.10.19](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.18...v5.10.19) (2016-11-29)
+
+
+### Bug Fixes
+
+* MCTUNE-1567 catch logintime error ([15b7987](https://github.com/softwaregroup-bg/ut-identity/commit/15b7987))
+* typo ([977df9c](https://github.com/softwaregroup-bg/ut-identity/commit/977df9c))
+* typo ([7b14866](https://github.com/softwaregroup-bg/ut-identity/commit/7b14866))
+
+
+
 <a name="5.10.18"></a>
 ## [5.10.18](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.17...v5.10.18) (2016-11-29)
 
