@@ -266,7 +266,7 @@ module.exports = {
                     var isPasswordValid = utUserHelpers.isParamValid(msg.newPasswordRaw, passwordCredentials);
                     if (isPasswordValid) {
                         // Validate previous password
-                        var previousPasswords = policyRes['previousPasswords'];
+                        var previousPasswords = policyRes['previousPasswords'] || [];
 
                         var genHashPromises = [];
                         var cachedHashPromises = {};
