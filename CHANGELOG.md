@@ -1,3 +1,13 @@
+<a name="5.10.20"></a>
+## [5.10.20](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.19...v5.10.20) (2016-11-30)
+
+
+### Bug Fixes
+
+* joi validations ([afb8b77](https://github.com/softwaregroup-bg/ut-identity/commit/afb8b77))
+
+
+
 <a name="5.10.19"></a>
 ## [5.10.19](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.18...v5.10.19) (2016-11-29)
 
