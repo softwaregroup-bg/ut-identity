@@ -46,7 +46,7 @@ module.exports = {
                 firstName: joi.string().required(),
                 lastName: joi.string().required(),
                 nationalId: joi.string().allow(null),
-                dateOfBirth: joi.date(),
+                dateOfBirth: joi.date().allow(null),
                 placeOfBirth: joi.string().allow(null),
                 nationality: joi.string().allow(null),
                 gender: joi.string(),
@@ -58,7 +58,7 @@ module.exports = {
                 isEnabled: joi.boolean().allow(0, 1, '0', '1'),
                 isDeleted: joi.boolean().allow(0, 1, '0', '1'),
                 maritalStatusId: joi.string().allow(null),
-                age: joi.number().integer()
+                age: joi.number().integer().allow(null)
             }),
             language: joi.object().keys({
                 languageId: joi.number().required(),
