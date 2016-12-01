@@ -49,7 +49,7 @@ module.exports = {
                 dateOfBirth: joi.date().allow(null),
                 placeOfBirth: joi.string().allow(null),
                 nationality: joi.string().allow(null),
-                gender: joi.string(),
+                gender: joi.string().allow(null),
                 bioId: joi.string().allow(null),
                 oldValues: joi.string().allow(null),
                 udf: joi.string().allow(null),
