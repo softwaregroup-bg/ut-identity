@@ -1,3 +1,13 @@
+<a name="5.10.21"></a>
+## [5.10.21](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.20...v5.10.21) (2016-12-01)
+
+
+### Bug Fixes
+
+* person dateofBirth & age validations: ([a1db39f](https://github.com/softwaregroup-bg/ut-identity/commit/a1db39f))
+
+
+
 <a name="5.10.20"></a>
 ## [5.10.20](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.19...v5.10.20) (2016-11-30)
 
