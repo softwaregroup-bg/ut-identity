@@ -101,6 +101,7 @@ var handleError = function(err) {
             err.type === 'identity.credentialsLocked' ||
             err.type === 'identity.notFound' ||
             err.type === 'identity.multipleResults' ||
+            err.type === 'user.session.validate.invalidSession' ||
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
