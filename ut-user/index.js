@@ -71,9 +71,6 @@ var hashMethods = {
     }
 };
 
-/*
-    passwordCredentaislGetStoreProcedureParams - could have hashed password, if not we are hasheing in the method but we need params
-*/
 /**
  * Validates password against user Access policy. E.g. Passowrd lenght and required symbols (lower case, special symbol, etc.)
  * @param {newPasswordRaw} plain new password
