@@ -173,9 +173,9 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
                     languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
                 }, $meta).then(function(translationResult) {
                     var printMessage = helpers.buildPolicyErrorMessage(translationResult.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
-                    var ivanlidNewPasswordError = errors['identity.term.invalidNewPassword'](printMessage);
-                    ivanlidNewPasswordError.message = printMessage;
-                    throw ivanlidNewPasswordError;
+                    var invalidNewPasswordError = errors['identity.term.invalidNewPassword'](printMessage);
+                    invalidNewPasswordError.message = printMessage;
+                    throw invalidNewPasswordError;
                 });
             }
         });
