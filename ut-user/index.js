@@ -71,8 +71,36 @@ var hashMethods = {
     }
 };
 
-function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredentaislGetStoreProcedureParams, okReturn, $meta) {
-    return importMethod('policy.passwordCredentials.get')(passwordCredentaislGetStoreProcedureParams)
+/*
+    passwordCredentaislGetStoreProcedureParams - could have hashed password, if not we are hasheing in the method but we need params
+*/
+function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredentaislGetStoreProcedureParams, $meta) {
+    // There are some cases in which we passes the current hashed password => no need to hash it
+    var hashPassword = new Promise(function(resolve, reject) {
+        if (passwordCredentaislGetStoreProcedureParams.requiresPassHash) {
+            var hashParams = passwordCredentaislGetStoreProcedureParams.hashParams;
+            var password = passwordCredentaislGetStoreProcedureParams.password;
+            if (hashParams && password) {
+                utUserHelpers.genHash(password, JSON.parse(hashParams.params))
+                    .then(function(hashedPassword) {
+                        resolve(hashedPassword);
+                    });
+            } else {
+                throw errors['identity.hashParams']();
+            }
+        } else {
+            resolve(passwordCredentaislGetStoreProcedureParams.password);
+        }
+    });
+
+    return hashPassword
+    .then(function(hashedPassword) {
+        var policyPasswordCredentalsGetParams = {
+            username: passwordCredentaislGetStoreProcedureParams.username,
+            type: passwordCredentaislGetStoreProcedureParams.type,
+            password: hashedPassword
+        };
+        return importMethod('policy.passwordCredentials.get')(policyPasswordCredentalsGetParams)
         .then(function(policyResult) {
             // Validate password policy
             var passwordCredentials = policyResult['passwordCredentials'][0];
@@ -113,11 +141,10 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
                     if (newPassMatchPrev) {
                         throw errors['identity.term.matchingPrevPassword']();
                     } else {
-                        return okReturn;
+                        return true;
                     }
                 });
             } else {
-                $meta['auth.actorId'] = msg.actorId;
                 return importMethod('core.itemTranslation.fetch')({
                     itemTypeName: 'regexInfo',
                     languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
@@ -129,6 +156,7 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
                 });
             }
         });
+    });
 }
 
 var handleError = function(err) {
@@ -465,7 +493,18 @@ module.exports = {
             type: 'password'
         }, $meta)
             .then((r) => {
+                var passwordCredentaislGetStoreProcedureParams = {
+                    username: msg.username,
+                    type: 'password',
+                    password: msg.password,
+                    requiresPassHash: true,
+                    hashParams: r.hashParams[0]
+                };
+
                 msg.hashParams = r.hashParams[0];
+                return validateNewPasswordAgainstAccessPolicy(msg.newPassword, passwordCredentaislGetStoreProcedureParams, $meta);
+            })
+            .then(() => {
                 $meta.method = 'user.changePassword';
                 return importMethod($meta.method)(msg, $meta);
             })
