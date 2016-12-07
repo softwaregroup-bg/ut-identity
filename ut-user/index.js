@@ -74,7 +74,7 @@ var hashMethods = {
 /*
     passwordCredentaislGetStoreProcedureParams - could have hashed password, if not we are hasheing in the method but we need params
 */
-function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredentaislGetStoreProcedureParams, $meta) {
+function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredentaislGetStoreProcedureParams, $meta, actorId) {
     // There are some cases in which we passes the current hashed password => no need to hash it
     var hashPassword = new Promise(function(resolve, reject) {
         if (passwordCredentaislGetStoreProcedureParams.requiresPassHash) {
@@ -145,6 +145,12 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
                     }
                 });
             } else {
+                if (!$meta['auth.actorId']) {
+                    if (!actorId) {
+                        throw errors['identity.actorId']();
+                    }
+                    $meta['auth.actorId'] = actorId;
+                }
                 return importMethod('core.itemTranslation.fetch')({
                     itemTypeName: 'regexInfo',
                     languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
@@ -345,66 +351,16 @@ module.exports = {
                     password = msg.password;
                 }
 
-                return importMethod('policy.passwordCredentials.get')({
+                var passwordCredentaislGetStoreProcedureParams = {
                     username: msg.username,
                     type: type,
                     password: password
-                }).then(function(policyRes) {
-                    // Validate password policy
-                    var passwordCredentials = policyRes['passwordCredentials'][0];
-                    var isPasswordValid = utUserHelpers.isParamValid(msg.newPasswordRaw, passwordCredentials);
-                    if (isPasswordValid) {
-                        // Validate previous password
-                        var previousPasswords = policyRes['previousPasswords'] || [];
+                };
 
-                        var genHashPromises = [];
-                        var cachedHashPromises = {};
-                        var cachedHashPromisesPrevPassMap = {}; // stores index from genHash to which prevPassword index is, in order to avoid generating the same hash multiple times
-
-                        var prevPassMapIndex = -1;
-                        for (var i = 0; i < previousPasswords.length; i += 1) {
-                            var currentPrevPasswordObj = previousPasswords[i];
-                            var currentPassWillBeCached = cachedHashPromises[currentPrevPasswordObj.params];
-                            if (!currentPassWillBeCached) {
-                                genHashPromises.push(utUserHelpers.genHash(rawNewPassword, JSON.parse(currentPrevPasswordObj.params)));
-                                cachedHashPromises[currentPrevPasswordObj.params] = true;
-                                prevPassMapIndex += 1;
-                            }
-
-                            cachedHashPromisesPrevPassMap[i] = prevPassMapIndex;
-                        }
-
-                        return Promise.all(genHashPromises).then((res) => {
-                            var newPassMatchPrev = false;
-
-                            for (var i = 0; i < previousPasswords.length && !newPassMatchPrev; i += 1) {
-                                var currentPrevPassword = previousPasswords[i];
-                                var currentHashIndex = cachedHashPromisesPrevPassMap[i];
-                                var currentNewHashedPassword = res[currentHashIndex];
-                                if (currentPrevPassword.value === currentNewHashedPassword) {
-                                    newPassMatchPrev = true;
-                                }
-                            }
-
-                            if (newPassMatchPrev) {
-                                throw errors['identity.term.matchingPrevPassword']();
-                            } else {
-                                return okReturn;
-                            }
-                        });
-                    } else {
-                        $meta['auth.actorId'] = msg.actorId;
-                        return importMethod('core.itemTranslation.fetch')({
-                            itemTypeName: 'regexInfo',
-                            languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
-                        }, $meta).then(function(res) {
-                            var printMessage = helpers.buildPolicyErrorMessage(res.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
-                            var ivanlidNewPasswordError = errors['identity.term.invalidNewPassword'](printMessage);
-                            ivanlidNewPasswordError.message = printMessage;
-                            throw ivanlidNewPasswordError;
-                        });
-                    }
-                });
+                return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                    .then(() => {
+                        return okReturn;
+                    });
             });
         }
         if (msg.hasOwnProperty('forgottenPassword')) {
