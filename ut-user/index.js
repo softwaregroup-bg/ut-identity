@@ -74,8 +74,25 @@ var hashMethods = {
 /*
     passwordCredentaislGetStoreProcedureParams - could have hashed password, if not we are hasheing in the method but we need params
 */
+/**
+ * Validates password against user Access policy. E.g. Passowrd lenght and required symbols (lower case, special symbol, etc.)
+ * @param {newPasswordRaw} plain new password
+ * @param {passwordCredentaislGetStoreProcedureParams} params that 'policy.passwordCredentials.get' Store procedure requires
+ *  username: string
+ *  type: one of forgottenPassword|registerPassword|password
+ *  password: string. Could be plain or hashed. However, the store procedure requires hashed password therefore additional properties
+ *     could be passed to this object to make this method to hash the password: requiresPassHash and hashParams
+ *  requiresPassHash: boolen. If this property is true the method will require to pass hashParams as well
+ *  hashParams: object having params property. Used to hash the password with the passed params
+ * @param {$meta} object
+ * @param {actorId} number|string. Required only if $meta object has no 'auth.actorId' propepry.
+ *  Store procedure 'core.itemTranslation.fetch' requires actorId. This SP will be executed if the new password does not match the access policy
+ *  and appropriate message need to be displayed to the user
+ *
+ * Return true or throws error
+ */
 function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredentaislGetStoreProcedureParams, $meta, actorId) {
-    // There are some cases in which we passes the current hashed password => no need to hash it
+    // There are cases iwhere we passes the current hashed password => no need to hash it
     var hashPassword = new Promise(function(resolve, reject) {
         if (passwordCredentaislGetStoreProcedureParams.requiresPassHash) {
             var hashParams = passwordCredentaislGetStoreProcedureParams.hashParams;
