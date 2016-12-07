@@ -18,6 +18,10 @@ module.exports = [
         defaultMessage: 'No hash params'
     },
     {
+        name: 'identity.actorId',
+        defaultMessage: 'No actor id param'
+    },
+    {
         name: 'identity.term',
         defaultMessage: 'ut-identity identity.term error'
     },
