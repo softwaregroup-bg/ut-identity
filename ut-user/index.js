@@ -159,7 +159,7 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
                     }
                 });
             } else {
-                if (!$meta['auth.actorId']) {
+                if (!($meta['auth.actorId'] || ($meta['auth'] && ($meta['auth']['actorId'])))) {
                     if (!actorId) {
                         throw errors['identity.actorId']();
                     }
