@@ -1,6 +1,5 @@
 var assign = require('lodash.assign');
 var errors = require('../errors');
-var helpers = require('./helpers');
 var utUserHelpers = require('ut-user/helpers');
 var importMethod;
 var checkMethod;
@@ -169,7 +168,7 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
                     itemTypeName: 'regexInfo',
                     languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
                 }, $meta).then(function(translationResult) {
-                    var printMessage = helpers.buildPolicyErrorMessage(translationResult.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
+                    var printMessage = utUserHelpers.buildPolicyErrorMessage(translationResult.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
                     var invalidNewPasswordError = errors['identity.term.invalidNewPassword'](printMessage);
                     invalidNewPasswordError.message = printMessage;
                     throw invalidNewPasswordError;
