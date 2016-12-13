@@ -119,7 +119,7 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
             // Validate password policy
             var passwordCredentials = policyResult['passwordCredentials'][0];
             var isPasswordValid = utUserHelpers.isParamValid(newPasswordRaw, passwordCredentials);
-            if (isPasswordValid) {
+            if (isPasswordValid) {  
                 // Validate previous password
                 var previousPasswords = policyResult['previousPasswords'] || [];
 
@@ -155,7 +155,7 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
                     if (newPassMatchPrev) {
                         throw errors['identity.term.matchingPrevPassword']();
                     } else {
-                        return true;
+                        return passwordCredentials;
                     }
                 });
             } else {
@@ -347,7 +347,7 @@ module.exports = {
 
             // Validate new password access policy
             get = Promise.all([get]).then(function() {
-                var rawNewPassword = arguments[0][0]['newPasswordRaw'];
+                var rawNewPassword = arguments[0][0]['newPassword'];
                 var okReturn = arguments[0][0];
 
                 // The SP receives type param which determines which action should be taken
@@ -372,7 +372,7 @@ module.exports = {
                 };
 
                 return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
-                    .then(() => {
+                    .then((res) => {
                         return okReturn;
                     });
             });
@@ -474,9 +474,16 @@ module.exports = {
                 msg.hashParams = r.hashParams[0];
                 return validateNewPasswordAgainstAccessPolicy(msg.newPassword, passwordCredentaislGetStoreProcedureParams, $meta);
             })
-            .then(() => {
+            .then((accessPolicy) => {
                 $meta.method = 'user.changePassword';
-                return importMethod($meta.method)(msg, $meta);
+                return importMethod($meta.method)(msg, $meta).then((response) => {
+                    $meta.method = 'user.sendOtp';
+                    return importMethod($meta.method)({
+                        actorId: $meta.auth.actorId,
+                        template: 'user.passwordChanged',
+                        channel: accessPolicy.sendMethod.toLowerCase()
+                    }, $meta);
+                });
             })
             .catch(handleError);
     },
