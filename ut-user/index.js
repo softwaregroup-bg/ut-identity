@@ -339,7 +339,7 @@ module.exports = {
                     });
                 });
         }
-        if (msg.hasOwnProperty('newPassword') && !msg.hasOwnProperty('registerPassword')) {
+        if (msg.hasOwnProperty('newPassword')) {
             if (msg.hasOwnProperty('forgottenPassword') && msg.hasOwnProperty('registerPassword')) {
                 throw errors['identity.systemError']('invalid.request');
             }
