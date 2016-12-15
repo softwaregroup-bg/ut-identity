@@ -178,6 +178,29 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
     });
 }
 
+function buildPasswordCredentaislGetStoreProcedureParams(msg) {
+    // The SP receives type param which determines which action should be taken
+    var type;
+    var password;
+
+    if (msg.hasOwnProperty('forgottenPassword')) {
+        type = 'forgottenPassword';
+        password = msg.forgottenPassword;
+    } else if (msg.hasOwnProperty('registerPassword')) {
+        type = 'registerPassword';
+        password = msg.registerPassword;
+    } else {
+        type = 'password';
+        password = msg.password;
+    }
+
+    return {
+        username: msg.username,
+        type: type,
+        password: password
+    };
+}
+
 var handleError = function(err) {
     if (typeof err.type === 'string') {
         if (
@@ -305,9 +328,6 @@ module.exports = {
         } else {
             creatingSession = true;
             $meta.method = 'user.identity.get'; // get hashes info
-            if (msg.newPassword) {
-                msg.newPasswordRaw = msg.newPassword;
-            }
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
                     if (!result.hashParams) {
@@ -341,80 +361,65 @@ module.exports = {
                 });
         }
         if (msg.hasOwnProperty('newPassword')) {
-            if (msg.hasOwnProperty('forgottenPassword') && msg.hasOwnProperty('registerPassword')) {
-                throw errors['identity.systemError']('invalid.request');
-            }
-
             // Validate new password access policy
-            get = Promise.all([get]).then(function() {
-                var rawNewPassword = arguments[0][0]['newPasswordRaw'];
-                var okReturn = arguments[0][0];
+            var rawNewPassword = arguments[0]['newPassword'];
+            var passwordCredentaislGetStoreProcedureParams;
 
-                // The SP receives type param which determines which action should be taken
-                var type;
-                var password;
+            if (msg.hasOwnProperty('registerPassword')) {
+                var hash = msg.newPassword == null ? Promise.resolve([]) : importMethod('user.getHash')({
+                    identifier: msg.username,
+                    value: msg.newPassword,
+                    type: 'password'
+                });
+                get = Promise.all([get, hash])
+                .then(function() {
+                    var r = arguments[0][0];
+                    var hash = arguments[0][1];
 
-                if (msg.hasOwnProperty('forgottenPassword')) {
-                    type = 'forgottenPassword';
-                    password = msg.forgottenPassword;
-                } else if (msg.hasOwnProperty('registerPassword')) {
-                    type = 'registerPassword';
-                    password = msg.registerPassword;
-                } else {
-                    type = 'password';
-                    password = msg.password;
-                }
-
-                var passwordCredentaislGetStoreProcedureParams = {
-                    username: msg.username,
-                    type: type,
-                    password: password
-                };
-
-                return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
-                    .then(() => {
+                    passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
+                    return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                    .then(function() {
+                        $meta.method = 'user.identity.registerPasswordChange';
+                        return importMethod($meta.method)({
+                            username: r.username,
+                            registerPassword: r.registerPassword,
+                            hash: hash
+                        });
+                    })
+                    .then(function() {
+                        r.password = hash.value;
+                        delete r.registerPassword;
+                        delete r.newPassword;
+                        return r;
+                    });
+                });
+            } else if (msg.hasOwnProperty('forgottenPassword')) {
+                get = Promise.all([get])
+                .then(function(r) {
+                    passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
+                    return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                    .then(function() {
+                        $meta.method = 'user.identity.forgottenPasswordChange';
+                        return importMethod($meta.method)(r[0]).then(function() {
+                            var resultToReturn = Object.assign({}, r[0]);
+                            resultToReturn.password = r[0].newPassword;
+                            delete resultToReturn.forgottenPassword;
+                            delete resultToReturn.newPassword;
+                            return resultToReturn;
+                        });
+                    });
+                });
+            } else { // Case: change password when password is expired
+                get = Promise.all([get])
+                .then(function() {
+                    var okReturn = arguments[0][0];
+                    passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
+                    return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                    .then(function() {
                         return okReturn;
                     });
-            });
-        }
-        if (msg.hasOwnProperty('forgottenPassword')) {
-            if (msg.hasOwnProperty('password') || msg.hasOwnProperty('registerPassword')) {
-                throw errors['identity.systemError']('invalid.request');
-            }
-            get = get.then(function(r) {
-                $meta.method = 'user.identity.forgottenPasswordChange';
-                return importMethod($meta.method)(r).then(function() {
-                    r.password = r.newPassword;
-                    delete r.forgottenPassword;
-                    delete r.newPassword;
-                    return r;
                 });
-            });
-        }
-        if (msg.hasOwnProperty('registerPassword')) {
-            if (msg.hasOwnProperty('password') || msg.hasOwnProperty('forgottenPassword')) {
-                throw errors['identity.systemError']('invalid.request');
             }
-            var hash = msg.newPassword == null ? Promise.resolve([]) : importMethod('user.getHash')({
-                identifier: msg.username,
-                value: msg.newPassword,
-                type: 'password'
-            });
-            get = Promise.all([get, hash]).then(function() {
-                var r = arguments[0][0];
-                var hash = arguments[0][1];
-                $meta.method = 'user.identity.registerPasswordChange';
-                return importMethod($meta.method)({
-                    username: r.username,
-                    registerPassword: r.registerPassword,
-                    hash: hash
-                }).then(function() {
-                    r.password = hash.value;
-                    delete r.registerPassword;
-                    delete r.newPassword;
-                    return r;
-                });
-            });
         }
         return get
             .then(function(r) {
