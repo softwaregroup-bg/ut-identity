@@ -1,3 +1,13 @@
+<a name="5.10.23"></a>
+## [5.10.23](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.22...v5.10.23) (2016-12-15)
+
+
+### Bug Fixes
+
+* deps versions bump ([0e85cec](https://github.com/softwaregroup-bg/ut-identity/commit/0e85cec))
+
+
+
 <a name="5.10.22"></a>
 ## [5.10.22](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.21...v5.10.22) (2016-12-07)
 
