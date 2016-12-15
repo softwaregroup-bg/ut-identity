@@ -37,11 +37,11 @@
   },
   "dependencies": {
     "ut-error": "^5.3.16",
-    "joi": "10.0.1",
+    "joi": "10.0.6",
     "lodash.assign": "4.2.0",
     "lodash.defaults": "4.2.0",
-    "ut-template": "~5.4.5",
-    "ut-user": "^5.28.19",
+    "ut-template": "~5.5.0",
+    "ut-user": "^5.32.10",
     "when": "3.7.7"
   }
 }
