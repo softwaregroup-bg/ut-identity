@@ -1,3 +1,13 @@
+<a name="5.10.34"></a>
+## [5.10.34](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.33...v5.10.34) (2016-12-23)
+
+
+### Bug Fixes
+
+* update dependencies ([4942c8a](https://github.com/softwaregroup-bg/ut-identity/commit/4942c8a))
+
+
+
 <a name="5.10.33"></a>
 ## [5.10.33](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.32...v5.10.33) (2016-12-20)
 
