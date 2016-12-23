@@ -1,3 +1,13 @@
+<a name="5.10.35"></a>
+## [5.10.35](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.34...v5.10.35) (2016-12-23)
+
+
+### Bug Fixes
+
+* version bump ([6e3c3fb](https://github.com/softwaregroup-bg/ut-identity/commit/6e3c3fb))
+
+
+
 <a name="5.10.34"></a>
 ## [5.10.34](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.33...v5.10.34) (2016-12-23)
 
