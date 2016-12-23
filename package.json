@@ -32,8 +32,8 @@
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "blue-tape": "0.2.0",
-    "ut-tools": "^5.10.8"
+    "blue-tape": "1.0.0",
+    "ut-tools": "^5.11.1"
   },
   "dependencies": {
     "ut-error": "^5.3.16",
