@@ -499,7 +499,7 @@ module.exports = {
                 throw errors['identity.notFound']();
             }
             var actorId = hash.hashParams[0].actorId;
-            $meta.method = 'user.sendOtp';
+            $meta.method = 'user.sendNotification';
             return importMethod($meta.method)({
                 channel: msg.channel,
                 type: 'forgottenPassword',
