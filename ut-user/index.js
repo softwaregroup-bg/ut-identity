@@ -243,6 +243,9 @@ var handleError = function(err) {
     if (err.type === 'core.throttle' || err.message === 'core.throttle') {
         throw errors['identity.throttleError'](err);
     }
+    if (err.type === 'identity.throttleErrorForgotten' || err.message === 'identity.throttleErrorForgotten') {
+        throw err;
+    }
     throw errors['identity.systemError'](err);
 };
 
@@ -371,7 +374,18 @@ module.exports = {
                     value: msg.newPassword,
                     type: 'password'
                 });
-                get = Promise.all([get, hash])
+                get = Promise.all([get, hash,
+                    new Promise(function(resolve, reject) {
+                        return importMethod('core.throttle.perform')({
+                            name: 'identity.check',
+                            instance: msg.username+"registerPassword"
+                        }).then(function() {
+                            resolve();
+                        }).catch(function(err) {
+                            reject(errors['identity.throttleError'](err));
+                        });
+                    })
+                ])
                 .then(function() {
                     var r = arguments[0][0];
                     var hash = arguments[0][1];
@@ -394,8 +408,19 @@ module.exports = {
                     });
                 });
             } else if (msg.hasOwnProperty('forgottenPassword')) {
-                get = Promise.all([get])
-                .then(function(r) {
+                get = Promise.all([
+                    get,
+                    new Promise(function(resolve, reject) {
+                        return importMethod('core.throttle.perform')({
+                            name: 'identity.check',
+                            instance: msg.username+"forgottenPassword"
+                        }).then(function() {
+                            resolve();
+                        }).catch(function(err) {
+                            reject(errors['identity.throttleErrorForgotten'](err));
+                        });
+                    })])
+                    .then(function(r) {
                     passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
                     return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
                     .then(function() {
