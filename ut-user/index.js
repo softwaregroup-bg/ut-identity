@@ -378,9 +378,9 @@ module.exports = {
                     new Promise(function(resolve, reject) {
                         return importMethod('core.throttle.perform')({
                             name: 'identity.check',
-                            instance: msg.username+"registerPassword"
-                        }).then(function() {
-                            resolve();
+                            instance: `${msg.username}registerPassword`
+                        }).then(function(res) {
+                            resolve(true);
                         }).catch(function(err) {
                             reject(errors['identity.throttleError'](err));
                         });
@@ -413,16 +413,16 @@ module.exports = {
                     new Promise(function(resolve, reject) {
                         return importMethod('core.throttle.perform')({
                             name: 'identity.check',
-                            instance: msg.username+"forgottenPassword"
-                        }).then(function() {
-                            resolve();
+                            instance: `${msg.username}forgottenPassword`
+                        }).then(function(res) {
+                            resolve(true);
                         }).catch(function(err) {
                             reject(errors['identity.throttleErrorForgotten'](err));
                         });
                     })])
                     .then(function(r) {
-                    passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
-                    return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                        passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
+                        return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
                     .then(function() {
                         $meta.method = 'user.identity.forgottenPasswordChange';
                         return importMethod($meta.method)(r[0]).then(function() {
@@ -433,7 +433,7 @@ module.exports = {
                             return resultToReturn;
                         });
                     });
-                });
+                    });
             } else { // Case: change password when password is expired
                 get = Promise.all([get])
                 .then(function() {
@@ -540,7 +540,7 @@ module.exports = {
             });
         }).catch(function(err) {
             if (err.type === 'core.throttle') {
-                throw errors['identity.throttleErrorForgotten'](err)
+                throw errors['identity.throttleErrorForgotten'](err);
             }
             handleError(err);
         });
