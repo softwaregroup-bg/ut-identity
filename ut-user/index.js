@@ -531,14 +531,19 @@ module.exports = {
                 template: 'user.forgottenPassword.otp',
                 actorId: actorId
             }).then(function(result) {
-                if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[0]) && result[0].length >= 1 && result[0][0] && result[0][0].success) {
+                if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[1]) && result[1].length >= 1 && result[1][0] && result[1][0].success) {
                     return {
                         sent: true
                     };
                 }
                 throw errors['identity.notFound']();
             });
-        }).catch(handleError);
+        }).catch(function(err) {
+            if (err.type === 'core.throttle') {
+                throw errors['identity.throttleErrorForgotten'](err)
+            }
+            handleError(err);
+        });
     },
     forgottenPasswordValidate: function(msg, $meta) {
         $meta.method = 'user.identity.get';
