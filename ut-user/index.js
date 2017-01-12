@@ -229,6 +229,7 @@ var handleError = function(err) {
             err.type === 'user.identity.check.disabledUser' ||
             err.type === 'user.identity.check.disabledUserInactivity' ||
             err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
+            err.type === 'user.identity.checkPolicy.invalidChannel' ||
             err.type === 'identity.credentialsLocked' ||
             err.type === 'identity.notFound' ||
             err.type === 'identity.multipleResults' ||
