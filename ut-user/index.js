@@ -531,12 +531,9 @@ module.exports = {
                 template: 'user.forgottenPassword.otp',
                 actorId: actorId
             }).then(function(result) {
-                if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[1]) && result[1].length >= 1 && result[1][0] && result[1][0].success) {
-                    return {
-                        sent: true
-                    };
-                }
-                throw errors['identity.notFound']();
+                return {
+                    sent: true
+                };
             });
         }).catch(function(err) {
             if (err.type === 'core.throttle') {
