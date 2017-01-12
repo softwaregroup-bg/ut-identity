@@ -1,3 +1,16 @@
+<a name="5.10.38"></a>
+## [5.10.38](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.37...v5.10.38) (2017-01-12)
+
+
+### Bug Fixes
+
+* lint ([f40783e](https://github.com/softwaregroup-bg/ut-identity/commit/f40783e))
+* MCTUNE-1425 ([d188fa5](https://github.com/softwaregroup-bg/ut-identity/commit/d188fa5))
+* MCTUNE-1425 ([e8bc7c2](https://github.com/softwaregroup-bg/ut-identity/commit/e8bc7c2))
+* MCTUNE-2051 ([67b414c](https://github.com/softwaregroup-bg/ut-identity/commit/67b414c))
+
+
+
 <a name="5.10.37"></a>
 ## [5.10.37](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.36...v5.10.37) (2017-01-05)
 
