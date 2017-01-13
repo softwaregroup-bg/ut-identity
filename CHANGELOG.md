@@ -1,3 +1,13 @@
+<a name="5.10.39"></a>
+## [5.10.39](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.38...v5.10.39) (2017-01-13)
+
+
+### Bug Fixes
+
+* move ut-user as peer dependency ([d871680](https://github.com/softwaregroup-bg/ut-identity/commit/d871680))
+
+
+
 <a name="5.10.38"></a>
 ## [5.10.38](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.37...v5.10.38) (2017-01-12)
 
