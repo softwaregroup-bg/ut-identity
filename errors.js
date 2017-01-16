@@ -110,6 +110,11 @@ module.exports = [
         name: 'identity.throttleError',
         defaultMessage: 'After several attempts, the registration has been locked, please start again in 60 min.',
         level: 'error'
+    },
+    {
+        name: 'identity.throttleErrorForgotten',
+        defaultMessage: 'After several attempts, the password change has been locked, please start again in 60 min.',
+        level: 'error'
     }
 ].reduce(function(prev, next) {
     var spec = next.name.split('.');
