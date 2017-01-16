@@ -321,6 +321,7 @@ module.exports = {
         }).catch(handleError);
     },
     check: function(msg, $meta) {
+        msg.channel = 'web'
         delete msg.type;
         var creatingSession = false;
         var get;
