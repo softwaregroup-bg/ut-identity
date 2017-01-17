@@ -21,7 +21,8 @@ module.exports = {
             registerPassword: joi.string(),
             forgottenPassword: joi.string(),
             newPassword: joi.string(),
-            password: joi.string().allow('').min(1)
+            password: joi.string().allow('').min(1),
+            channel: joi.string().allow(null)
         }),
         result: joi.object().keys({
             'identity.check': joi.object().keys({
