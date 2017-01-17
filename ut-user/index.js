@@ -53,8 +53,8 @@ var hashMethods = {
                 var currentData = {};
                 currentData[finger] = mappedBioData[finger];
                 bioCheckPromises.push(importMethod('bio.check')({
-                    id: params.id,
-                    departmentId: params.departmentId,
+                    id: params.bio.id,
+                    departmentId: params.bio.departmentId,
                     data: currentData
                 }));
             }
@@ -111,7 +111,8 @@ function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredenta
         var policyPasswordCredentalsGetParams = {
             username: passwordCredentaislGetStoreProcedureParams.username,
             type: passwordCredentaislGetStoreProcedureParams.type,
-            password: hashedPassword
+            password: hashedPassword,
+            channel: passwordCredentaislGetStoreProcedureParams.channel
         };
         return importMethod('policy.passwordCredentials.get')(policyPasswordCredentalsGetParams)
         .then(function(policyResult) {
@@ -197,7 +198,8 @@ function buildPasswordCredentaislGetStoreProcedureParams(msg) {
     return {
         username: msg.username,
         type: type,
-        password: password
+        password: password,
+        channel: msg.channel
     };
 }
 
@@ -321,7 +323,6 @@ module.exports = {
         }).catch(handleError);
     },
     check: function(msg, $meta) {
-        msg.channel = 'web'
         delete msg.type;
         var creatingSession = false;
         var get;
