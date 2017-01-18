@@ -1,6 +1,6 @@
 {
   "name": "ut-identity",
-  "version": "5.10.37",
+  "version": "5.10.42",
   "description": "UT authentication module",
   "main": "index.js",
   "directories": {
@@ -41,7 +41,9 @@
     "lodash.assign": "4.2.0",
     "lodash.defaults": "4.2.0",
     "ut-template": "~5.5.0",
-    "ut-user": "^6.0.6",
     "when": "3.7.7"
+  },
+  "peerDependencies": {
+    "ut-user": "^6.0.6"
   }
 }

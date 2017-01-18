@@ -246,6 +246,9 @@ var handleError = function(err) {
     if (err.type === 'core.throttle' || err.message === 'core.throttle') {
         throw errors['identity.throttleError'](err);
     }
+    if (err.type === 'identity.throttleErrorForgotten' || err.message === 'identity.throttleErrorForgotten') {
+        throw err;
+    }
     throw errors['identity.systemError'](err);
 };
 
@@ -374,7 +377,18 @@ module.exports = {
                     value: msg.newPassword,
                     type: 'password'
                 });
-                get = Promise.all([get, hash])
+                get = Promise.all([get, hash,
+                    new Promise(function(resolve, reject) {
+                        return importMethod('core.throttle.perform')({
+                            name: 'identity.check',
+                            instance: `${msg.username}registerPassword`
+                        }).then(function(res) {
+                            resolve(true);
+                        }).catch(function(err) {
+                            reject(errors['identity.throttleError'](err));
+                        });
+                    })
+                ])
                 .then(function() {
                     var r = arguments[0][0];
                     var hash = arguments[0][1];
@@ -397,10 +411,21 @@ module.exports = {
                     });
                 });
             } else if (msg.hasOwnProperty('forgottenPassword')) {
-                get = Promise.all([get])
-                .then(function(r) {
-                    passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
-                    return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                get = Promise.all([
+                    get,
+                    new Promise(function(resolve, reject) {
+                        return importMethod('core.throttle.perform')({
+                            name: 'identity.check',
+                            instance: `${msg.username}forgottenPassword`
+                        }).then(function(res) {
+                            resolve(true);
+                        }).catch(function(err) {
+                            reject(errors['identity.throttleErrorForgotten'](err));
+                        });
+                    })])
+                    .then(function(r) {
+                        passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
+                        return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
                     .then(function() {
                         $meta.method = 'user.identity.forgottenPasswordChange';
                         return importMethod($meta.method)(r[0]).then(function() {
@@ -411,7 +436,7 @@ module.exports = {
                             return resultToReturn;
                         });
                     });
-                });
+                    });
             } else { // Case: change password when password is expired
                 get = Promise.all([get])
                 .then(function() {
@@ -509,14 +534,16 @@ module.exports = {
                 template: 'user.forgottenPassword.otp',
                 actorId: actorId
             }).then(function(result) {
-                if (Array.isArray(result) && result.length >= 1 && Array.isArray(result[0]) && result[0].length >= 1 && result[0][0] && result[0][0].success) {
-                    return {
-                        sent: true
-                    };
-                }
-                throw errors['identity.notFound']();
+                return {
+                    sent: true
+                };
             });
-        }).catch(handleError);
+        }).catch(function(err) {
+            if (err.type === 'core.throttle') {
+                throw errors['identity.throttleErrorForgotten'](err);
+            }
+            handleError(err);
+        });
     },
     forgottenPasswordValidate: function(msg, $meta) {
         $meta.method = 'user.identity.get';
