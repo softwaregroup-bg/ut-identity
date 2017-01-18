@@ -22,7 +22,7 @@ module.exports = {
             forgottenPassword: joi.string(),
             newPassword: joi.string(),
             password: joi.string().allow('').min(1),
-            channel: joi.string().allow(null)
+            channel: joi.string().valid(['web', 'mobile']).required()
         }),
         result: joi.object().keys({
             'identity.check': joi.object().keys({
