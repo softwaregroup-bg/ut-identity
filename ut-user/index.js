@@ -215,7 +215,7 @@ var handleError = function(err) {
             err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
             err.type === 'user.identity.registerPasswordChange.invalidCredentials' ||
             err.type === 'identity.invalidFingerprint' ||
-            err.type === 'user.identity.checkPolicy.invalidLoginTime' ||
+            err.type === 'user.invalidLoginTime' ||
             err.type === 'policy.term.otpExpired' ||
             err.type.startsWith('policy.param.')
         ) {
@@ -227,11 +227,10 @@ var handleError = function(err) {
             err.type === 'user.identity.check.userPassword.wrongPassword' ||
             err.type === 'user.identity.checkPolicy.notFound' ||
             err.type === 'user.identity.check.userPassword.notFound' ||
-            err.type === 'user.identity.checkPolicy.disabledCredentials' ||
+            err.type === 'user.disabledCredentials' ||
+            err.type === 'user.disabledUserInactivity' ||
             err.type === 'user.identity.check.disabledUser' ||
-            err.type === 'user.identity.check.disabledUserInactivity' ||
-            err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
-            err.type === 'user.identity.checkPolicy.invalidChannel' ||
+            err.type === 'user.invalidChannel' ||
             err.type === 'identity.credentialsLocked' ||
             err.type === 'identity.notFound' ||
             err.type === 'identity.multipleResults' ||
