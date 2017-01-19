@@ -1,3 +1,23 @@
+<a name="5.10.43"></a>
+## [5.10.43](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.42...v5.10.43) (2017-01-18)
+
+
+
+<a name="5.10.42"></a>
+## [5.10.42](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.41...v5.10.42) (2017-01-17)
+
+
+
+<a name="5.10.41"></a>
+## [5.10.41](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.40...v5.10.41) (2017-01-17)
+
+
+
+<a name="5.10.40"></a>
+## [5.10.40](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.39...v5.10.40) (2017-01-17)
+
+
+
 <a name="5.10.39"></a>
 ## [5.10.39](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.38...v5.10.39) (2017-01-13)
 
