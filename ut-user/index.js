@@ -1,262 +1,31 @@
+var UtIdentityHelpers = require('./helpers');
 var assign = require('lodash.assign');
 var errors = require('../errors');
-var utUserHelpers = require('ut-user/helpers');
+var UtCrypt = require('ut-core/crypt');
+
+var helpers;
+var crypt;
 var importMethod;
 var checkMethod;
 var debug;
-function getHash(password, hashData) {
-    if (!hashData || !hashData.params) {
-        return errors.MissingCredentials.reject();
+
+function getCrypt(cryptKey) {
+    if (!crypt) {
+        crypt = new UtCrypt({cryptParams: {password: cryptKey}});
     }
-    hashData.params = typeof (hashData.params) === 'string' ? JSON.parse(hashData.params) : hashData.params;
-    return importMethod('user.genHash')(password, hashData.params);
+    return crypt;
 }
-
-var hashMethods = {
-    otp: getHash,
-    password: getHash,
-    registerPassword: getHash,
-    forgottenPassword: getHash,
-    newPassword: getHash,
-    bio: function(values, hashData) {
-        // values - array like: [{finger: "L1", templates: ["RRMNDKSF...]}, {finger: "L2", templates: ["RRMNDKSF...]}].
-        // where finger could be one of 'L1', 'L2', 'L3', 'L4', 'L5', 'R1', 'R2', 'R3', 'R4', 'R5'
-        // Joi validations validates that
-        var mappedBioData = {};
-        var successDataResponse = [];
-        values.forEach(function(val) {
-            mappedBioData[val.finger] = val.templates;
-            successDataResponse.push(val.finger);
-        });
-
-        // Validate output object
-        if (Object.keys(mappedBioData).length === 0) {
-            return new Promise(function(resolve, reject) {
-                resolve(['']);
-            });
-        }
-
-        /*
-            Bio server example request:
-            id: params.id,
-            departmentId: params.departmentId,
-            data: {
-                UK: [value]
-            }
-        */
-
-        // On this stage BIO server can check one finger at time.
-        var bioCheckPromises = [];
-        var params = JSON.parse(hashData.params);
-        for (var finger in mappedBioData) {
-            if (mappedBioData.hasOwnProperty(finger)) {
-                var currentData = {};
-                currentData[finger] = mappedBioData[finger];
-                bioCheckPromises.push(importMethod('bio.check')({
-                    id: params.bio.id,
-                    departmentId: params.bio.departmentId,
-                    data: currentData
-                }));
-            }
-        }
-
-        return Promise.all(bioCheckPromises)
-            .then(function(r) {
-                return successDataResponse;
-            })
-            .catch(function(r) {
-                return [''];
-            });
-    }
-};
-
-/**
- * Validates password against user Access policy. E.g. Passowrd lenght and required symbols (lower case, special symbol, etc.)
- * @param {newPasswordRaw} plain new password
- * @param {passwordCredentaislGetStoreProcedureParams} params that 'policy.passwordCredentials.get' Store procedure requires
- *  username: string
- *  type: one of forgottenPassword|registerPassword|password
- *  password: string. Could be plain or hashed. However, the store procedure requires hashed password therefore additional properties
- *     could be passed to this object to make this method to hash the password: requiresPassHash and hashParams
- *  requiresPassHash: boolen. If this property is true the method will require to pass hashParams as well
- *  hashParams: object having params property. Used to hash the password with the passed params
- * @param {$meta} object
- * @param {actorId} number|string. Required only if $meta object has no 'auth.actorId' propepry.
- *  Store procedure 'core.itemTranslation.fetch' requires actorId. This SP will be executed if the new password does not match the access policy
- *  and appropriate message need to be displayed to the user
- *
- * Return true or throws error
- */
-function validateNewPasswordAgainstAccessPolicy(newPasswordRaw, passwordCredentaislGetStoreProcedureParams, $meta, actorId) {
-    // There are cases iwhere we passes the current hashed password => no need to hash it
-    var hashPassword = new Promise(function(resolve, reject) {
-        if (passwordCredentaislGetStoreProcedureParams.requiresPassHash) {
-            var hashParams = passwordCredentaislGetStoreProcedureParams.hashParams;
-            var password = passwordCredentaislGetStoreProcedureParams.password;
-            if (hashParams && password) {
-                utUserHelpers.genHash(password, JSON.parse(hashParams.params))
-                    .then(function(hashedPassword) {
-                        resolve(hashedPassword);
-                    });
-            } else {
-                throw errors['identity.hashParams']();
-            }
-        } else {
-            resolve(passwordCredentaislGetStoreProcedureParams.password);
-        }
-    });
-
-    return hashPassword
-    .then(function(hashedPassword) {
-        var policyPasswordCredentalsGetParams = {
-            username: passwordCredentaislGetStoreProcedureParams.username,
-            type: passwordCredentaislGetStoreProcedureParams.type,
-            password: hashedPassword,
-            channel: passwordCredentaislGetStoreProcedureParams.channel
-        };
-        return importMethod('policy.passwordCredentials.get')(policyPasswordCredentalsGetParams)
-        .then(function(policyResult) {
-            // Validate password policy
-            var passwordCredentials = policyResult['passwordCredentials'][0];
-            var isPasswordValid = utUserHelpers.isParamValid(newPasswordRaw, passwordCredentials);
-            if (isPasswordValid) {
-                // Validate previous password
-                var previousPasswords = policyResult['previousPasswords'] || [];
-
-                var genHashPromises = [];
-                var cachedHashPromises = {};
-                var cachedHashPromisesPrevPassMap = {}; // stores index from genHash to which prevPassword index is, in order to avoid generating the same hash multiple times
-
-                var prevPassMapIndex = -1;
-                for (var i = 0; i < previousPasswords.length; i += 1) {
-                    var currentPrevPasswordObj = previousPasswords[i];
-                    var currentPassWillBeCached = cachedHashPromises[currentPrevPasswordObj.params];
-                    if (!currentPassWillBeCached) {
-                        genHashPromises.push(utUserHelpers.genHash(newPasswordRaw, JSON.parse(currentPrevPasswordObj.params)));
-                        cachedHashPromises[currentPrevPasswordObj.params] = true;
-                        prevPassMapIndex += 1;
-                    }
-
-                    cachedHashPromisesPrevPassMap[i] = prevPassMapIndex;
-                }
-
-                return Promise.all(genHashPromises).then((res) => {
-                    var newPassMatchPrev = false;
-
-                    for (var i = 0; i < previousPasswords.length && !newPassMatchPrev; i += 1) {
-                        var currentPrevPassword = previousPasswords[i];
-                        var currentHashIndex = cachedHashPromisesPrevPassMap[i];
-                        var currentNewHashedPassword = res[currentHashIndex];
-                        if (currentPrevPassword.value === currentNewHashedPassword) {
-                            newPassMatchPrev = true;
-                        }
-                    }
-
-                    if (newPassMatchPrev) {
-                        throw errors['identity.term.matchingPrevPassword']();
-                    } else {
-                        return true;
-                    }
-                });
-            } else {
-                if (!($meta['auth.actorId'] || ($meta['auth'] && ($meta['auth']['actorId'])))) {
-                    if (!actorId) {
-                        throw errors['identity.actorId']();
-                    }
-                    $meta['auth.actorId'] = actorId;
-                }
-                return importMethod('core.itemTranslation.fetch')({
-                    itemTypeName: 'regexInfo',
-                    languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
-                }, $meta).then(function(translationResult) {
-                    var printMessage = utUserHelpers.buildPolicyErrorMessage(translationResult.itemTranslationFetch, passwordCredentials.regexInfo, passwordCredentials.charMin, passwordCredentials.charMax);
-                    var invalidNewPasswordError = errors['identity.term.invalidNewPassword'](printMessage);
-                    invalidNewPasswordError.message = printMessage;
-                    throw invalidNewPasswordError;
-                });
-            }
-        });
-    });
-}
-
-function buildPasswordCredentaislGetStoreProcedureParams(msg) {
-    // The SP receives type param which determines which action should be taken
-    var type;
-    var password;
-
-    if (msg.hasOwnProperty('forgottenPassword')) {
-        type = 'forgottenPassword';
-        password = msg.forgottenPassword;
-    } else if (msg.hasOwnProperty('registerPassword')) {
-        type = 'registerPassword';
-        password = msg.registerPassword;
-    } else {
-        type = 'password';
-        password = msg.password;
-    }
-
-    return {
-        username: msg.username,
-        type: type,
-        password: password,
-        channel: msg.channel
-    };
-}
-
-var handleError = function(err) {
-    if (typeof err.type === 'string') {
-        if (
-            err.type === 'policy.term.checkBio' ||
-            err.type === 'policy.term.checkOTP' ||
-            err.type === 'identity.term.invalidNewPassword' ||
-            err.type === 'identity.term.matchingPrevPassword' ||
-            err.type === 'user.identity.registerPasswordValidate.expiredPassword' ||
-            err.type === 'user.identity.registerPasswordChange.expiredPassword' ||
-            err.type === 'user.identity.registerPasswordValidate.invalidCredentials' ||
-            err.type === 'user.identity.registerPasswordChange.invalidCredentials' ||
-            err.type === 'identity.invalidFingerprint' ||
-            err.type === 'user.identity.checkPolicy.invalidLoginTime' ||
-            err.type === 'policy.term.otpExpired' ||
-            err.type.startsWith('policy.param.')
-        ) {
-            throw err;
-        } else if (
-            err.type === 'user.identity.forgottenPasswordValidate.invalidCredentials' ||
-            err.type === 'user.identity.forgottenPasswordValidate.expiredPassword' ||
-            err.type === 'user.identity.forgottenPasswordValidate.notFound' ||
-            err.type === 'user.identity.check.userPassword.wrongPassword' ||
-            err.type === 'user.identity.checkPolicy.notFound' ||
-            err.type === 'user.identity.check.userPassword.notFound' ||
-            err.type === 'user.identity.checkPolicy.disabledCredentials' ||
-            err.type === 'user.identity.check.disabledUser' ||
-            err.type === 'user.identity.check.disabledUserInactivity' ||
-            err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
-            err.type === 'user.identity.checkPolicy.invalidChannel' ||
-            err.type === 'identity.credentialsLocked' ||
-            err.type === 'identity.notFound' ||
-            err.type === 'identity.multipleResults' ||
-            err.type.startsWith('policy.term.')
-        ) {
-            throw errors['identity.invalidCredentials'](err);
-        } else if (err.type === 'PortSQL' && (err.message.startsWith('policy.param.bio.fingerprints')) || err.message.startsWith('policy.term.checkBio')) {
-            err.type = err.message;
-            throw err;
-        }
-    }
-    if (err.type === 'core.throttle' || err.message === 'core.throttle') {
-        throw errors['identity.throttleError'](err);
-    }
-    if (err.type === 'identity.throttleErrorForgotten' || err.message === 'identity.throttleErrorForgotten') {
-        throw err;
-    }
-    throw errors['identity.systemError'](err);
-};
 
 module.exports = {
     init: function(b) {
+        getCrypt(b.config.masterCryptKey);
         importMethod = b.importMethod.bind(b);
         checkMethod = b.config['identity.check'];
         debug = b.config.debug;
+        helpers = new UtIdentityHelpers({
+            importMethod,
+            crypt: getCrypt()
+        });
     },
     registerRequest: function(msg, $meta) {
         var password = Math.floor(1000 + Math.random() * 9000) + '';
@@ -307,7 +76,7 @@ module.exports = {
                 result.otp = password;
             }
             return result;
-        }).catch(handleError);
+        }).catch(helpers.handleError);
     },
     registerValidate: function(msg, $meta) {
         $meta.method = 'user.hash.return';
@@ -318,12 +87,12 @@ module.exports = {
             if (!response.hashParams) {
                 throw errors['identity.notFound']();
             }
-            return hashMethods.registerPassword(msg.registerPassword, response.hashParams);
+            return helpers.getHash('registerPassword', msg.registerPassword, response.hashParams);
         }).then(function(registerPassword) {
             msg.registerPassword = registerPassword;
             $meta.method = 'user.identity.registerPasswordValidate';
             return importMethod($meta.method)(msg, $meta);
-        }).catch(handleError);
+        }).catch(helpers.handleError);
     },
     check: function(msg, $meta) {
         delete msg.type;
@@ -349,12 +118,12 @@ module.exports = {
                     }
 
                     return Promise.all(
-                        Object.keys(hashMethods)
+                        Object.keys(helpers.getHash())
                             .filter(function(method) {
                                 return hashData[method] && msg[method];
                             })
                             .map(function(method) {
-                                return hashMethods[method](msg[method], hashData[method])
+                                return helpers.getHash(method, msg[method], hashData[method])
                                     .then(function(value) {
                                         msg[method] = value;
                                         return;
@@ -393,8 +162,8 @@ module.exports = {
                     var r = arguments[0][0];
                     var hash = arguments[0][1];
 
-                    passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
-                    return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                    passwordCredentaislGetStoreProcedureParams = helpers.buildPasswordCredentaislGetStoreProcedureParams(msg);
+                    return helpers.validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
                     .then(function() {
                         $meta.method = 'user.identity.registerPasswordChange';
                         return importMethod($meta.method)({
@@ -424,8 +193,8 @@ module.exports = {
                         });
                     })])
                     .then(function(r) {
-                        passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
-                        return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                        passwordCredentaislGetStoreProcedureParams = helpers.buildPasswordCredentaislGetStoreProcedureParams(msg);
+                        return helpers.validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
                     .then(function() {
                         $meta.method = 'user.identity.forgottenPasswordChange';
                         return importMethod($meta.method)(r[0]).then(function() {
@@ -441,8 +210,8 @@ module.exports = {
                 get = Promise.all([get])
                 .then(function() {
                     var okReturn = arguments[0][0];
-                    passwordCredentaislGetStoreProcedureParams = buildPasswordCredentaislGetStoreProcedureParams(msg);
-                    return validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
+                    passwordCredentaislGetStoreProcedureParams = helpers.buildPasswordCredentaislGetStoreProcedureParams(msg);
+                    return helpers.validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
                     .then(function() {
                         return okReturn;
                     });
@@ -481,9 +250,14 @@ module.exports = {
                         }
                     }).then(() => response);
                 }
+
+                // Parse mobile offline Access policy response
+                if (response['loginFactors.offline']) {
+                    response = helpers.parseMobileOfflineResponse(response);
+                }
                 return response;
             })
-            .catch(handleError);
+            .catch(helpers.handleError);
     },
     closeSession: function(msg, $meta) {
         $meta.method = 'user.session.delete';
@@ -505,13 +279,13 @@ module.exports = {
                 };
 
                 msg.hashParams = r.hashParams[0];
-                return validateNewPasswordAgainstAccessPolicy(msg.newPassword, passwordCredentaislGetStoreProcedureParams, $meta);
+                return helpers.validateNewPasswordAgainstAccessPolicy(msg.newPassword, passwordCredentaislGetStoreProcedureParams, $meta);
             })
             .then(() => {
                 $meta.method = 'user.changePassword';
                 return importMethod($meta.method)(msg, $meta);
             })
-            .catch(handleError);
+            .catch(helpers.handleError);
     },
     forgottenPasswordRequest: function(msg, $meta) {
         // Use or to enum all possible channels here
@@ -542,7 +316,7 @@ module.exports = {
             if (err.type === 'core.throttle') {
                 throw errors['identity.throttleErrorForgotten'](err);
             }
-            handleError(err);
+            helpers.handleError(err);
         });
     },
     forgottenPasswordValidate: function(msg, $meta) {
@@ -562,12 +336,12 @@ module.exports = {
             if (!hashParams) {
                 throw errors['identity.notFound']();
             }
-            return hashMethods.forgottenPassword(msg.forgottenPassword, hashParams);
+            return helpers.getHash('forgottenPassword', msg.forgottenPassword, hashParams);
         }).then(function(forgottenPassword) {
             msg.forgottenPassword = forgottenPassword;
             $meta.method = 'user.identity.forgottenPasswordValidate';
             return importMethod($meta.method)(msg, $meta);
-        }).catch(handleError);
+        }).catch(helpers.handleError);
     },
     forgottenPassword: function(msg, $meta) {
         $meta.method = 'user.identity.get';
@@ -591,7 +365,7 @@ module.exports = {
                         return null;
                     }
                 }
-                var rr = msg[key] ? hashMethods[type](msg[key], hashParams) : null;
+                var rr = msg[key] ? helpers.getHash(type, msg[key], hashParams) : null;
                 return rr;
             });
         };
@@ -603,6 +377,6 @@ module.exports = {
             msg.newPassword = p[1];
             $meta.method = 'user.identity.forgottenPasswordChange';
             return importMethod($meta.method)(msg, $meta);
-        }).catch(handleError);
+        }).catch(helpers.handleError);
     }
 };
