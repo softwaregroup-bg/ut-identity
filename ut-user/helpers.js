@@ -46,6 +46,7 @@ Helpers.prototype.validateNewPasswordAgainstAccessPolicy = function(newPasswordR
         }
     });
 
+    var importMethod = this.importMethod;
     return hashPassword
     .then(function(hashedPassword) {
         var policyPasswordCredentalsGetParams = {
@@ -54,7 +55,7 @@ Helpers.prototype.validateNewPasswordAgainstAccessPolicy = function(newPasswordR
             password: hashedPassword,
             channel: passwordCredentaislGetStoreProcedureParams.channel
         };
-        return this.importMethod('policy.passwordCredentials.get')(policyPasswordCredentalsGetParams)
+        return importMethod('policy.passwordCredentials.get')(policyPasswordCredentalsGetParams)
         .then(function(policyResult) {
             // Validate password policy
             var passwordCredentials = policyResult['passwordCredentials'][0];
@@ -105,7 +106,7 @@ Helpers.prototype.validateNewPasswordAgainstAccessPolicy = function(newPasswordR
                     }
                     $meta['auth.actorId'] = actorId;
                 }
-                return this.importMethod('core.itemTranslation.fetch')({
+                return importMethod('core.itemTranslation.fetch')({
                     itemTypeName: 'regexInfo',
                     languageId: 1 // the languageId should be passed by the UI, it should NOT be the user default language becase the UI can be in english and the default user language might be france
                 }, $meta).then(function(translationResult) {
