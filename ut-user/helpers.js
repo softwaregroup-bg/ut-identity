@@ -1,13 +1,13 @@
 var utUserHelpers = require('ut-user/helpers');
 var errors = require('../errors');
 
-function Helpers({importMethod, crypt}) {
+function Helpers(obj) {
     if (!(this instanceof Helpers)) {
-        return new Helpers({importMethod, crypt});
+        return new Helpers(obj);
     }
 
-    this.importMethod = importMethod;
-    this.crypt = crypt;
+    this.importMethod = obj.importMethod;
+    this.crypt = obj.crypt;
 }
 
 /**
@@ -34,9 +34,9 @@ Helpers.prototype.validateNewPasswordAgainstAccessPolicy = function(newPasswordR
             var hashParams = passwordCredentaislGetStoreProcedureParams.hashParams;
             var password = passwordCredentaislGetStoreProcedureParams.password;
             if (hashParams && password) {
-                utUserHelpers.genHash(password, JSON.parse(hashParams.params))
+                return utUserHelpers.genHash(password, JSON.parse(hashParams.params))
                     .then(function(hashedPassword) {
-                        resolve(hashedPassword);
+                        return resolve(hashedPassword);
                     });
             } else {
                 throw errors['identity.hashParams']();

@@ -24,7 +24,7 @@ module.exports = {
         checkMethod = b.config['identity.check'];
         debug = b.config.debug;
         helpers = new UtIdentityHelpers({
-            importMethod,
+            importMethod: importMethod,
             crypt: getCrypt()
         });
     },
@@ -153,9 +153,9 @@ module.exports = {
                             name: 'identity.check',
                             instance: `${msg.username}registerPassword`
                         }).then(function(res) {
-                            resolve(true);
+                            return resolve(true);
                         }).catch(function(err) {
-                            reject(errors['identity.throttleError'](err));
+                            return reject(errors['identity.throttleError'](err));
                         });
                     })
                 ])
@@ -188,9 +188,9 @@ module.exports = {
                             name: 'identity.check',
                             instance: `${msg.username}forgottenPassword`
                         }).then(function(res) {
-                            resolve(true);
+                            return resolve(true);
                         }).catch(function(err) {
-                            reject(errors['identity.throttleErrorForgotten'](err));
+                            return reject(errors['identity.throttleErrorForgotten'](err));
                         });
                     })])
                     .then(function(r) {
