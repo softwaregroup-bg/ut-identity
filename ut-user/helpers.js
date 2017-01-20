@@ -127,30 +127,22 @@ Helpers.prototype.validateNewPasswordAgainstAccessPolicy = function(newPasswordR
  * @returns {Object}
  */
 Helpers.prototype.parseMobileOfflineResponse = function(msg) {
-    // FAKE factorOrderId
-    var count = 0;
-    if (msg['loginFactors.offline']) {
-        msg['loginFactors.offline'] = msg['loginFactors.offline'].map(function(term) {
-            if (count === 2) {
-                term.factorOrder = 2;
-            } else {
-                term.factorOrder = 1;
-            }
-            count += 1;
-            return term;
-        });
-    }
-    // ============
-
-    if (msg['loginFactors.online']) {
+    var onlineLoginFactors = msg['loginFactors.online'];
+    if (onlineLoginFactors) {
         msg.loginFactors = {};
-        msg.loginFactors.online = msg['loginFactors.online'][0];
+        msg.loginFactors.online = {
+            type: onlineLoginFactors[0].type,
+            params: onlineLoginFactors[0].params
+        };
 
         // Offline factors
         if (msg['loginFactors.offline']) {
             var factors = [];
             var factorsOrderToIndexMapped = {};
             var crypt = this.crypt;
+            // As discussed with the Mobile team only factor with higher priority will be returned
+            var lowestFactorOrder = Number.MAX_SAFE_INTEGER;
+            var lowestFactorOrderIndex = -1; // store the index in factors
 
             msg['loginFactors.offline'].forEach(function(term) {
                 if (term.factorOrder) {
@@ -163,22 +155,40 @@ Helpers.prototype.parseMobileOfflineResponse = function(msg) {
                         delete term['templates'];
                     }
 
+                    var termToPush = {
+                        // name: term.name,
+                        type: term.type,
+                        allowedAttempts: term.allowedAttempts,
+                        params: term.params
+                        // termId: term.termId,
+                        // termOrder: term.termOrder
+                    };
                     if (factorIndex === undefined) {
                         factorsOrderToIndexMapped[term.factorOrder] = factors.length;
-                        factor = {};
-                        factor.order = term.factorOrder;
+                        factor = {
+                            id: term.factorId,
+                            order: term.factorOrder,
+                            fnOrder: term.fnOrder
+                        };
+
                         factor.terms = [];
-                        factor.terms.push(term);
+                        factor.terms.push(termToPush);
+
+                        // update lowest factor order
+                        if (term.factorOrder < lowestFactorOrder) {
+                            lowestFactorOrder = term.factorOrder;
+                            lowestFactorOrderIndex = factors.length;
+                        }
 
                         factors.push(factor);
                     } else {
                         factor = factors[factorIndex];
-                        factor.terms.push(term);
+                        factor.terms.push(termToPush);
                     }
                 }
             });
 
-            msg.loginFactors.offline = factors;
+            msg.loginFactors.offline = factors[lowestFactorOrderIndex]['terms'];
             delete msg['loginFactors.offline'];
         }
 
