@@ -1,3 +1,13 @@
+<a name="5.10.49"></a>
+## [5.10.49](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.48...v5.10.49) (2017-01-20)
+
+
+### Bug Fixes
+
+* this import method ([cac1e39](https://github.com/softwaregroup-bg/ut-identity/commit/cac1e39))
+
+
+
 <a name="5.10.48"></a>
 ## [5.10.48](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.47...v5.10.48) (2017-01-20)
 
