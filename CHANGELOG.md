@@ -1,3 +1,13 @@
+<a name="5.10.50"></a>
+## [5.10.50](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.49...v5.10.50) (2017-01-20)
+
+
+### Bug Fixes
+
+* linting ([be3f388](https://github.com/softwaregroup-bg/ut-identity/commit/be3f388))
+
+
+
 <a name="5.10.49"></a>
 ## [5.10.49](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.48...v5.10.49) (2017-01-20)
 
