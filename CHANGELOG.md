@@ -1,3 +1,23 @@
+<a name="5.10.46"></a>
+## [5.10.46](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.45...v5.10.46) (2017-01-19)
+
+
+
+<a name="5.10.45"></a>
+## [5.10.45](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.44...v5.10.45) (2017-01-19)
+
+
+
+<a name="5.10.44"></a>
+## [5.10.44](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.43...v5.10.44) (2017-01-19)
+
+
+### Bug Fixes
+
+* UIS-311 add error level ([#53](https://github.com/softwaregroup-bg/ut-identity/issues/53)) ([0f61cbb](https://github.com/softwaregroup-bg/ut-identity/commit/0f61cbb))
+
+
+
 <a name="5.10.43"></a>
 ## [5.10.43](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.42...v5.10.43) (2017-01-18)
 
