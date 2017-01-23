@@ -1,3 +1,13 @@
+<a name="5.10.51"></a>
+## [5.10.51](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.50...v5.10.51) (2017-01-23)
+
+
+### Bug Fixes
+
+* lint ([31fe4e4](https://github.com/softwaregroup-bg/ut-identity/commit/31fe4e4))
+
+
+
 <a name="5.10.50"></a>
 ## [5.10.50](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.49...v5.10.50) (2017-01-20)
 
