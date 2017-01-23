@@ -369,6 +369,7 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'identity.notFound' ||
             err.type === 'identity.restrictedRange' ||
             err.type === 'identity.multipleResults' ||
+            err.type === 'identity.wrongIP' ||
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
