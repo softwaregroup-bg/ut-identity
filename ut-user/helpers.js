@@ -1,4 +1,5 @@
 var utUserHelpers = require('ut-user/helpers');
+var utUserPolicyHelpers = require('ut-user/policy/helpers');
 var errors = require('../errors');
 
 function Helpers(obj) {
@@ -363,10 +364,12 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'user.identity.check.disabledUserInactivity' ||
             err.type === 'user.invalidChannel' ||
             err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
-            err.type === 'user.identity.checkPolicy.invalidChannel' ||
+            err.type === 'user.invalidChannel' ||
             err.type === 'identity.credentialsLocked' ||
             err.type === 'identity.notFound' ||
+            err.type === 'identity.restrictedRange' ||
             err.type === 'identity.multipleResults' ||
+            err.type === 'identity.wrongIP' ||
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
@@ -382,6 +385,17 @@ Helpers.prototype.handleError = function(err) {
         throw err;
     }
     throw errors['identity.systemError'](err);
+};
+
+Helpers.prototype.validateRestrictedIPRanges = function(ip, restrictedIPRanges) {
+    var ipInRestrictedRange = false;
+
+    for (var i = 0; i < restrictedIPRanges.length && !ipInRestrictedRange; i += 1) {
+        var currentRange = restrictedIPRanges[i];
+        ipInRestrictedRange = utUserPolicyHelpers.isIPInRange(ip, currentRange.start, currentRange.end);
+    }
+
+    return ipInRestrictedRange;
 };
 
 module.exports = Helpers;

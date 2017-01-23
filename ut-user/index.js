@@ -103,11 +103,17 @@ module.exports = {
             get = Promise.resolve(msg);
         } else {
             creatingSession = true;
+            var bus = this.bus;
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
                     if (!result.hashParams) {
                         throw errors['identity.hashParams']();
+                    }
+                    // Validate IP (for restricted ip ranges)
+                    var restrictedIPRanges = bus.config.access ? bus.config.access.restrictions.ipRanges : [];
+                    if (helpers.validateRestrictedIPRanges(msg.ip, restrictedIPRanges)) {
+                        throw errors['identity.restrictedRange']();
                     }
                     var hashData = result.hashParams.reduce(function(all, record) {
                         all[record.type] = record;

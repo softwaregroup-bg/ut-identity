@@ -87,6 +87,16 @@ module.exports = [
         level: 'error'
     },
     {
+        name: 'identity.restrictedRange',
+        defaultMessage: 'IP is in the restricted range',
+        level: 'error'
+    },
+    {
+        name: 'identity.wrongIP',
+        defaultMessage: 'Wrong ip address',
+        level: 'error'
+    },
+    {
         name: 'identity.crypt',
         defaultMessage: 'ut-identity identity.crypt error',
         level: 'error'
