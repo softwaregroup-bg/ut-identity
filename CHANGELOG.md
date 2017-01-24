@@ -1,3 +1,13 @@
+<a name="5.10.52"></a>
+## [5.10.52](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.51...v5.10.52) (2017-01-24)
+
+
+### Bug Fixes
+
+* UIS-311 get all errors ([85091c3](https://github.com/softwaregroup-bg/ut-identity/commit/85091c3))
+
+
+
 <a name="5.10.51"></a>
 ## [5.10.51](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.50...v5.10.51) (2017-01-23)
 
