@@ -140,14 +140,15 @@ Helpers.prototype.parseMobileOfflineResponse = function(msg) {
         };
 
         // Offline factors
-        if (msg['loginFactors.offline']) {
+        var loginFactorsOffline = msg['loginFactors.offline'];
+        if (loginFactorsOffline && Array.isArray(loginFactorsOffline) && loginFactorsOffline.length > 0) {
             var factors = [];
             var factorsOrderToIndexMapped = {};
             // As discussed with the Mobile team only factor with higher priority will be returned
             var lowestFactorOrder = Number.MAX_SAFE_INTEGER;
             var lowestFactorOrderIndex = -1; // store the index in factors
 
-            msg['loginFactors.offline'].forEach(function(term) {
+            loginFactorsOffline.forEach(function(term) {
                 if (term.factorOrder) {
                     var factorIndex = factorsOrderToIndexMapped[term.factorOrder];
                     var factor;
