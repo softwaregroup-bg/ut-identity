@@ -2,13 +2,16 @@ var utUserHelpers = require('ut-user/helpers');
 var utUserPolicyHelpers = require('ut-user/policy/helpers');
 var errors = require('../errors');
 
+var importMethod;
+var crypt;
+
 function Helpers(obj) {
     if (!(this instanceof Helpers)) {
         return new Helpers(obj);
     }
 
-    this.importMethod = obj.importMethod;
-    this.crypt = obj.crypt;
+    importMethod = obj.importMethod;
+    crypt = obj.crypt;
 }
 
 /**
@@ -47,7 +50,6 @@ Helpers.prototype.validateNewPasswordAgainstAccessPolicy = function(newPasswordR
         }
     });
 
-    var importMethod = this.importMethod;
     return hashPassword
     .then(function(hashedPassword) {
         var policyPasswordCredentalsGetParams = {
@@ -141,7 +143,6 @@ Helpers.prototype.parseMobileOfflineResponse = function(msg) {
         if (msg['loginFactors.offline']) {
             var factors = [];
             var factorsOrderToIndexMapped = {};
-            var crypt = this.crypt;
             // As discussed with the Mobile team only factor with higher priority will be returned
             var lowestFactorOrder = Number.MAX_SAFE_INTEGER;
             var lowestFactorOrderIndex = -1; // store the index in factors
@@ -266,7 +267,7 @@ Helpers.prototype.getHash = function(method, params, hashParams) {
             return errors.MissingCredentials.reject();
         }
         hashData.params = typeof (hashData.params) === 'string' ? JSON.parse(hashData.params) : hashData.params;
-        return this.importMethod('user.genHash')(password, hashData.params);
+        return importMethod('user.genHash')(password, hashData.params);
     };
 
     var hashMethods = {
@@ -309,7 +310,7 @@ Helpers.prototype.getHash = function(method, params, hashParams) {
                 if (mappedBioData.hasOwnProperty(finger)) {
                     var currentData = {};
                     currentData[finger] = mappedBioData[finger];
-                    bioCheckPromises.push(this.importMethod('bio.check')({
+                    bioCheckPromises.push(importMethod('bio.check')({
                         id: params.bio.id,
                         departmentId: params.bio.departmentId,
                         data: currentData
