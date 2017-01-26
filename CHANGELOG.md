@@ -1,3 +1,8 @@
+<a name="5.10.54"></a>
+## [5.10.54](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.53...v5.10.54) (2017-01-26)
+
+
+
 <a name="5.10.53"></a>
 ## [5.10.53](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.52...v5.10.53) (2017-01-25)
 
