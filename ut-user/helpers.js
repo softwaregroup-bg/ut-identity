@@ -1,9 +1,10 @@
 var utUserHelpers = require('ut-user/helpers');
-var utUserPolicyHelpers = require('ut-user/policy/helpers');
+var UtUserPolicyHelpers = require('ut-user/policy/helpers');
 var errors = require('../errors');
 
 var importMethod;
 var crypt;
+var utUserPolicyHelpers;
 
 function Helpers(obj) {
     if (!(this instanceof Helpers)) {
@@ -12,6 +13,7 @@ function Helpers(obj) {
 
     importMethod = obj.importMethod;
     crypt = obj.crypt;
+    utUserPolicyHelpers = new UtUserPolicyHelpers({importMethod: importMethod});
 }
 
 /**
