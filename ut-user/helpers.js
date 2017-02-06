@@ -375,7 +375,7 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'identity.multipleResults' ||
             err.type === 'identity.wrongIP' ||
             err.type === 'identity.invalidIMEI' ||
-            err.type === 'identity.invalidInstallation' || 
+            err.type === 'identity.invalidInstallation' ||
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
