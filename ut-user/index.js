@@ -103,6 +103,11 @@ module.exports = {
         } else {
             creatingSession = true;
             var bus = this.bus;
+            if (msg.mobileDeviceIdentifiers) {
+                msg.imei = msg.mobileDeviceIdentifiers.imei;
+                msg.installationId = msg.mobileDeviceIdentifiers.installationId;
+                delete msg['mobileDeviceIdentifiers'];
+            }
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
