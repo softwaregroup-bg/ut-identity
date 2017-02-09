@@ -39,7 +39,8 @@ module.exports = {
                 remoteIP: joi.string().allow(null).required(),
                 userAgent: joi.string().allow('').allow(null).required(),
                 expire: joi.date().required(),
-                dateCreated: joi.date().required()
+                dateCreated: joi.date().required(),
+                channel: joi.string().valid(['web', 'mobile'])
             }),
             'permission.get': joi.array().items({
                 actionId: joi.string().required(),
@@ -83,11 +84,14 @@ module.exports = {
                 fieldOfWork: joi.string(),
                 itemCode: joi.string()
             }).allow(null),
-            loginFactors: joi.array().items({
-                type: joi.string(),
-                params: joi.string().allow(null),
-                allowedAttempts: joi.number().integer()
-            }).optional()
+            // loginFactors: joi.array().items({
+            //     type: joi.string(),
+            //     params: joi.string().allow(null),
+            //     allowedAttempts: joi.number().integer()
+            // }).optional(),
+            loginFactors: joi.object(),
+            'loginFactors.offline': joi.array(),
+            pushNotificationToken: joi.object().allow(null)
         }),
 
         auth: false,
