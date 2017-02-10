@@ -125,6 +125,16 @@ module.exports = [
         name: 'identity.throttleErrorForgotten',
         defaultMessage: 'After several attempts, the password change has been locked, please start again in 60 min.',
         level: 'error'
+    },
+    {
+        name: 'identity.invalidIMEI',
+        defaultMessage: 'Invalid IMEI',
+        level: 'error'
+    },
+    {
+        name: 'identity.invalidInstallation',
+        defaultMessage: 'Invalid Installation Id',
+        level: 'error'
     }
 ].reduce(function(prev, next) {
     var spec = next.name.split('.');

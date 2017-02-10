@@ -23,11 +23,12 @@ module.exports = {
             newPassword: joi.string(),
             password: joi.string().allow('').min(1),
             channel: joi.string().valid(['web', 'mobile']).required(),
-            mobileDeviceIdentifiers: joi.object().keys({
-                imei: joi.string(),
-                installationId: joi.string(),
-                modelName: joi.string()
-            })
+            installationId: joi.string().guid({
+                version: [
+                    'uuidv4'
+                ]
+            }).allow(null),
+            imei: joi.string().allow(null)
         }),
         result: joi.object().keys({
             'identity.check': joi.object().keys({
