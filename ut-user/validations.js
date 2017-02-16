@@ -85,13 +85,18 @@ module.exports = {
                 fieldOfWork: joi.string(),
                 itemCode: joi.string()
             }).allow(null),
-            // loginFactors: joi.array().items({
-            //     type: joi.string(),
-            //     params: joi.string().allow(null),
-            //     allowedAttempts: joi.number().integer()
-            // }).optional(),
-            loginFactors: joi.object(),
-            'loginFactors.offline': joi.array(),
+            loginFactors: joi.object().keys({
+                online: joi.object().keys({
+                    type: joi.string().valid('password', 'bio', 'otp').required(),
+                    params: joi.string().allow(null, ''),
+                    allowedAttempts: joi.number().integer().allow(null)
+                }),
+                offline: joi.array().items({
+                    type: joi.string().valid('password', 'bio', 'otp').required(),
+                    params: joi.any(),
+                    allowedAttempts: joi.number().integer().required()
+                })
+            }).optional(),
             pushNotificationToken: joi.object().allow(null)
         }),
 
