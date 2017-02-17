@@ -28,7 +28,8 @@ module.exports = {
                     'uuidv4'
                 ]
             }).allow(null),
-            imei: joi.string().allow(null)
+            imei: joi.string().allow(null),
+            modelName: joi.string().allow(null)
         }),
         result: joi.object().keys({
             'identity.check': joi.object().keys({
