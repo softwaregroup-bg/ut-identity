@@ -195,9 +195,9 @@ Helpers.prototype.parseMobileOfflineResponse = function(msg) {
             });
 
             msg.loginFactors.offline = factors[lowestFactorOrderIndex]['terms'];
-            delete msg['loginFactors.offline'];
         }
 
+        delete msg['loginFactors.offline'];
         delete msg['loginFactors.online'];
     }
 
