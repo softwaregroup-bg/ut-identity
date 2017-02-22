@@ -8,12 +8,12 @@ module.exports = [
     },
     {
         name: 'identity.missingCredentials',
-        defaultMessage: 'Missing credentials',
+        defaultMessage: 'Missing Credentials',
         level: 'error'
     },
     {
         name: 'identity.invalidCredentials',
-        defaultMessage: 'Invalid credentials',
+        defaultMessage: 'Invalid Credentials',
         level: 'error'
     },
     {
