@@ -1,3 +1,13 @@
+<a name="5.10.61"></a>
+## [5.10.61](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.60...v5.10.61) (2017-02-23)
+
+
+### Bug Fixes
+
+* UIS-1434 when there is pushNotificationToken return string instead of object ([758ddb8](https://github.com/softwaregroup-bg/ut-identity/commit/758ddb8))
+
+
+
 <a name="5.10.60"></a>
 ## [5.10.60](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.59...v5.10.60) (2017-02-18)
 
