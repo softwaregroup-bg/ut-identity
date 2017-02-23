@@ -229,6 +229,9 @@ module.exports = {
                 $meta.method = checkMethod || 'user.identity.checkPolicy';
                 return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
+                        if (user.pushNotificationToken && user.pushNotificationToken.pushNotificationToken !== undefined) {
+                            user.pushNotificationToken = user.pushNotificationToken.pushNotificationToken;
+                        }
                         if ((!user.loginPolicy || !user.loginPolicy.length) && !user['permission.get']) { // in case user.identity.check did not return the permissions
                             $meta.method = 'permission.get';
                             return importMethod($meta.method)({actionId: msg.actionId},
