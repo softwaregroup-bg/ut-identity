@@ -267,7 +267,7 @@ Helpers.prototype.buildPasswordCredentaislGetStoreProcedureParams = function(msg
 Helpers.prototype.getHash = function(method, params, hashParams) {
     var getHash = function(password, hashData) {
         if (!hashData || !hashData.params) {
-            return errors.MissingCredentials.reject();
+            return errors['identity.missingCredentials'];
         }
         hashData.params = typeof (hashData.params) === 'string' ? JSON.parse(hashData.params) : hashData.params;
         return importMethod('user.genHash')(password, hashData.params);
@@ -343,6 +343,7 @@ Helpers.prototype.handleError = function(err) {
         if (
             err.type === 'policy.term.checkBio' ||
             err.type === 'policy.term.checkOTP' ||
+            err.type === 'policy.term.checkLdapUser' ||
             err.type === 'identity.term.invalidNewPassword' ||
             err.type === 'identity.term.matchingPrevPassword' ||
             err.type === 'user.identity.registerPasswordValidate.expiredPassword' ||
@@ -376,6 +377,7 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'identity.wrongIP' ||
             err.type === 'identity.invalidIMEI' ||
             err.type === 'identity.invalidInstallation' ||
+            err.type === 'PortLdap.InvalidCredentials' ||
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
