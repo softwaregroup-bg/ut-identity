@@ -1,6 +1,7 @@
 var utUserHelpers = require('ut-user/helpers');
 var UtUserPolicyHelpers = require('ut-user/policy/helpers');
 var errors = require('../errors');
+var LdapClient = require('ut-port-ldap/customConnections/client.js');
 
 var importMethod;
 var crypt;
@@ -335,6 +336,49 @@ Helpers.prototype.getHash = function(method, params, hashParams) {
         return hashMethods[method](params, hashParams);
     } else {
         return hashMethods;
+    }
+};
+
+Helpers.prototype.handleFullError = function(error, msg, $meta) {
+    var context = this;
+
+    // Check if user is checkLdapUser
+    // If so, connect to LDAP server to validate authentication
+    if (typeof error.type === 'string' && error.type === 'policy.term.checkLdapUser' && msg.password && !$meta.ldapChecked) {
+        $meta.ldapChecked = true;
+        $meta.method = 'user.ldapUser.check'; // get ldap configuration
+        return importMethod($meta.method)({userName: msg.username}, $meta)
+            .then(function(ldapConfigResult) {
+                if (ldapConfigResult.serverCredentials && ldapConfigResult.serverCredentials.hostNameIp) {
+                    var ldapClient = new LdapClient({
+                        url: ldapConfigResult.serverCredentials.hostNameIp,
+                        port: ldapConfigResult.serverCredentials.port,
+                        connectionString: `CN=${msg.username},OU=Users,` + ldapConfigResult.serverCredentials.userSearchBase,
+                        password: msg.rawPassword,
+                        useSSL: ldapConfigResult.serverCredentials.useSsl
+                    });
+
+                    return ldapClient.tryBind()
+                        .then(function(ldapBindResult) {
+                            $meta.method = 'identity.check';
+                            msg.isLdapSuccessful = true;
+                            msg.password = msg.rawPassword;
+                            delete msg.rawPassword;
+                            return importMethod($meta.method)(msg, $meta);
+                        })
+                        .catch(function(ldaBindError) {
+                            throw context.handleError(ldaBindError);
+                        });
+                } else {
+                    throw errors['identity.invalidCredentials']({
+                        name: 'identity.missingLdapConfiguration',
+                        defaultMessage: 'No LDAP configuration was found',
+                        level: 'error'
+                    });
+                }
+            });
+    } else {
+        context.handleError(error);
     }
 };
 
