@@ -1,3 +1,13 @@
+<a name="5.11.0"></a>
+# [5.11.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.61...v5.11.0) (2017-03-06)
+
+
+### Features
+
+* UIS-968 add middleName in customer.person ([78a910d](https://github.com/softwaregroup-bg/ut-identity/commit/78a910d))
+
+
+
 <a name="5.10.61"></a>
 ## [5.10.61](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.60...v5.10.61) (2017-02-23)
 
