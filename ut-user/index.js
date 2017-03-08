@@ -227,6 +227,15 @@ module.exports = {
         return get
             .then(function(r) {
                 $meta.method = checkMethod || 'user.identity.checkPolicy';
+                var secretQuestionAnswer = [];
+                if (msg.secretQuestionId && msg.secretAnswer) {
+                    secretQuestionAnswer = {
+                        actorId: r.actorId,
+                        questionId: msg.secretQuestionId,
+                        answer: msg.secretAnswer
+                    };
+                }
+                r.secretQuestionAnswer = secretQuestionAnswer;
                 return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
                         if (user.pushNotificationToken && user.pushNotificationToken.pushNotificationToken !== undefined) {
