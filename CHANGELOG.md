@@ -1,3 +1,13 @@
+<a name="5.12.0"></a>
+# [5.12.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.11.0...v5.12.0) (2017-03-08)
+
+
+### Features
+
+* UIS-1591 add secret question and answer ([747c68d](https://github.com/softwaregroup-bg/ut-identity/commit/747c68d))
+
+
+
 <a name="5.11.0"></a>
 # [5.11.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.61...v5.11.0) (2017-03-06)
 
