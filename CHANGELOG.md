@@ -1,3 +1,13 @@
+<a name="5.12.2"></a>
+## [5.12.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.1...v5.12.2) (2017-03-09)
+
+
+### Bug Fixes
+
+* dependencies ([30f3b91](https://github.com/softwaregroup-bg/ut-identity/commit/30f3b91))
+
+
+
 <a name="5.12.1"></a>
 ## [5.12.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.0...v5.12.1) (2017-03-09)
 
