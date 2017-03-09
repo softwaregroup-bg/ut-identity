@@ -44,6 +44,6 @@
     "when": "3.7.7"
   },
   "peerDependencies": {
-    "ut-user": "^6.23.4"
+    "ut-user": "^6.23.5"
   }
 }
