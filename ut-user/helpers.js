@@ -379,7 +379,7 @@ Helpers.prototype.handleError = function(err) {
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
-        } else if (err.type === 'PortSQL' && (err.message.startsWith('policy.param.bio.fingerprints')) || err.message.startsWith('policy.term.checkBio')) {
+        } else if (err.type === 'PortSQL' && ((err.message.startsWith('policy.param.bio.fingerprints')) || err.message.startsWith('policy.term.checkBio'))) {
             err.type = err.message;
             throw err;
         }
