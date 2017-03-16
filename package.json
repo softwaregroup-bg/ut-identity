@@ -1,6 +1,6 @@
 {
   "name": "ut-identity",
-  "version": "5.12.4",
+  "version": "5.12.5",
   "description": "UT authentication module",
   "main": "index.js",
   "directories": {
@@ -33,7 +33,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "blue-tape": "1.0.0",
-    "ut-tools": "^5.13.5"    
+    "ut-tools": "^5.13.5"
   },
   "dependencies": {
     "ut-error": "^5.4.0",
