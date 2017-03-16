@@ -50,7 +50,7 @@ module.exports = {
                 throw errors['identity.notFound']();
             }
             data.identity = identity;
-            return;
+            return identity;
         }));
         return Promise.all(promises).then(function() {
             var customerMessage = {
@@ -133,7 +133,7 @@ module.exports = {
                                 return helpers.getHash(method, msg[method], hashData[method])
                                     .then(function(value) {
                                         msg[method] = value;
-                                        return;
+                                        return value;
                                     });
                             })
                     )
