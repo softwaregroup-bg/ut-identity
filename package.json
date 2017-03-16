@@ -33,8 +33,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "blue-tape": "1.0.0",
-    "ut-tools": "^5.13.5",
-    "ut-port-ldap": "^5.5.2"
+    "ut-tools": "^5.13.5"    
   },
   "dependencies": {
     "ut-error": "^5.4.0",
@@ -45,6 +44,7 @@
     "when": "3.7.7"
   },
   "peerDependencies": {
-    "ut-user": "^6.23.5"
+    "ut-user": "^6.23.5",
+    "ut-port-ldap": "^5.5.2"
   }
 }
