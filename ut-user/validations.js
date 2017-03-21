@@ -30,7 +30,7 @@ module.exports = {
             }).allow(null),
             imei: joi.string().allow(null),
             modelName: joi.string().allow(null),
-            secretQuestionId: [ joi.string().allow(null), joi.number().allow(null) ],
+            secretQuestion: [ joi.string().allow(null), joi.number().allow(null) ],
             secretAnswer: joi.string().allow(null),
             lat: joi.number().allow(null),
             lng: joi.number().allow(null)
