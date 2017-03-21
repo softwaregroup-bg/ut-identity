@@ -231,10 +231,10 @@ module.exports = {
             .then(function(r) {
                 $meta.method = checkMethod || 'user.identity.checkPolicy';
                 var secretQuestionAnswer = [];
-                if (msg.secretQuestionId && msg.secretAnswer) {
+                if (msg.secretQuestion && msg.secretAnswer) {
                     secretQuestionAnswer = {
                         actorId: r.actorId,
-                        questionId: msg.secretQuestionId,
+                        questionId: msg.secretQuestion,
                         answer: msg.secretAnswer
                     };
                 }
