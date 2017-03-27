@@ -1,3 +1,13 @@
+<a name="5.12.6"></a>
+## [5.12.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.5...v5.12.6) (2017-03-27)
+
+
+### Bug Fixes
+
+* UIS-1385 ([35f5f48](https://github.com/softwaregroup-bg/ut-identity/commit/35f5f48))
+
+
+
 <a name="5.12.5"></a>
 ## [5.12.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.4...v5.12.5) (2017-03-16)
 
