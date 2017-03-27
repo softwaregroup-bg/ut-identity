@@ -46,7 +46,8 @@ module.exports = {
                 userAgent: joi.string().allow('').allow(null).required(),
                 expire: joi.date().required(),
                 dateCreated: joi.date().required(),
-                channel: joi.string().valid(['web', 'mobile'])
+                channel: joi.string().valid(['web', 'mobile']),
+                deletedChannel: joi.string().valid(['web', 'mobile'])
             }),
             'permission.get': joi.array().items({
                 actionId: joi.string().required(),

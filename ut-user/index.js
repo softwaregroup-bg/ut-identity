@@ -277,6 +277,13 @@ module.exports = {
                     response = helpers.parseMobileOfflineResponse(response);
                 }
                 return response;
+            }).then(function(response) {
+                if (creatingSession && response['identity.check'].deletedChannel === 'mobile' && response['identity.check'].channel !== 'mobile') {
+                    return helpers
+                        .sendSessionExpiredNotificationToMobileChannel(response['identity.check'].actorId)
+                        .then(() => response);
+                }
+                return response;
             })
             .catch(function(error) {
                 return helpers.handleFullError(error, msg, $meta);
