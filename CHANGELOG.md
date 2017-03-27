@@ -1,3 +1,13 @@
+<a name="5.13.0"></a>
+# [5.13.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.6...v5.13.0) (2017-03-27)
+
+
+### Features
+
+* UIS-2059: send push notification to the mobile app when a user logs into the web ui ([9cd114b](https://github.com/softwaregroup-bg/ut-identity/commit/9cd114b))
+
+
+
 <a name="5.12.6"></a>
 ## [5.12.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.5...v5.12.6) (2017-03-27)
 
