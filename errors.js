@@ -1,8 +1,14 @@
 var create = require('ut-error').define;
 
 module.exports = [
+
     {
         name: 'identity',
+        defaultMessage: 'Identity',
+        level: 'error'
+    },
+    {
+        name: 'identity.totp',
         defaultMessage: 'Identity',
         level: 'error'
     },
@@ -134,6 +140,16 @@ module.exports = [
     {
         name: 'identity.invalidInstallation',
         defaultMessage: 'Invalid Installation Id',
+        level: 'error'
+    },
+    {
+        name: 'dentity.totp.noEncryptionKey',
+        defaultMessage: 'No encryption key available fot totp generation',
+        level: 'error'
+    },
+    {
+        name: 'dentity.totp.unsuccessfulValidation',
+        defaultMessage: 'Unsuccessful totp validation',
         level: 'error'
     }
 ].reduce(function(prev, next) {

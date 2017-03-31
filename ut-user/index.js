@@ -408,5 +408,24 @@ module.exports = {
             $meta.method = 'user.identity.forgottenPasswordChange';
             return importMethod($meta.method)(msg, $meta);
         }).catch(helpers.handleError);
+    },
+    'totp.generate': function(params) {
+        console.log('----------------------------TOTP.GENERATE-IN', params)
+        this.bus.importMethod('user.device.get')({
+            actorId: 1000,
+            installationId: 'installationID'
+        }).then(result => {
+            console.log('----------------------user.device.get resultset', result);
+            if (!result.device.length) {
+                throw errors['identity.totp.noEncryptionKey']();
+            }
+        }).catch(err => {
+            console.error(err)
+        });
+        return params;
+    },
+    'totp.validate': function(params) {
+        console.log('----------------------------TOTP.VALIDATE-IN', params)
+        return params;
     }
 };
