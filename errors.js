@@ -9,7 +9,7 @@ module.exports = [
     },
     {
         name: 'identity.totp',
-        defaultMessage: 'Identity',
+        defaultMessage: 'Identity TOTP',
         level: 'error'
     },
     {
@@ -143,13 +143,18 @@ module.exports = [
         level: 'error'
     },
     {
-        name: 'dentity.totp.noEncryptionKey',
+        name: 'identity.totp.noEncryptionKey',
         defaultMessage: 'No encryption key available fot totp generation',
         level: 'error'
     },
     {
-        name: 'dentity.totp.unsuccessfulValidation',
+        name: 'identity.totp.unsuccessfulValidation',
         defaultMessage: 'Unsuccessful totp validation',
+        level: 'error'
+    },
+    {
+        name: 'identity.totp.noPushNotificationToken',
+        defaultMessage: 'No push notification token available for this device',
         level: 'error'
     }
 ].reduce(function(prev, next) {

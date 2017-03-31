@@ -2,6 +2,7 @@ var utTemplate = require('ut-template');
 var crypto = require('crypto');
 var assign = require('lodash.assign');
 var defaults = require('lodash.defaults');
+
 function getHash(user, pass) {
     var md5 = crypto.createHash('md5').update('SoftwareGroupBG', 'utf8');
     md5.update(pass, 'utf8');
