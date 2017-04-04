@@ -2,8 +2,6 @@ var UtIdentityHelpers = require('./helpers');
 var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
-var crypto = require('crypto');
-var speakeasy = require('speakeasy');
 
 var helpers;
 var crypt;
@@ -410,93 +408,5 @@ module.exports = {
             $meta.method = 'user.identity.forgottenPasswordChange';
             return importMethod($meta.method)(msg, $meta);
         }).catch(helpers.handleError);
-    },
-    'totp.generate': function(msg, $meta) {
-        const actorId = $meta.auth.actorId;
-        const bus = this.bus;
-        if (!msg.installationId) {
-            msg.installationId = $meta.requestHeaders['x-installation-id'];
-        }
-        const installationId = msg.installationId;
-        return bus.importMethod('user.device.get')({
-            actorId,
-            installationId
-        }).then(result => {
-            if (!result.device.length) {
-                throw errors['identity.invalidInstallation']();
-            }
-            const device = result.device[0];
-            const encryptionKey = device.encryptionKey;
-            if (!encryptionKey) {
-                throw errors['identity.totp.noEncryptionKey']();
-            }
-            // TOTP Generation
-            const totp = speakeasy.totp({
-                secret: encryptionKey,
-                encoding: 'base32',
-                step: 30
-            });
-            return totp;
-        }).then(totp => {
-            const $pushNotificationSendMeta = Object.assign({}, $meta, {
-                method: 'alert.push.notification.send'
-            });
-            return bus.importMethod('alert.push.notification.send')({
-                actorId,
-                installationId,
-                immediate: true,
-                data: {
-                    notificationData: {
-                        recordId: (new Date()).getTime(),
-                        totp: totp
-                    }
-                }
-            }, $pushNotificationSendMeta).then((updatedRows) => {
-                return { totp };
-            });
-        }).catch(error => {
-            return helpers.handleError(error, msg, $meta);
-        });
-    },
-    'totp.validate': function(msg, $meta) {
-        const actorId = $meta.auth.actorId;
-        if (!msg.installationId) {
-            msg.installationId = $meta.requestHeaders['x-installation-id'];
-        }
-        const installationId = msg.installationId;
-        const encryptedTotp = msg.totp;
-
-        return this.bus.importMethod('user.device.get')({
-            actorId,
-            installationId
-        }).then(result => {
-            if (!result.device.length) {
-                throw errors['identity.invalidInstallation']();
-            }
-            const device = result.device[0];
-            const encryptionKey = device.encryptionKey;
-            if (!encryptionKey) {
-                throw errors['identity.totp.noEncryptionKey']();
-            }
-
-            // Decrypt and validate the received TOTP.
-            const cipher = crypto.createDecipher('aes-256-ctr', encryptionKey);
-            var totp = cipher.update(encryptedTotp, 'hex', 'utf8');
-            totp += cipher.final('utf8');
-
-            // TOTP Validation
-            const isTotpValid = speakeasy.totp.verify({
-                token: totp,
-                secret: encryptionKey,
-                encoding: 'base32',
-                step: 30
-            });
-            return {
-                totp,
-                isValid: isTotpValid
-            };
-        }).catch(error => {
-            return helpers.handleError(error, msg, $meta);
-        });
     }
 };

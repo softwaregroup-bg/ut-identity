@@ -155,17 +155,5 @@ module.exports = {
         description: 'change Password',
         params: joi.object(),
         result: joi.any()
-    },
-    'totp.generate': {
-        description: 'Generates TOTP',
-        params: joi.object().keys({}),
-        result: joi.any()
-    },
-    'totp.validate': {
-        description: 'Validates TOTP',
-        params: joi.object().keys({
-            totp: joi.string().required()
-        }),
-        result: joi.any()
     }
 };
