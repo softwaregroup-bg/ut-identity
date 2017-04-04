@@ -1,7 +1,6 @@
 var create = require('ut-error').define;
 
 module.exports = [
-
     {
         name: 'identity',
         defaultMessage: 'Identity',

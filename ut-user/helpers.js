@@ -397,7 +397,6 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'identity.invalidFingerprint' ||
             err.type === 'user.invalidLoginTime' ||
             err.type === 'policy.term.otpExpired' ||
-            err.type.startsWith('identity.totp.') ||
             err.type.startsWith('policy.param.')
         ) {
             throw err;
