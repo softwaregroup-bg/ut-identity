@@ -8,11 +8,6 @@ module.exports = [
         level: 'error'
     },
     {
-        name: 'identity.totp',
-        defaultMessage: 'Identity TOTP',
-        level: 'error'
-    },
-    {
         name: 'identity.missingCredentials',
         defaultMessage: 'Missing credentials',
         level: 'error'
@@ -140,21 +135,6 @@ module.exports = [
     {
         name: 'identity.invalidInstallation',
         defaultMessage: 'Invalid Installation Id',
-        level: 'error'
-    },
-    {
-        name: 'identity.totp.noEncryptionKey',
-        defaultMessage: 'No encryption key available fot totp generation',
-        level: 'error'
-    },
-    {
-        name: 'identity.totp.unsuccessfulValidation',
-        defaultMessage: 'Unsuccessful totp validation',
-        level: 'error'
-    },
-    {
-        name: 'identity.totp.noPushNotificationToken',
-        defaultMessage: 'No push notification token available for this device',
         level: 'error'
     }
 ].reduce(function(prev, next) {
