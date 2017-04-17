@@ -135,6 +135,26 @@ module.exports = [
         name: 'identity.invalidInstallation',
         defaultMessage: 'Invalid Installation Id',
         level: 'error'
+    },
+    {
+        name: 'identity.oob.authFailure',
+        defaultMessage: 'OOB Authentication Failure',
+        level: 'error'
+    },
+    {
+        name: 'identity.oob.deviceNotFound',
+        defaultMessage: 'User device not found',
+        level: 'error'
+    },
+    {
+        name: 'identity.oob.deviceEncryptionKeyNotFound',
+        defaultMessage: 'Encryption key for this device is missing',
+        level: 'error'
+    },
+    {
+        name: 'identity.oob.requiredInfoMissing',
+        defaultMessage: 'OOB Required info is missing',
+        level: 'error'
     }
 ].reduce(function(prev, next) {
     var spec = next.name.split('.');

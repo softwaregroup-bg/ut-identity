@@ -8,6 +8,7 @@ var crypt;
 var importMethod;
 var checkMethod;
 var debug;
+var oobConfig;
 
 function getCrypt(cryptKey) {
     if (!crypt) {
@@ -22,8 +23,10 @@ module.exports = {
         importMethod = b.importMethod.bind(b);
         checkMethod = b.config['identity.check'];
         debug = b.config.debug;
+        oobConfig = b.config.outOfBandAuthentication;
         helpers = new UtIdentityHelpers({
             importMethod: importMethod,
+            oobConfig: oobConfig,
             crypt: getCrypt()
         });
     },
@@ -278,12 +281,26 @@ module.exports = {
                 }
                 return response;
             }).then(function(response) {
+                // Ensure only one session
                 if (creatingSession && response['identity.check'].deletedChannel === 'mobile' && response['identity.check'].channel !== 'mobile') {
                     return helpers
                         .sendSessionExpiredNotificationToMobileChannel(response['identity.check'].actorId)
                         .then(() => response);
                 }
                 return response;
+            }).then(function(response) {
+                // OOB Authentication
+                const method = msg.actionId;
+                const channel = response['identity.check'].channel;
+                if (creatingSession || channel !== 'mobile' || oobConfig.protectedMethods.indexOf(method) < 0) {
+                    return response;
+                }
+                const actorId = response['identity.check'].actorId;
+                const installationId = msg.oobInstallationId;
+                const encryptedOob = msg.oobPayload;
+                return helpers
+                    .oobAuthenticationValidate(method, actorId, installationId, encryptedOob)
+                    .then(() => response);
             })
             .catch(function(error) {
                 return helpers.handleFullError(error, msg, $meta);
