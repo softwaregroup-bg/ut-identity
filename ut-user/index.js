@@ -290,9 +290,14 @@ module.exports = {
                 return response;
             }).then(function(response) {
                 // OOB Authentication
+                // If there is no OOB configuration, that means this implementation does not support this feature.
+                // In that case just return the response.
+                if (!oobConfig) {
+                    return response;
+                }
                 const method = msg.actionId;
                 const channel = response['identity.check'].channel;
-                if (creatingSession || channel !== 'mobile' || oobConfig.protectedMethods.indexOf(method) < 0) {
+                if (creatingSession || channel !== 'mobile' || (oobConfig.protectedMethods && oobConfig.protectedMethods.indexOf(method) < 0)) {
                     return response;
                 }
                 const actorId = response['identity.check'].actorId;
