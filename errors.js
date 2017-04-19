@@ -135,6 +135,11 @@ module.exports = [
         name: 'identity.invalidInstallation',
         defaultMessage: 'Invalid Installation Id',
         level: 'error'
+    },
+    {
+        name: 'identity.missingOobConfiguration',
+        defaultMessage: 'Missing OOB Configuration',
+        level: 'error'
     }
 ].reduce(function(prev, next) {
     var spec = next.name.split('.');

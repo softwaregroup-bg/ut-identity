@@ -98,6 +98,7 @@ module.exports = {
     check: function(msg, $meta) {
         delete msg.type;
         var bus = this.bus;
+        var oobConfig = this.config.outOfBandAuthentication;
         var creatingSession = false;
         var get;
         if (msg.sessionId) {
@@ -291,24 +292,23 @@ module.exports = {
                 return response;
             }).then(function(response) {
                 // OOB Authentication
-                // If there is no OOB configuration, that means this implementation does not support this feature.
-                // In that case just return the response.
-                const oobConfig = bus.config.outOfBandAuthentication;
-                if (!oobConfig) {
-                    return response;
-                }
                 const method = msg.actionId;
                 const channel = response['identity.check'].channel;
-                if (creatingSession || channel !== 'mobile' || (oobConfig.protectedMethods && oobConfig.protectedMethods.indexOf(method) < 0)) {
+                if (creatingSession || channel !== 'mobile' || !msg.requiresOobValidation) {
                     // Skip OOB when creating session, the channel is not Mobile
                     // or the called method is not marked as protected in the OOB config.
                     return response;
+                }
+                if (!oobConfig) {
+                    // The method is marked as requiring oob validation, but
+                    // there is no OOB configuration present in the ScriptPort. Throw error.
+                    throw errors['identity.missingOobConfiguration']();
                 }
                 const actorId = response['identity.check'].actorId;
                 const installationId = msg.oobInstallationId; // this come from ut-port-httpserver
                 const encryptedOob = msg.oobPayload; // this comes from ut-port-httpserver
                 return utUserHelpers
-                    .oobAuthenticationValidate(bus, actorId, encryptedOob, installationId, method, $meta)
+                    .oobAuthenticationValidate(bus, oobConfig, actorId, encryptedOob, installationId, method, $meta)
                     .then(() => response);
             })
             .catch(function(error) {
