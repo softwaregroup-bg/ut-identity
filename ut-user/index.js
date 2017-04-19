@@ -1,4 +1,5 @@
 var UtIdentityHelpers = require('./helpers');
+var utUserHelpers = require('ut-user/helpers');
 var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
@@ -99,14 +100,13 @@ module.exports = {
     },
     check: function(msg, $meta) {
         delete msg.type;
+        var bus = this.bus;
         var creatingSession = false;
         var get;
         if (msg.sessionId) {
             get = Promise.resolve(msg);
         } else {
             creatingSession = true;
-            var bus = this.bus;
-
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
@@ -298,13 +298,15 @@ module.exports = {
                 const method = msg.actionId;
                 const channel = response['identity.check'].channel;
                 if (creatingSession || channel !== 'mobile' || (oobConfig.protectedMethods && oobConfig.protectedMethods.indexOf(method) < 0)) {
+                    // Skip OOB when creating session, the channel is not Mobile
+                    // or the called method is not marked as protected in the OOB config.
                     return response;
                 }
                 const actorId = response['identity.check'].actorId;
-                const installationId = msg.oobInstallationId;
-                const encryptedOob = msg.oobPayload;
-                return helpers
-                    .oobAuthenticationValidate(method, actorId, installationId, encryptedOob)
+                const installationId = msg.oobInstallationId; // this come from ut-port-httpserver
+                const encryptedOob = msg.oobPayload; // this comes from ut-port-httpserver
+                return utUserHelpers
+                    .oobAuthenticationValidate(bus, actorId, encryptedOob, installationId, method, $meta)
                     .then(() => response);
             })
             .catch(function(error) {

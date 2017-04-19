@@ -1,6 +1,3 @@
-var crypto = require('crypto');
-var speakeasy = require('speakeasy');
-
 var utUserHelpers = require('ut-user/helpers');
 var UtUserPolicyHelpers = require('ut-user/policy/helpers');
 var errors = require('../errors');
@@ -8,7 +5,6 @@ var LdapClient = require('ut-port-ldap/customConnections/client.js');
 
 var importMethod;
 var crypt;
-var oobConfig;
 var utUserPolicyHelpers;
 
 function Helpers(obj) {
@@ -16,7 +12,6 @@ function Helpers(obj) {
         return new Helpers(obj);
     }
 
-    oobConfig = obj.oobConfig;
     importMethod = obj.importMethod;
     crypt = obj.crypt;
     utUserPolicyHelpers = new UtUserPolicyHelpers({importMethod: importMethod});
@@ -403,8 +398,8 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'user.invalidLoginTime' ||
             err.type === 'user.changeNotAllowed' ||
             err.type === 'policy.term.otpExpired' ||
-            err.type.startsWith('identity.oob.') ||
-            err.type.startsWith('policy.param.')
+            err.type.startsWith('policy.param.') ||
+            err.type.startsWith('user.oobAuthentication.')
         ) {
             throw err;
         } else if (
@@ -472,105 +467,6 @@ Helpers.prototype.sendSessionExpiredNotificationToMobileChannel = function(actor
         auth: {
             actorId: actorId
         }
-    });
-};
-
-/**
- * Validates Out-of-Band authentication payload, received by the mobile app.
- * The payload is encrypted with the encryption key, stored in user.actorDevice table, corresponding to the installationId.
- *
- * @param {String} method - the method being invoked
- * @param {Number|String} actorId - the actor making the call
- * @param {String} installationId - the installation id of the device, that initiates the call
- * @param {String} encryptedOob - the encrypted OOB payload
- */
-Helpers.prototype.oobAuthenticationValidate = function(method, actorId, installationId, encryptedOob) {
-    return importMethod('user.device.get')({
-        actorId,
-        installationId
-    }).then(result => {
-        if (!result.device.length) {
-            throw errors['identity.oob.deviceNotFound']();
-        }
-        const device = result.device[0];
-        const encryptionKey = device.encryptionKey;
-        if (!encryptionKey) {
-            throw errors['identity.oob.deviceEncryptionKeyNotFound']();
-        }
-
-        // Decrypt the sent OOB data.
-
-        const encryptionKeyBuffer = Buffer.from(encryptionKey, oobConfig.encryption.encoding);
-        const cipher = crypto.createDecipher(oobConfig.encryption.algorithm, encryptionKeyBuffer);
-        var oobJson = cipher.update(encryptedOob, oobConfig.transportEncoding, 'utf8');
-        oobJson += cipher.final('utf8');
-
-        const oob = JSON.parse(oobJson);
-        if (!oob.totp || !oob.uuid) {
-            // If there TOTP or UUID is missing from the OOB data throw error.
-            throw errors['identity.oob.requiredInfoMissing']();
-        }
-
-        // Generate new TOTP and validate it with the received TOTP.
-
-        const generatedTotp = this.oobGenerateValidationTotp(encryptionKey, oobConfig);
-        if (oob.totp !== generatedTotp) {
-            var totpValidatedWithOffset = false;
-            if (oobConfig.totp.window && oobConfig.totp.window > 0) {
-                // Received TOTP and generated TOTP differ.
-                // Try to generate tokens offset in the future or in the past [config.totp.window] number of steps and revalidate.
-                // If this fails too.. throw error.
-                for (var i = 1; i <= oobConfig.totp.window; i++) {
-                    const offset = i * oobConfig.totp.step;
-                    const offsetPast = 0 - offset;
-                    const offsetFuture = 0 + offset;
-                    const offsetFutureTotp = this.oobGenerateValidationTotp(encryptionKey, oobConfig, offsetFuture);
-                    const offsetPastTotp = this.oobGenerateValidationTotp(encryptionKey, oobConfig, offsetPast);
-                    if (oob.totp === offsetFutureTotp || oob.totp === offsetPastTotp) {
-                        totpValidatedWithOffset = true;
-                        break;
-                    }
-                }
-            }
-            if (!totpValidatedWithOffset) {
-                throw errors['identity.oobAuthFailure']();
-            }
-        }
-
-        // If no error is thrown, totp is valid, continue.
-        // Retrieve and validate the stored in the DB UUID.
-
-        const $userHashCheckMeta = {
-            method: 'user.hash.check',
-            actionId: method,
-            auth: { actorId }
-        };
-        return importMethod('user.hash.check')({
-            actorId: actorId,
-            identifier: actorId,
-            type: 'oob',
-            value: oob.uuid
-        }, $userHashCheckMeta).then(() => {
-            // If something is not ok an error is thrown.
-            return true;
-        });
-    });
-};
-
-/**
- * Generates a TOTP, which will be compared to the received one.
- *
- * @param {String} encryptionKey - the secret, required by the TOTP generation spec (RFC6238)
- * @param {Object} config - backend OOB configuration object
- * @param {Number} timeOffset - reference time, for which a TOTP will be generated
- */
-Helpers.prototype.oobGenerateValidationTotp = function(encryptionKey, config, timeOffset = 0) {
-    const time = Math.floor(new Date().getTime() / 1000) + timeOffset;
-    return speakeasy.totp({
-        time: time,
-        secret: encryptionKey,
-        encoding: config.totp.encoding,
-        step: config.totp.step
     });
 };
 
