@@ -9,7 +9,6 @@ var crypt;
 var importMethod;
 var checkMethod;
 var debug;
-var oobConfig;
 
 function getCrypt(cryptKey) {
     if (!crypt) {
@@ -24,10 +23,8 @@ module.exports = {
         importMethod = b.importMethod.bind(b);
         checkMethod = b.config['identity.check'];
         debug = b.config.debug;
-        oobConfig = b.config.outOfBandAuthentication;
         helpers = new UtIdentityHelpers({
             importMethod: importMethod,
-            oobConfig: oobConfig,
             crypt: getCrypt()
         });
     },
@@ -296,6 +293,7 @@ module.exports = {
                 // OOB Authentication
                 // If there is no OOB configuration, that means this implementation does not support this feature.
                 // In that case just return the response.
+                const oobConfig = bus.config.outOfBandAuthentication;
                 if (!oobConfig) {
                     return response;
                 }
