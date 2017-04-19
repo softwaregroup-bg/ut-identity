@@ -241,6 +241,10 @@ module.exports = {
                         answer: msg.secretAnswer
                     };
                 }
+                if (msg.lat && msg.lng) {
+                    r.lat = msg.lat;
+                    r.lng = msg.lng;
+                }
                 r.secretQuestionAnswer = secretQuestionAnswer;
                 return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
