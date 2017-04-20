@@ -294,19 +294,14 @@ module.exports = {
                 // OOB Authentication
                 const method = msg.actionId;
                 const channel = response['identity.check'].channel;
-                if (creatingSession || channel !== 'mobile' || !msg.requiresOobValidation) {
+                if (creatingSession || channel !== 'mobile' || !oobConfig || (oobConfig && oobConfig.protectedMethods.indexOf(method) < 0)) {
                     // Skip OOB when creating session, the channel is not Mobile
-                    // or the called method is not marked as protected in the OOB config.
+                    // or there is no OOB Authentication configured in the Scrpipt Port.
                     return response;
                 }
-                if (!oobConfig) {
-                    // The method is marked as requiring oob validation, but
-                    // there is no OOB configuration present in the ScriptPort. Throw error.
-                    throw errors['identity.missingOobConfiguration']();
-                }
                 const actorId = response['identity.check'].actorId;
-                const installationId = msg.oobInstallationId; // this come from ut-port-httpserver
-                const encryptedOob = msg.oobPayload; // this comes from ut-port-httpserver
+                const installationId = msg.oob.installationId; // this comes from ut-port-httpserver (x-installation-id in request headers)
+                const encryptedOob = msg.oob.payload; // this comes from ut-port-httpserver (x-oob in request headers)
                 return utUserHelpers
                     .oobAuthenticationValidate(bus, oobConfig, actorId, encryptedOob, installationId, method, $meta)
                     .then(() => response);
