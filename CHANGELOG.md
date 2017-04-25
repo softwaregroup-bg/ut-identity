@@ -1,3 +1,13 @@
+<a name="5.13.4"></a>
+## [5.13.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.3...v5.13.4) (2017-04-25)
+
+
+### Bug Fixes
+
+* allow activity attribute in identity.check request ([#81](https://github.com/softwaregroup-bg/ut-identity/issues/81)) ([54ccde8](https://github.com/softwaregroup-bg/ut-identity/commit/54ccde8))
+
+
+
 <a name="5.13.3"></a>
 ## [5.13.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.2...v5.13.3) (2017-04-24)
 
