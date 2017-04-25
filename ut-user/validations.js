@@ -33,7 +33,14 @@ module.exports = {
             secretQuestion: [ joi.string().allow(null), joi.number().allow(null) ],
             secretAnswer: joi.string().allow(null),
             lat: joi.number().allow(null),
-            lng: joi.number().allow(null)
+            lng: joi.number().allow(null),
+            activity: joi.array().items(joi.object().keys({
+                installationId: joi.string(),
+                action: joi.string(),
+                actionStatus: joi.string(),
+                operationDate: joi.string(),
+                channel: joi.string()
+            }))
         }),
         result: joi.object().keys({
             'identity.check': joi.object().keys({
