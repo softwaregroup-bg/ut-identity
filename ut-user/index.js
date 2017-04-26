@@ -1,5 +1,4 @@
 var UtIdentityHelpers = require('./helpers');
-var utUserHelpers = require('ut-user/helpers');
 var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
@@ -98,7 +97,6 @@ module.exports = {
     check: function(msg, $meta) {
         delete msg.type;
         var bus = this.bus;
-        var oobConfig = this.config.outOfBandAuthentication;
         var creatingSession = false;
         var get;
         if (msg.sessionId) {
@@ -228,7 +226,27 @@ module.exports = {
         }
 
         msg.rawPassword = msg.password;
+        $meta.protection = 0;
         return get
+            .then(function(r) {
+                // Do similar logic in another then() for other kinds of two-factor-authentications.
+                // Each authentication should have a protection integer, which is a power of 2 assigned to it - e.g. OOB is 1, Other kind is 2, 4, 8 and so on.
+                // After each successful two-factor-auth validation do a logical OR on $meta.protection.
+                // TODO: Retrieve from somewhere the protection integer.
+                if (creatingSession) {
+                    return r;
+                }
+                const oobValidateMsg = {
+                    method: msg.actionId,
+                    installationId: $meta.requestHeaders['x-installation-id'],
+                    oob: $meta.requestHeaders['x-protection-oob']
+                };
+                return bus.importMethod('user.oobAuthentication.validate')(oobValidateMsg, $meta)
+                    .then(validationResponse => {
+                        $meta.protection |= (validationResponse.validated) ? 1 : 0; // 1 respresents OOB validation
+                        return r;
+                    });
+            })
             .then(function(r) {
                 $meta.method = checkMethod || 'user.identity.checkPolicy';
                 var secretQuestionAnswer = [];
@@ -290,23 +308,7 @@ module.exports = {
                         .then(() => response);
                 }
                 return response;
-            }).then(function(response) {
-                // OOB Authentication
-                const method = msg.actionId;
-                const channel = response['identity.check'].channel;
-                if (creatingSession || channel !== 'mobile' || !oobConfig || (oobConfig && oobConfig.protectedMethods.indexOf(method) < 0)) {
-                    // Skip OOB when creating session, the channel is not Mobile
-                    // or there is no OOB Authentication configured in the Scrpipt Port.
-                    return response;
-                }
-                const actorId = response['identity.check'].actorId;
-                const installationId = msg.oob.installationId; // this comes from ut-port-httpserver (x-installation-id in request headers)
-                const encryptedOob = msg.oob.payload; // this comes from ut-port-httpserver (x-oob in request headers)
-                return utUserHelpers
-                    .oobAuthenticationValidate(bus, oobConfig, actorId, encryptedOob, installationId, method, $meta)
-                    .then(() => response);
-            })
-            .catch(function(error) {
+            }).catch(function(error) {
                 return helpers.handleFullError(error, msg, $meta);
             });
     },
