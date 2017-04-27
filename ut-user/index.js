@@ -229,10 +229,17 @@ module.exports = {
         $meta.protection = 0;
         return get
             .then(function(r) {
+                // Add protection to the result, so that ut-port-httpserver can apply it to the meta again,
+                // when calling the requested method after it parses the result from identity.check.
+                r.protection = 0;
+                return r;
+            })
+            .then(function(r) {
                 // Do similar logic in another then() for other kinds of two-factor-authentications.
                 // Each authentication should have a protection integer, which is a power of 2 assigned to it - e.g. OOB is 1, Other kind is 2, 4, 8 and so on.
                 // After each successful two-factor-auth validation do a logical OR on $meta.protection.
                 // TODO: Retrieve from somewhere the protection integer.
+                const oobProtection = 1;
                 if (creatingSession) {
                     return r;
                 }
@@ -243,7 +250,8 @@ module.exports = {
                 };
                 return bus.importMethod('user.oobAuthentication.validate')(oobValidateMsg, $meta)
                     .then(validationResponse => {
-                        $meta.protection |= (validationResponse.validated) ? 1 : 0; // 1 respresents OOB validation
+                        $meta.protection |= (validationResponse.validated) ? oobProtection : 0;
+                        r.protection |= (validationResponse.validated) ? oobProtection : 0;
                         return r;
                     });
             })
