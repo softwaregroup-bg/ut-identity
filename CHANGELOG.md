@@ -1,3 +1,13 @@
+<a name="5.13.5"></a>
+## [5.13.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.4...v5.13.5) (2017-05-05)
+
+
+### Bug Fixes
+
+* add validations channel ussd ([#82](https://github.com/softwaregroup-bg/ut-identity/issues/82)) ([9780b1e](https://github.com/softwaregroup-bg/ut-identity/commit/9780b1e))
+
+
+
 <a name="5.13.4"></a>
 ## [5.13.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.3...v5.13.4) (2017-04-25)
 
