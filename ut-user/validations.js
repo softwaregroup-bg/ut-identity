@@ -22,7 +22,7 @@ module.exports = {
             forgottenPassword: joi.string(),
             newPassword: joi.string(),
             password: joi.string().allow('').min(1),
-            channel: joi.string().valid(['web', 'mobile']).required(),
+            channel: joi.string().valid(['web', 'mobile', 'ussd']).required(),
             installationId: joi.string().guid({
                 version: [
                     'uuidv4'
@@ -53,8 +53,8 @@ module.exports = {
                 userAgent: joi.string().allow('').allow(null).required(),
                 expire: joi.date().required(),
                 dateCreated: joi.date().required(),
-                channel: joi.string().valid(['web', 'mobile']),
-                deletedChannel: joi.string().valid(['web', 'mobile'])
+                channel: joi.string().valid(['web', 'mobile', 'ussd']),
+                deletedChannel: joi.string().valid(['web', 'mobile', 'ussd'])
             }),
             'permission.get': joi.array().items({
                 actionId: joi.string().required(),
