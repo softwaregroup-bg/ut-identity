@@ -96,13 +96,14 @@ module.exports = {
     },
     check: function(msg, $meta) {
         delete msg.type;
-        var bus = this.bus;
         var creatingSession = false;
         var get;
         if (msg.sessionId) {
             get = Promise.resolve(msg);
         } else {
             creatingSession = true;
+            var bus = this.bus;
+
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
@@ -226,32 +227,9 @@ module.exports = {
         }
 
         msg.rawPassword = msg.password;
-        var protection = 0;
-
         return get
             .then(function(r) {
-                // Do similar logic in another then() for other kinds of two-factor-authentications.
-                // Each authentication should have a protection integer, which is a power of 2 assigned to it - e.g. OOB is 1, Other kind is 2, 4, 8 and so on.
-                // After each successful two-factor-auth validation do a logical OR on $meta.protection.
-                // TODO: Retrieve from somewhere the protection integer.
-                if (creatingSession) {
-                    return r;
-                }
-                const oobProtection = 1;
-                const oobValidateMsg = {
-                    method: msg.actionId,
-                    installationId: $meta.requestHeaders['x-installation-id'],
-                    oob: $meta.requestHeaders['x-protection-oob']
-                };
-                return bus.importMethod('user.oobAuthentication.validate')(oobValidateMsg, $meta)
-                    .then(validationResponse => {
-                        protection |= (validationResponse.validated) ? oobProtection : 0;
-                        return r;
-                    });
-            })
-            .then(function(r) {
                 $meta.method = checkMethod || 'user.identity.checkPolicy';
-                $meta.protection = protection;
                 var secretQuestionAnswer = [];
                 if (msg.secretQuestion && msg.secretAnswer) {
                     secretQuestionAnswer = {
@@ -282,7 +260,6 @@ module.exports = {
                         return user;
                     });
             }).then(function(response) {
-                response.protection = protection;
                 if (creatingSession && response.roles.some((role) => role.name === 'BaobabClientApplication')) {
                     return importMethod('customer.activityReport.add')({
                         activity: {
@@ -305,14 +282,14 @@ module.exports = {
                 }
                 return response;
             }).then(function(response) {
-                // Ensure only one session
                 if (creatingSession && response['identity.check'].deletedChannel === 'mobile' && response['identity.check'].channel !== 'mobile') {
                     return helpers
                         .sendSessionExpiredNotificationToMobileChannel(response['identity.check'].actorId)
                         .then(() => response);
                 }
                 return response;
-            }).catch(function(error) {
+            })
+            .catch(function(error) {
                 return helpers.handleFullError(error, msg, $meta);
             });
     },
