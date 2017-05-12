@@ -398,8 +398,7 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'user.invalidLoginTime' ||
             err.type === 'user.changeNotAllowed' ||
             err.type === 'policy.term.otpExpired' ||
-            err.type.startsWith('policy.param.') ||
-            err.type.startsWith('user.oobAuthentication.')
+            err.type.startsWith('policy.param.')
         ) {
             throw err;
         } else if (
