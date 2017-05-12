@@ -1,3 +1,13 @@
+<a name="5.13.6"></a>
+## [5.13.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.5...v5.13.6) (2017-05-11)
+
+
+### Bug Fixes
+
+* version bump ([75820bf](https://github.com/softwaregroup-bg/ut-identity/commit/75820bf))
+
+
+
 <a name="5.13.5"></a>
 ## [5.13.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.4...v5.13.5) (2017-05-05)
 
