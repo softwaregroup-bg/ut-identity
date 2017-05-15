@@ -160,7 +160,11 @@ module.exports = {
     },
     'changePassword': {
         description: 'change Password',
-        params: joi.object(),
-        result: joi.any()
+        params: joi.object().keys({
+            username: joi.string().required(),
+            password: joi.string().required(),
+            newPassword: joi.string().required()
+        }),
+        result: joi.array()
     }
 };
