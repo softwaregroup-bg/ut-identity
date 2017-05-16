@@ -135,6 +135,16 @@ module.exports = [
         name: 'identity.invalidInstallation',
         defaultMessage: 'Invalid Installation Id',
         level: 'error'
+    },
+    {
+        name: 'user',
+        defaultMessage: 'ut-user user error',
+        level: 'error'
+    },
+    {
+        name: 'user.disabledUserInactivity',
+        defaultMessage: 'User is locked because of inactivity',
+        level: 'error'
     }
 ].reduce(function(prev, next) {
     var spec = next.name.split('.');
