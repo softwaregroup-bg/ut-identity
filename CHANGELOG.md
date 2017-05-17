@@ -1,3 +1,14 @@
+<a name="5.13.8"></a>
+## [5.13.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.7...v5.13.8) (2017-05-17)
+
+
+### Bug Fixes
+
+* add allow null for middleName ([4109046](https://github.com/softwaregroup-bg/ut-identity/commit/4109046))
+* add other parameters in result ([643766e](https://github.com/softwaregroup-bg/ut-identity/commit/643766e))
+
+
+
 <a name="5.13.7"></a>
 ## [5.13.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.6...v5.13.7) (2017-05-17)
 
