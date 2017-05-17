@@ -65,7 +65,7 @@ module.exports = {
                 actorId: joi.number().integer().required(),
                 frontEndRecordId: joi.string().allow(null).required(),
                 firstName: joi.string().required(),
-                middleName: joi.string(),
+                middleName: joi.string().allow(null),
                 lastName: joi.string().required(),
                 nationalId: joi.string().allow(null),
                 dateOfBirth: joi.date().allow(null),
