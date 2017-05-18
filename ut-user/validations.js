@@ -65,7 +65,7 @@ module.exports = {
                 actorId: joi.number().integer().required(),
                 frontEndRecordId: joi.string().allow(null).required(),
                 firstName: joi.string().required(),
-                middleName: joi.string(),
+                middleName: joi.string().allow(null),
                 lastName: joi.string().required(),
                 nationalId: joi.string().allow(null),
                 dateOfBirth: joi.date().allow(null),
@@ -80,7 +80,14 @@ module.exports = {
                 isEnabled: joi.boolean().allow(0, 1, '0', '1'),
                 isDeleted: joi.boolean().allow(0, 1, '0', '1'),
                 maritalStatusId: joi.string().allow(null),
-                age: joi.number().integer().allow(null)
+                age: joi.number().integer().allow(null),
+                educationId: joi.number().allow(null),
+                employmentId: joi.number().allow(null),
+                employmentDate: joi.string().allow(null),
+                incomeRangeId: joi.number().allow(null),
+                employerName: joi.string().allow(null),
+                employerCategoryId: joi.number().allow(null),
+                familyMembers: joi.number().allow(null)
             }),
             language: joi.object().keys({
                 languageId: joi.number().required(),
