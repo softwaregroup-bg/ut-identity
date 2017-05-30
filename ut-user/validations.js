@@ -54,7 +54,7 @@ module.exports = {
                 expire: joi.date().required(),
                 dateCreated: joi.date().required(),
                 channel: joi.string().valid(['web', 'mobile', 'ussd']),
-                deletedChannel: joi.string().valid(['web', 'mobile', 'ussd'])
+                deletedChannel: joi.string().valid(['web', 'mobile', 'ussd']).allow(null)
             }),
             'permission.get': joi.array().items({
                 actionId: joi.string().required(),
