@@ -22,7 +22,7 @@ module.exports = {
             forgottenPassword: joi.string(),
             newPassword: joi.string(),
             password: joi.string().allow('').min(1),
-            channel: joi.string().valid(['web', 'mobile']).required(),
+            channel: joi.string().valid(['web', 'mobile', 'ussd']).required(),
             installationId: joi.string().guid({
                 version: [
                     'uuidv4'
@@ -33,7 +33,14 @@ module.exports = {
             secretQuestion: [ joi.string().allow(null), joi.number().allow(null) ],
             secretAnswer: joi.string().allow(null),
             lat: joi.number().allow(null),
-            lng: joi.number().allow(null)
+            lng: joi.number().allow(null),
+            activity: joi.array().items(joi.object().keys({
+                installationId: joi.string(),
+                action: joi.string(),
+                actionStatus: joi.string(),
+                operationDate: joi.string(),
+                channel: joi.string()
+            }))
         }),
         result: joi.object().keys({
             'identity.check': joi.object().keys({
@@ -46,8 +53,8 @@ module.exports = {
                 userAgent: joi.string().allow('').allow(null).required(),
                 expire: joi.date().required(),
                 dateCreated: joi.date().required(),
-                channel: joi.string().valid(['web', 'mobile']),
-                deletedChannel: joi.string().valid(['web', 'mobile']).allow(null)
+                channel: joi.string().valid(['web', 'mobile', 'ussd']),
+                deletedChannel: joi.string().valid(['web', 'mobile', 'ussd']).allow(null)
             }),
             'permission.get': joi.array().items({
                 actionId: joi.string().required(),
@@ -58,7 +65,7 @@ module.exports = {
                 actorId: joi.number().integer().required(),
                 frontEndRecordId: joi.string().allow(null).required(),
                 firstName: joi.string().required(),
-                middleName: joi.string(),
+                middleName: joi.string().allow(null),
                 lastName: joi.string().required(),
                 nationalId: joi.string().allow(null),
                 dateOfBirth: joi.date().allow(null),
@@ -73,7 +80,14 @@ module.exports = {
                 isEnabled: joi.boolean().allow(0, 1, '0', '1'),
                 isDeleted: joi.boolean().allow(0, 1, '0', '1'),
                 maritalStatusId: joi.string().allow(null),
-                age: joi.number().integer().allow(null)
+                age: joi.number().integer().allow(null),
+                educationId: joi.number().allow(null),
+                employmentId: joi.number().allow(null),
+                employmentDate: joi.string().allow(null),
+                incomeRangeId: joi.number().allow(null),
+                employerName: joi.string().allow(null),
+                employerCategoryId: joi.number().allow(null),
+                familyMembers: joi.number().allow(null)
             }),
             language: joi.object().keys({
                 languageId: joi.number().required(),

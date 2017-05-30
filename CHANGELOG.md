@@ -1,3 +1,94 @@
+<a name="5.13.14"></a>
+## [5.13.14](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.13...v5.13.14) (2017-05-22)
+
+
+
+<a name="5.13.13"></a>
+## [5.13.13](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.12...v5.13.13) (2017-05-22)
+
+
+
+<a name="5.13.12"></a>
+## [5.13.12](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.11...v5.13.12) (2017-05-22)
+
+
+
+<a name="5.13.11"></a>
+## [5.13.11](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.10...v5.13.11) (2017-05-22)
+
+
+
+<a name="5.13.10"></a>
+## [5.13.10](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.9...v5.13.10) (2017-05-22)
+
+
+
+<a name="5.13.9"></a>
+## [5.13.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.8...v5.13.9) (2017-05-22)
+
+
+
+<a name="5.13.8"></a>
+## [5.13.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.7...v5.13.8) (2017-05-17)
+
+
+### Bug Fixes
+
+* add allow null for middleName ([4109046](https://github.com/softwaregroup-bg/ut-identity/commit/4109046))
+* add other parameters in result ([643766e](https://github.com/softwaregroup-bg/ut-identity/commit/643766e))
+
+
+
+<a name="5.13.7"></a>
+## [5.13.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.6...v5.13.7) (2017-05-17)
+
+
+
+<a name="5.13.6"></a>
+## [5.13.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.5...v5.13.6) (2017-05-11)
+
+
+### Bug Fixes
+
+* version bump ([75820bf](https://github.com/softwaregroup-bg/ut-identity/commit/75820bf))
+
+
+
+<a name="5.13.5"></a>
+## [5.13.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.4...v5.13.5) (2017-05-05)
+
+
+### Bug Fixes
+
+* add validations channel ussd ([#82](https://github.com/softwaregroup-bg/ut-identity/issues/82)) ([9780b1e](https://github.com/softwaregroup-bg/ut-identity/commit/9780b1e))
+
+
+
+<a name="5.13.4"></a>
+## [5.13.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.3...v5.13.4) (2017-04-25)
+
+
+### Bug Fixes
+
+* allow activity attribute in identity.check request ([#81](https://github.com/softwaregroup-bg/ut-identity/issues/81)) ([54ccde8](https://github.com/softwaregroup-bg/ut-identity/commit/54ccde8))
+
+
+
+<a name="5.13.3"></a>
+## [5.13.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.2...v5.13.3) (2017-04-24)
+
+
+
+<a name="5.13.2"></a>
+## [5.13.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.1...v5.13.2) (2017-04-18)
+
+
+
+<a name="5.13.1"></a>
+## [5.13.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.0...v5.13.1) (2017-04-10)
+
+
+
 <a name="5.13.0"></a>
 # [5.13.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.6...v5.13.0) (2017-03-27)
 
