@@ -44,6 +44,12 @@ module.exports = {
             }))
         }),
         result: joi.object().keys({
+            'jwt': joi.object().keys({
+                value: joi.string().required()
+            }).required(),
+            'xsrf': joi.object().keys({
+                uuId: joi.string().required()
+            }).required(),
             'identity.check': joi.object().keys({
                 sessionId: joi.string().required(),
                 actorId: joi.number().integer().required(),
