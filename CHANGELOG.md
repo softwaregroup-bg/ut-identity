@@ -1,3 +1,13 @@
+<a name="5.13.17"></a>
+## [5.13.17](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.16...v5.13.17) (2017-05-31)
+
+
+### Bug Fixes
+
+* add param ([4c5a18a](https://github.com/softwaregroup-bg/ut-identity/commit/4c5a18a))
+
+
+
 <a name="5.13.16"></a>
 ## [5.13.16](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.15...v5.13.16) (2017-05-30)
 
