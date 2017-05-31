@@ -1,3 +1,13 @@
+<a name="5.13.18"></a>
+## [5.13.18](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.17...v5.13.18) (2017-05-31)
+
+
+### Bug Fixes
+
+* identity.check:(jwt,xsrf) ([8e3d7b0](https://github.com/softwaregroup-bg/ut-identity/commit/8e3d7b0))
+
+
+
 <a name="5.13.17"></a>
 ## [5.13.17](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.16...v5.13.17) (2017-05-31)
 
