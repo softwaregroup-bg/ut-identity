@@ -10,6 +10,7 @@ module.exports = {
         params: joi.object({
             username: joi.string(),
             timezone: joi.string(),
+            appId: joi.string(),
             uri: joi.string(),
             bio: joi.array().items(
                 joi.object().keys({
