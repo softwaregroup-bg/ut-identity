@@ -1,3 +1,38 @@
+<a name="5.13.18"></a>
+## [5.13.18](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.17...v5.13.18) (2017-05-31)
+
+
+### Bug Fixes
+
+* identity.check:(jwt,xsrf) ([8e3d7b0](https://github.com/softwaregroup-bg/ut-identity/commit/8e3d7b0))
+
+
+
+<a name="5.13.17"></a>
+## [5.13.17](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.16...v5.13.17) (2017-05-31)
+
+
+### Bug Fixes
+
+* add param ([4c5a18a](https://github.com/softwaregroup-bg/ut-identity/commit/4c5a18a))
+
+
+
+<a name="5.13.16"></a>
+## [5.13.16](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.15...v5.13.16) (2017-05-30)
+
+
+### Bug Fixes
+
+* UIS-2059: fix joi - db returns null when no channel is deleted ([#87](https://github.com/softwaregroup-bg/ut-identity/issues/87)) ([1337dc6](https://github.com/softwaregroup-bg/ut-identity/commit/1337dc6))
+
+
+
+<a name="5.13.15"></a>
+## [5.13.15](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.14...v5.13.15) (2017-05-29)
+
+
+
 <a name="5.13.14"></a>
 ## [5.13.14](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.13...v5.13.14) (2017-05-22)
 
