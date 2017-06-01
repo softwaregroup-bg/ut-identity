@@ -10,6 +10,7 @@ module.exports = {
         params: joi.object({
             username: joi.string(),
             timezone: joi.string(),
+            appId: joi.string(),
             uri: joi.string(),
             bio: joi.array().items(
                 joi.object().keys({
@@ -43,6 +44,12 @@ module.exports = {
             }))
         }),
         result: joi.object().keys({
+            'jwt': joi.object().keys({
+                value: joi.string().required()
+            }).required(),
+            'xsrf': joi.object().keys({
+                uuId: joi.string().required()
+            }).required(),
             'identity.check': joi.object().keys({
                 sessionId: joi.string().required(),
                 actorId: joi.number().integer().required(),
@@ -54,7 +61,7 @@ module.exports = {
                 expire: joi.date().required(),
                 dateCreated: joi.date().required(),
                 channel: joi.string().valid(['web', 'mobile', 'ussd']),
-                deletedChannel: joi.string().valid(['web', 'mobile', 'ussd'])
+                deletedChannel: joi.string().valid(['web', 'mobile', 'ussd']).allow(null)
             }),
             'permission.get': joi.array().items({
                 actionId: joi.string().required(),
@@ -65,7 +72,7 @@ module.exports = {
                 actorId: joi.number().integer().required(),
                 frontEndRecordId: joi.string().allow(null).required(),
                 firstName: joi.string().required(),
-                middleName: joi.string(),
+                middleName: joi.string().allow(null),
                 lastName: joi.string().required(),
                 nationalId: joi.string().allow(null),
                 dateOfBirth: joi.date().allow(null),
@@ -80,7 +87,14 @@ module.exports = {
                 isEnabled: joi.boolean().allow(0, 1, '0', '1'),
                 isDeleted: joi.boolean().allow(0, 1, '0', '1'),
                 maritalStatusId: joi.string().allow(null),
-                age: joi.number().integer().allow(null)
+                age: joi.number().integer().allow(null),
+                educationId: joi.number().allow(null),
+                employmentId: joi.number().allow(null),
+                employmentDate: joi.string().allow(null),
+                incomeRangeId: joi.number().allow(null),
+                employerName: joi.string().allow(null),
+                employerCategoryId: joi.number().allow(null),
+                familyMembers: joi.number().allow(null)
             }),
             language: joi.object().keys({
                 languageId: joi.number().required(),

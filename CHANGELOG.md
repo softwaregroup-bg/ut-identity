@@ -1,3 +1,84 @@
+<a name="5.13.18"></a>
+## [5.13.18](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.17...v5.13.18) (2017-05-31)
+
+
+### Bug Fixes
+
+* identity.check:(jwt,xsrf) ([8e3d7b0](https://github.com/softwaregroup-bg/ut-identity/commit/8e3d7b0))
+
+
+
+<a name="5.13.17"></a>
+## [5.13.17](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.16...v5.13.17) (2017-05-31)
+
+
+### Bug Fixes
+
+* add param ([4c5a18a](https://github.com/softwaregroup-bg/ut-identity/commit/4c5a18a))
+
+
+
+<a name="5.13.16"></a>
+## [5.13.16](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.15...v5.13.16) (2017-05-30)
+
+
+### Bug Fixes
+
+* UIS-2059: fix joi - db returns null when no channel is deleted ([#87](https://github.com/softwaregroup-bg/ut-identity/issues/87)) ([1337dc6](https://github.com/softwaregroup-bg/ut-identity/commit/1337dc6))
+
+
+
+<a name="5.13.15"></a>
+## [5.13.15](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.14...v5.13.15) (2017-05-29)
+
+
+
+<a name="5.13.14"></a>
+## [5.13.14](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.13...v5.13.14) (2017-05-22)
+
+
+
+<a name="5.13.13"></a>
+## [5.13.13](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.12...v5.13.13) (2017-05-22)
+
+
+
+<a name="5.13.12"></a>
+## [5.13.12](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.11...v5.13.12) (2017-05-22)
+
+
+
+<a name="5.13.11"></a>
+## [5.13.11](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.10...v5.13.11) (2017-05-22)
+
+
+
+<a name="5.13.10"></a>
+## [5.13.10](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.9...v5.13.10) (2017-05-22)
+
+
+
+<a name="5.13.9"></a>
+## [5.13.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.8...v5.13.9) (2017-05-22)
+
+
+
+<a name="5.13.8"></a>
+## [5.13.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.7...v5.13.8) (2017-05-17)
+
+
+### Bug Fixes
+
+* add allow null for middleName ([4109046](https://github.com/softwaregroup-bg/ut-identity/commit/4109046))
+* add other parameters in result ([643766e](https://github.com/softwaregroup-bg/ut-identity/commit/643766e))
+
+
+
+<a name="5.13.7"></a>
+## [5.13.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.6...v5.13.7) (2017-05-17)
+
+
+
 <a name="5.13.6"></a>
 ## [5.13.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.5...v5.13.6) (2017-05-11)
 
