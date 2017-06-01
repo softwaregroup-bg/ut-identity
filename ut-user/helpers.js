@@ -1,7 +1,6 @@
 var utUserHelpers = require('ut-user/helpers');
 var UtUserPolicyHelpers = require('ut-user/policy/helpers');
 var errors = require('../errors');
-var LdapClient = require('ut-port-ldap/customConnections/client.js');
 
 var importMethod;
 var crypt;
@@ -350,15 +349,14 @@ Helpers.prototype.handleFullError = function(error, msg, $meta) {
         return importMethod($meta.method)({userName: msg.username}, $meta)
             .then(function(ldapConfigResult) {
                 if (ldapConfigResult.serverCredentials && ldapConfigResult.serverCredentials.hostNameIp) {
-                    var ldapClient = new LdapClient({
-                        url: ldapConfigResult.serverCredentials.hostNameIp,
+                    return importMethod('ldap.tryBind')({
+                        hostName: ldapConfigResult.serverCredentials.hostNameIp,
                         port: ldapConfigResult.serverCredentials.port,
-                        connectionString: `CN=${msg.username},OU=Users,` + ldapConfigResult.serverCredentials.userSearchBase,
+                        username: msg.username,
+                        userSearchBase: ldapConfigResult.serverCredentials.userSearchBase,
                         password: msg.rawPassword,
                         useSSL: ldapConfigResult.serverCredentials.useSsl
-                    });
-
-                    return ldapClient.tryBind()
+                    })
                         .then(function(ldapBindResult) {
                             $meta.method = 'identity.check';
                             msg.isLdapSuccessful = true;
