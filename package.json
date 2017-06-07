@@ -36,10 +36,12 @@
     "ut-tools": "^5.17.3"
   },
   "dependencies": {
-    "ut-error": "^5.4.0",
+    "dns": "^0.2.2",
     "joi": "10.0.6",
     "lodash.assign": "4.2.0",
     "lodash.defaults": "4.2.0",
+    "os": "^0.1.1",
+    "ut-error": "^5.4.0",
     "ut-template": "^5.5.0",
     "when": "3.7.7"
   },
