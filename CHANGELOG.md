@@ -1,3 +1,13 @@
+<a name="5.13.21"></a>
+## [5.13.21](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.20...v5.13.21) (2017-06-12)
+
+
+### Bug Fixes
+
+* vb1 ([9b1acfe](https://github.com/softwaregroup-bg/ut-identity/commit/9b1acfe))
+
+
+
 <a name="5.13.20"></a>
 ## [5.13.20](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.19...v5.13.20) (2017-06-02)
 
