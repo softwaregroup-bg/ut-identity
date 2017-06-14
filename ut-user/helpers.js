@@ -454,10 +454,8 @@ Helpers.prototype.sendSessionExpiredNotificationToMobileChannel = function(actor
         actorId: actorId,
         data: {
             notificationData: {
-                recordId: (new Date()).getTime(),
-                securityRestrictions: 'none',
-                duration: 10,
-                type: 'session_expired'
+                type: 'session.expired',
+                params: {} // TODO - Verify that this needs to be sent, even though it's empty.
             }
         }
     }, {
