@@ -3,7 +3,7 @@ var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
 var path = require('path');
-var packageObj = require(path.join(path.dirname(require.main.filename), 'package.json'));
+var packageObj = require(path.join(process.cwd(), 'package.json'));
 var os = require('os');
 
 var helpers;
