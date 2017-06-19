@@ -2,16 +2,15 @@ var UtIdentityHelpers = require('./helpers');
 var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
-
-var os = require("os");
+var path = require('path');
+var packageObj = require(path.join(path.dirname(require.main.filename), 'package.json'));
+var os = require('os');
 
 var helpers;
 var crypt;
 var importMethod;
 var checkMethod;
 var debug;
-var applicationVersion;
-
 
 function getCrypt(cryptKey) {
     if (!crypt) {
@@ -21,17 +20,17 @@ function getCrypt(cryptKey) {
 }
 
 function getIPAddress() {
-  var interfaces = os.networkInterfaces();
-  for (var devName in interfaces) {
-    var iface = interfaces[devName];
-
-    for (var i = 0; i < iface.length; i++) {
-      var alias = iface[i];
-      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
-        return alias.address;
+    var interfaces = os.networkInterfaces();
+    for (var devName in interfaces) {
+        var iface = interfaces[devName];
+        for (var i = 0; i < iface.length; i++) {
+            var alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return alias.address;
+            }
+        }
     }
-  }
-  return '0.0.0.0';
+    return '0.0.0.0';
 }
 
 module.exports = {
@@ -40,8 +39,6 @@ module.exports = {
         importMethod = b.importMethod.bind(b);
         checkMethod = b.config['identity.check'];
         debug = b.config.debug;
-        applicationVersion = b.config.applicationVersion;
-
         helpers = new UtIdentityHelpers({
             importMethod: importMethod,
             crypt: getCrypt()
@@ -262,12 +259,10 @@ module.exports = {
                     r.lat = msg.lat;
                     r.lng = msg.lng;
                 }
-                r.utVersion = applicationVersion;
-                r.osVersion = os.type()+":"+os.platform()+":"+os.release();
+                r.utVersion = packageObj.version;
+                r.osVersion = [os.type(), os.platform(), os.release()].join(':');
                 r.machineName = os.hostname();
                 r.destinationIPAddress = getIPAddress();
-                
-
                 r.secretQuestionAnswer = secretQuestionAnswer;
                 return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
