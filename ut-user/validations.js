@@ -96,6 +96,7 @@ module.exports = {
                 employerCategoryId: joi.number().allow(null),
                 familyMembers: joi.number().allow(null)
             }),
+            protection: joi.number().integer(),
             language: joi.object().keys({
                 languageId: joi.number().required(),
                 iso2Code: joi.string().required(),
