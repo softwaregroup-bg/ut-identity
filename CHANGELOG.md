@@ -1,3 +1,13 @@
+<a name="5.13.22"></a>
+## [5.13.22](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.21...v5.13.22) (2017-06-23)
+
+
+### Bug Fixes
+
+* UIS-2885: fix identity.check response joi validations ([3e9ddd3](https://github.com/softwaregroup-bg/ut-identity/commit/3e9ddd3))
+
+
+
 <a name="5.13.21"></a>
 ## [5.13.21](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.20...v5.13.21) (2017-06-12)
 
