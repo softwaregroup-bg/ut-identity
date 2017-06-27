@@ -221,25 +221,16 @@ module.exports = {
         return get
             .then(function(r) {
                 $meta.method = this.bus.config['identity.check'] || 'user.identity.checkPolicy';
-                var secretQuestionAnswer = [];
                 if (msg.secretQuestion && msg.secretAnswer) {
-                    secretQuestionAnswer = {
+                    r.secretQuestionAnswer = {
                         actorId: r.actorId,
                         questionId: msg.secretQuestion,
                         answer: msg.secretAnswer
                     };
+                } else {
+                    r.secretQuestionAnswer = [];
                 }
-
-                r.destinationIPAddress = $meta.destinationIPAddress;
-                return importMethod($meta.method)({
-                    secretQuestionAnswer,
-                    version: this.bus.config.version, // implementation version
-                    os: [os.type(), os.platform(), os.release()].join(':'),
-                    localAddress: $meta.localAddress, // local IP address
-                    hostname: $meta.hostname, // HTTP Host request header
-                    latitude: $meta.latitude,
-                    longitude: $meta.longitude
-                }, $meta)
+                return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
                         if (user.pushNotificationToken && user.pushNotificationToken.pushNotificationToken !== undefined) {
                             user.pushNotificationToken = user.pushNotificationToken.pushNotificationToken;
