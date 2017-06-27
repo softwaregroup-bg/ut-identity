@@ -2,7 +2,6 @@ var UtIdentityHelpers = require('./helpers');
 var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
-var os = require('os');
 
 module.exports = {
     init: function(b) {
