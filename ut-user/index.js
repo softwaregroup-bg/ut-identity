@@ -22,7 +22,6 @@ module.exports = {
         importMethod = b.importMethod.bind(b);
         checkMethod = b.config['identity.check'];
         debug = b.config.debug;
-        utVersion = b.config.utVersion;
         helpers = new UtIdentityHelpers({
             importMethod: importMethod,
             crypt: getCrypt()
