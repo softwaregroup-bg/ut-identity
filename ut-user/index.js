@@ -2,36 +2,19 @@ var UtIdentityHelpers = require('./helpers');
 var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
-var path = require('path');
 var os = require('os');
-
-var helpers;
-var crypt;
-var importMethod;
-var checkMethod;
-var debug;
-var utVersion;
-
-function getCrypt(cryptKey) {
-    if (!crypt) {
-        crypt = new UtCrypt({cryptParams: {password: cryptKey}});
-    }
-    return crypt;
-}
 
 module.exports = {
     init: function(b) {
-        getCrypt(b.config.masterCryptKey);
-        importMethod = b.importMethod.bind(b);
-        checkMethod = b.config['identity.check'];
-        debug = b.config.debug;
-        utVersion = b.config.utVersion;
-        helpers = new UtIdentityHelpers({
-            importMethod: importMethod,
-            crypt: getCrypt()
+        this.helpers = new UtIdentityHelpers({
+            importMethod: b.importMethod.bind(b),
+            crypt: new UtCrypt({cryptParams: {password: b.config.masterCryptKey}})
         });
     },
     registerRequest: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
+        var debug = this.bus.config.debug;
         var password = Math.floor(1000 + Math.random() * 9000) + '';
         var data = {};
         var result = {};
@@ -83,6 +66,8 @@ module.exports = {
         }).catch(helpers.handleError);
     },
     registerValidate: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.hash.return';
         return importMethod($meta.method)({
             identifier: msg.username,
@@ -99,6 +84,8 @@ module.exports = {
         }).catch(helpers.handleError);
     },
     check: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         delete msg.type;
         var creatingSession = false;
         var get;
@@ -206,16 +193,16 @@ module.exports = {
                     .then(function(r) {
                         passwordCredentaislGetStoreProcedureParams = helpers.buildPasswordCredentaislGetStoreProcedureParams(msg);
                         return helpers.validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
-                    .then(function() {
-                        $meta.method = 'user.identity.forgottenPasswordChange';
-                        return importMethod($meta.method)(r[0]).then(function() {
-                            var resultToReturn = Object.assign({}, r[0]);
-                            resultToReturn.password = r[0].newPassword;
-                            delete resultToReturn.forgottenPassword;
-                            delete resultToReturn.newPassword;
-                            return resultToReturn;
+                        .then(function() {
+                            $meta.method = 'user.identity.forgottenPasswordChange';
+                            return importMethod($meta.method)(r[0]).then(function() {
+                                var resultToReturn = Object.assign({}, r[0]);
+                                resultToReturn.password = r[0].newPassword;
+                                delete resultToReturn.forgottenPassword;
+                                delete resultToReturn.newPassword;
+                                return resultToReturn;
+                            });
                         });
-                    });
                     });
             } else { // Case: change password when password is expired
                 get = Promise.all([get])
@@ -233,7 +220,7 @@ module.exports = {
         msg.rawPassword = msg.password;
         return get
             .then(function(r) {
-                $meta.method = checkMethod || 'user.identity.checkPolicy';
+                $meta.method = this.bus.config['identity.check'] || 'user.identity.checkPolicy';
                 var secretQuestionAnswer = [];
                 if (msg.secretQuestion && msg.secretAnswer) {
                     secretQuestionAnswer = {
@@ -242,26 +229,17 @@ module.exports = {
                         answer: msg.secretAnswer
                     };
                 }
-                
-                /*
-                Hiding this code as this seem not to be doing what it intends to do.
-                if (msg.lat && msg.lng) {
-                    r.lat = msg.lat;
-                    r.lng = msg.lng;
-                }
-                */
 
-                if ($meta.latitude && $meta.longitude) {
-                    r.latitude = $meta.latitude;
-                    r.longitude = $meta.longitude;
-                }
-
-                r.utVersion = utVersion;
-                r.osVersion = [os.type(), os.platform(), os.release()].join(':');
-                r.machineName = os.hostname();
                 r.destinationIPAddress = $meta.destinationIPAddress;
-                r.secretQuestionAnswer = secretQuestionAnswer;
-                return importMethod($meta.method)(r, $meta)
+                return importMethod($meta.method)({
+                    secretQuestionAnswer,
+                    version: this.bus.config.version, // implementation version
+                    os: [os.type(), os.platform(), os.release()].join(':'),
+                    localAddress: $meta.localAddress, // local IP address
+                    hostname: $meta.hostname, // HTTP Host request header
+                    latitude: $meta.latitude,
+                    longitude: $meta.longitude
+                }, $meta)
                     .then(function(user) {
                         if (user.pushNotificationToken && user.pushNotificationToken.pushNotificationToken !== undefined) {
                             user.pushNotificationToken = user.pushNotificationToken.pushNotificationToken;
@@ -313,9 +291,11 @@ module.exports = {
     },
     closeSession: function(msg, $meta) {
         $meta.method = 'user.session.delete';
-        return importMethod($meta.method)({sessionId: $meta.auth.sessionId}, $meta);
+        return this.bus.importMethod($meta.method)({sessionId: $meta.auth.sessionId}, $meta);
     },
     changePassword: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.identity.get';
         return importMethod($meta.method)({
             userId: $meta.auth.actorId,
@@ -340,6 +320,8 @@ module.exports = {
             .catch(helpers.handleError);
     },
     forgottenPasswordRequest: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         // Use or to enum all possible channels here
         if (msg.channel !== 'sms' && msg.channel !== 'email') {
             throw errors['identity.notFound']();
@@ -372,6 +354,8 @@ module.exports = {
         });
     },
     forgottenPasswordValidate: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.identity.get';
         return importMethod($meta.method)({
             username: msg.username,
@@ -396,6 +380,8 @@ module.exports = {
         }).catch(helpers.handleError);
     },
     forgottenPassword: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.identity.get';
         var hashType = function(key, type, ErrorWhenNotFound) {
             return importMethod($meta.method)({
