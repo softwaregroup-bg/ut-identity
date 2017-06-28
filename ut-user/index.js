@@ -4,10 +4,10 @@ var errors = require('../errors');
 var UtCrypt = require('./crypt');
 
 module.exports = {
-    init: function(b) {
+    start: function() {
         this.helpers = new UtIdentityHelpers({
-            importMethod: b.importMethod.bind(b),
-            crypt: new UtCrypt({cryptParams: {password: b.config.masterCryptKey}})
+            importMethod: this.bus.importMethod.bind(this.bus),
+            crypt: new UtCrypt({cryptParams: {password: this.bus.config.masterCryptKey}})
         });
     },
     registerRequest: function(msg, $meta) {
