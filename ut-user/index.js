@@ -84,6 +84,7 @@ module.exports = {
     },
     check: function(msg, $meta) {
         var importMethod = this.bus.importMethod.bind(this.bus);
+        var bus = this.bus;
         var helpers = this.helpers;
         delete msg.type;
         var creatingSession = false;
@@ -92,8 +93,6 @@ module.exports = {
             get = Promise.resolve(msg);
         } else {
             creatingSession = true;
-            var bus = this.bus;
-
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
@@ -219,7 +218,7 @@ module.exports = {
         msg.rawPassword = msg.password;
         return get
             .then(function(r) {
-                $meta.method = this.bus.config['identity.check'] || 'user.identity.checkPolicy';
+                $meta.method = bus.config['identity.check'] || 'user.identity.checkPolicy';
                 if (msg.secretQuestion && msg.secretAnswer) {
                     r.secretQuestionAnswer = {
                         actorId: r.actorId,
