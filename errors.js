@@ -23,7 +23,7 @@ module.exports = [
     },
     {
         name: 'identity.actorId',
-        defaultMessage: 'No actor id param',
+        defaultMessage: 'No actorId param',
         level: 'error'
     },
     {
@@ -38,7 +38,7 @@ module.exports = [
     },
     {
         name: 'identity.term.matchingPrevPassword',
-        defaultMessage: 'Invalid new password. New password matches any of your previous passwords.',
+        defaultMessage: 'Invalid new password. Your new password matches one of your previous passwords.',
         level: 'error'
     },
     {
