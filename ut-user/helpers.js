@@ -451,17 +451,10 @@ Helpers.prototype.validateRestrictedIPRanges = function(ip, restrictedIPRanges) 
 
 Helpers.prototype.sendSessionExpiredNotificationToMobileChannel = function(actorId) {
     return importMethod('alert.push.notification.send')({
-        actorId: actorId,
-        data: {
-            notificationData: {
-                type: 'session.expired',
-                params: {} // TODO - Verify that this needs to be sent, even though it's empty.
-            }
-        }
+        actorId,
+        template: 'session.expired'
     }, {
-        auth: {
-            actorId: actorId
-        }
+        auth: { actorId }
     });
 };
 
