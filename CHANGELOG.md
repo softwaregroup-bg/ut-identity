@@ -1,3 +1,14 @@
+<a name="5.14.0"></a>
+# [5.14.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.24...v5.14.0) (2017-06-29)
+
+
+### Features
+
+* ABT-1756: change push notifications payload ([d16525a](https://github.com/softwaregroup-bg/ut-identity/commit/d16525a))
+* ABT-1756: sending of push notification is now done through notification-type-specific templates instead of a generic template ([e321452](https://github.com/softwaregroup-bg/ut-identity/commit/e321452))
+
+
+
 <a name="5.13.24"></a>
 ## [5.13.24](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.23...v5.13.24) (2017-06-29)
 
