@@ -3,31 +3,17 @@ var assign = require('lodash.assign');
 var errors = require('../errors');
 var UtCrypt = require('./crypt');
 
-var helpers;
-var crypt;
-var importMethod;
-var checkMethod;
-var debug;
-
-function getCrypt(cryptKey) {
-    if (!crypt) {
-        crypt = new UtCrypt({cryptParams: {password: cryptKey}});
-    }
-    return crypt;
-}
-
 module.exports = {
-    init: function(b) {
-        getCrypt(b.config.masterCryptKey);
-        importMethod = b.importMethod.bind(b);
-        checkMethod = b.config['identity.check'];
-        debug = b.config.debug;
-        helpers = new UtIdentityHelpers({
-            importMethod: importMethod,
-            crypt: getCrypt()
+    start: function() {
+        this.helpers = new UtIdentityHelpers({
+            importMethod: this.bus.importMethod.bind(this.bus),
+            crypt: new UtCrypt({cryptParams: {password: this.bus.config.masterCryptKey}})
         });
     },
     registerRequest: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
+        var debug = this.bus.config.debug;
         var password = Math.floor(1000 + Math.random() * 9000) + '';
         var data = {};
         var result = {};
@@ -79,6 +65,8 @@ module.exports = {
         }).catch(helpers.handleError);
     },
     registerValidate: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.hash.return';
         return importMethod($meta.method)({
             identifier: msg.username,
@@ -95,6 +83,9 @@ module.exports = {
         }).catch(helpers.handleError);
     },
     check: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var bus = this.bus;
+        var helpers = this.helpers;
         delete msg.type;
         var creatingSession = false;
         var get;
@@ -102,8 +93,6 @@ module.exports = {
             get = Promise.resolve(msg);
         } else {
             creatingSession = true;
-            var bus = this.bus;
-
             $meta.method = 'user.identity.get'; // get hashes info
             get = importMethod($meta.method)(msg, $meta)
                 .then(function(result) {
@@ -202,16 +191,16 @@ module.exports = {
                     .then(function(r) {
                         passwordCredentaislGetStoreProcedureParams = helpers.buildPasswordCredentaislGetStoreProcedureParams(msg);
                         return helpers.validateNewPasswordAgainstAccessPolicy(rawNewPassword, passwordCredentaislGetStoreProcedureParams, $meta, msg.actorId)
-                    .then(function() {
-                        $meta.method = 'user.identity.forgottenPasswordChange';
-                        return importMethod($meta.method)(r[0]).then(function() {
-                            var resultToReturn = Object.assign({}, r[0]);
-                            resultToReturn.password = r[0].newPassword;
-                            delete resultToReturn.forgottenPassword;
-                            delete resultToReturn.newPassword;
-                            return resultToReturn;
+                        .then(function() {
+                            $meta.method = 'user.identity.forgottenPasswordChange';
+                            return importMethod($meta.method)(r[0]).then(function() {
+                                var resultToReturn = Object.assign({}, r[0]);
+                                resultToReturn.password = r[0].newPassword;
+                                delete resultToReturn.forgottenPassword;
+                                delete resultToReturn.newPassword;
+                                return resultToReturn;
+                            });
                         });
-                    });
                     });
             } else { // Case: change password when password is expired
                 get = Promise.all([get])
@@ -229,20 +218,16 @@ module.exports = {
         msg.rawPassword = msg.password;
         return get
             .then(function(r) {
-                $meta.method = checkMethod || 'user.identity.checkPolicy';
-                var secretQuestionAnswer = [];
+                $meta.method = bus.config['identity.check'] || 'user.identity.checkPolicy';
                 if (msg.secretQuestion && msg.secretAnswer) {
-                    secretQuestionAnswer = {
+                    r.secretQuestionAnswer = {
                         actorId: r.actorId,
                         questionId: msg.secretQuestion,
                         answer: msg.secretAnswer
                     };
+                } else {
+                    r.secretQuestionAnswer = [];
                 }
-                if (msg.lat && msg.lng) {
-                    r.lat = msg.lat;
-                    r.lng = msg.lng;
-                }
-                r.secretQuestionAnswer = secretQuestionAnswer;
                 return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
                         if (user.pushNotificationToken && user.pushNotificationToken.pushNotificationToken !== undefined) {
@@ -295,9 +280,11 @@ module.exports = {
     },
     closeSession: function(msg, $meta) {
         $meta.method = 'user.session.delete';
-        return importMethod($meta.method)({sessionId: $meta.auth.sessionId}, $meta);
+        return this.bus.importMethod($meta.method)({sessionId: $meta.auth.sessionId}, $meta);
     },
     changePassword: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.identity.get';
         return importMethod($meta.method)({
             userId: $meta.auth.actorId,
@@ -322,6 +309,8 @@ module.exports = {
             .catch(helpers.handleError);
     },
     forgottenPasswordRequest: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         // Use or to enum all possible channels here
         if (msg.channel !== 'sms' && msg.channel !== 'email') {
             throw errors['identity.notFound']();
@@ -354,6 +343,8 @@ module.exports = {
         });
     },
     forgottenPasswordValidate: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.identity.get';
         return importMethod($meta.method)({
             username: msg.username,
@@ -378,6 +369,8 @@ module.exports = {
         }).catch(helpers.handleError);
     },
     forgottenPassword: function(msg, $meta) {
+        var importMethod = this.bus.importMethod.bind(this.bus);
+        var helpers = this.helpers;
         $meta.method = 'user.identity.get';
         var hashType = function(key, type, ErrorWhenNotFound) {
             return importMethod($meta.method)({
