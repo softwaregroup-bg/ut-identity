@@ -1,3 +1,13 @@
+<a name="5.14.1"></a>
+## [5.14.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.0...v5.14.1) (2017-07-19)
+
+
+### Bug Fixes
+
+* typo in bio error handling ([3457f7e](https://github.com/softwaregroup-bg/ut-identity/commit/3457f7e))
+
+
+
 <a name="5.14.0"></a>
 # [5.14.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.24...v5.14.0) (2017-06-29)
 
