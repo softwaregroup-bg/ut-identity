@@ -66,7 +66,7 @@ module.exports = {
             'permission.get': joi.array().items({
                 actionId: joi.string().required(),
                 objectId: joi.string().required(),
-                description: joi.string().required()
+                description: joi.string().optional()
             }),
             person: joi.object().keys({
                 actorId: joi.number().integer().required(),
