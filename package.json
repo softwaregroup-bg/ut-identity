@@ -1,6 +1,6 @@
 {
   "name": "ut-identity",
-  "version": "5.5.0-rc.0",
+  "version": "5.15.0-rc.0",
   "description": "UT authentication module",
   "main": "index.js",
   "directories": {
@@ -27,23 +27,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.softwaregroup-bg.com:ut5/ut-identity.git"
+    "url": "git@github.com:softwaregroup-bg/ut-identity.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
-    "blue-tape": "0.2.0",
-    "ut-tools": "^5.4.1"
-  },
-  "publishConfig": {
-    "registry": "https://nexus.softwaregroup-bg.com/repository/npm-internal"
+    "blue-tape": "1.0.0",
+    "ut-tools": "^5.17.26"
   },
   "dependencies": {
-    "ut-error": "^5.3.12",
-    "joi": "9.0.0",
-    "lodash.assign": "4.0.9",
-    "lodash.defaults": "4.0.1",
-    "ut-template": "~5.4.1",
+    "joi": "10.0.6",
+    "lodash.assign": "4.2.0",
+    "lodash.defaults": "4.2.0",
+    "os": "^0.1.1",
+    "ut-error": "^5.4.9",
+    "ut-template": "^5.5.0",
     "when": "3.7.7"
+  },
+  "peerDependencies": {
+    "ut-user": "^7.14.5",
+    "ut-port-ldap": "^5.5.3"
   }
 }

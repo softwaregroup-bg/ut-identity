@@ -1,3 +1,980 @@
+<a name="5.14.1"></a>
+## [5.14.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.0...v5.14.1) (2017-07-19)
+
+
+### Bug Fixes
+
+* typo in bio error handling ([3457f7e](https://github.com/softwaregroup-bg/ut-identity/commit/3457f7e))
+
+
+
+<a name="5.14.0"></a>
+# [5.14.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.24...v5.14.0) (2017-06-29)
+
+
+### Features
+
+* ABT-1756: change push notifications payload ([d16525a](https://github.com/softwaregroup-bg/ut-identity/commit/d16525a))
+* ABT-1756: sending of push notification is now done through notification-type-specific templates instead of a generic template ([e321452](https://github.com/softwaregroup-bg/ut-identity/commit/e321452))
+
+
+
+<a name="5.13.24"></a>
+## [5.13.24](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.23...v5.13.24) (2017-06-29)
+
+
+### Bug Fixes
+
+* remove globals ([312305e](https://github.com/softwaregroup-bg/ut-identity/commit/312305e))
+
+
+
+<a name="5.13.23"></a>
+## [5.13.23](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.22...v5.13.23) (2017-06-27)
+
+
+
+<a name="5.13.22"></a>
+## [5.13.22](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.21...v5.13.22) (2017-06-23)
+
+
+### Bug Fixes
+
+* UIS-2885: fix identity.check response joi validations ([3e9ddd3](https://github.com/softwaregroup-bg/ut-identity/commit/3e9ddd3))
+
+
+
+<a name="5.13.21"></a>
+## [5.13.21](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.20...v5.13.21) (2017-06-12)
+
+
+### Bug Fixes
+
+* vb1 ([9b1acfe](https://github.com/softwaregroup-bg/ut-identity/commit/9b1acfe))
+
+
+
+<a name="5.13.20"></a>
+## [5.13.20](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.19...v5.13.20) (2017-06-02)
+
+
+
+<a name="5.13.19"></a>
+## [5.13.19](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.18...v5.13.19) (2017-06-01)
+
+
+
+<a name="5.13.18"></a>
+## [5.13.18](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.17...v5.13.18) (2017-05-31)
+
+
+### Bug Fixes
+
+* identity.check:(jwt,xsrf) ([8e3d7b0](https://github.com/softwaregroup-bg/ut-identity/commit/8e3d7b0))
+
+
+
+<a name="5.13.17"></a>
+## [5.13.17](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.16...v5.13.17) (2017-05-31)
+
+
+### Bug Fixes
+
+* add param ([4c5a18a](https://github.com/softwaregroup-bg/ut-identity/commit/4c5a18a))
+
+
+
+<a name="5.13.16"></a>
+## [5.13.16](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.15...v5.13.16) (2017-05-30)
+
+
+### Bug Fixes
+
+* UIS-2059: fix joi - db returns null when no channel is deleted ([#87](https://github.com/softwaregroup-bg/ut-identity/issues/87)) ([1337dc6](https://github.com/softwaregroup-bg/ut-identity/commit/1337dc6))
+
+
+
+<a name="5.13.15"></a>
+## [5.13.15](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.14...v5.13.15) (2017-05-29)
+
+
+
+<a name="5.13.14"></a>
+## [5.13.14](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.13...v5.13.14) (2017-05-22)
+
+
+
+<a name="5.13.13"></a>
+## [5.13.13](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.12...v5.13.13) (2017-05-22)
+
+
+
+<a name="5.13.12"></a>
+## [5.13.12](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.11...v5.13.12) (2017-05-22)
+
+
+
+<a name="5.13.11"></a>
+## [5.13.11](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.10...v5.13.11) (2017-05-22)
+
+
+
+<a name="5.13.10"></a>
+## [5.13.10](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.9...v5.13.10) (2017-05-22)
+
+
+
+<a name="5.13.9"></a>
+## [5.13.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.8...v5.13.9) (2017-05-22)
+
+
+
+<a name="5.13.8"></a>
+## [5.13.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.7...v5.13.8) (2017-05-17)
+
+
+### Bug Fixes
+
+* add allow null for middleName ([4109046](https://github.com/softwaregroup-bg/ut-identity/commit/4109046))
+* add other parameters in result ([643766e](https://github.com/softwaregroup-bg/ut-identity/commit/643766e))
+
+
+
+<a name="5.13.7"></a>
+## [5.13.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.6...v5.13.7) (2017-05-17)
+
+
+
+<a name="5.13.6"></a>
+## [5.13.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.5...v5.13.6) (2017-05-11)
+
+
+### Bug Fixes
+
+* version bump ([75820bf](https://github.com/softwaregroup-bg/ut-identity/commit/75820bf))
+
+
+
+<a name="5.13.5"></a>
+## [5.13.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.4...v5.13.5) (2017-05-05)
+
+
+### Bug Fixes
+
+* add validations channel ussd ([#82](https://github.com/softwaregroup-bg/ut-identity/issues/82)) ([9780b1e](https://github.com/softwaregroup-bg/ut-identity/commit/9780b1e))
+
+
+
+<a name="5.13.4"></a>
+## [5.13.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.3...v5.13.4) (2017-04-25)
+
+
+### Bug Fixes
+
+* allow activity attribute in identity.check request ([#81](https://github.com/softwaregroup-bg/ut-identity/issues/81)) ([54ccde8](https://github.com/softwaregroup-bg/ut-identity/commit/54ccde8))
+
+
+
+<a name="5.13.3"></a>
+## [5.13.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.2...v5.13.3) (2017-04-24)
+
+
+
+<a name="5.13.2"></a>
+## [5.13.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.1...v5.13.2) (2017-04-18)
+
+
+
+<a name="5.13.1"></a>
+## [5.13.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.13.0...v5.13.1) (2017-04-10)
+
+
+
+<a name="5.13.0"></a>
+# [5.13.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.6...v5.13.0) (2017-03-27)
+
+
+### Features
+
+* UIS-2059: send push notification to the mobile app when a user logs into the web ui ([9cd114b](https://github.com/softwaregroup-bg/ut-identity/commit/9cd114b))
+
+
+
+<a name="5.12.6"></a>
+## [5.12.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.5...v5.12.6) (2017-03-27)
+
+
+### Bug Fixes
+
+* UIS-1385 ([35f5f48](https://github.com/softwaregroup-bg/ut-identity/commit/35f5f48))
+
+
+
+<a name="5.12.5"></a>
+## [5.12.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.4...v5.12.5) (2017-03-16)
+
+
+
+<a name="5.12.4"></a>
+## [5.12.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.3...v5.12.4) (2017-03-16)
+
+
+
+<a name="5.12.3"></a>
+## [5.12.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.2...v5.12.3) (2017-03-15)
+
+
+
+<a name="5.12.2"></a>
+## [5.12.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.1...v5.12.2) (2017-03-09)
+
+
+### Bug Fixes
+
+* dependencies ([30f3b91](https://github.com/softwaregroup-bg/ut-identity/commit/30f3b91))
+
+
+
+<a name="5.12.1"></a>
+## [5.12.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.12.0...v5.12.1) (2017-03-09)
+
+
+### Bug Fixes
+
+* dependencies ([3a77f44](https://github.com/softwaregroup-bg/ut-identity/commit/3a77f44))
+
+
+
+<a name="5.12.0"></a>
+# [5.12.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.11.0...v5.12.0) (2017-03-08)
+
+
+### Features
+
+* UIS-1591 add secret question and answer ([747c68d](https://github.com/softwaregroup-bg/ut-identity/commit/747c68d))
+
+
+
+<a name="5.11.0"></a>
+# [5.11.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.61...v5.11.0) (2017-03-06)
+
+
+### Features
+
+* UIS-968 add middleName in customer.person ([78a910d](https://github.com/softwaregroup-bg/ut-identity/commit/78a910d))
+
+
+
+<a name="5.10.61"></a>
+## [5.10.61](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.60...v5.10.61) (2017-02-23)
+
+
+### Bug Fixes
+
+* UIS-1434 when there is pushNotificationToken return string instead of object ([758ddb8](https://github.com/softwaregroup-bg/ut-identity/commit/758ddb8))
+
+
+
+<a name="5.10.60"></a>
+## [5.10.60](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.59...v5.10.60) (2017-02-18)
+
+
+
+<a name="5.10.59"></a>
+## [5.10.59](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.58...v5.10.59) (2017-02-17)
+
+
+
+<a name="5.10.58"></a>
+## [5.10.58](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.57...v5.10.58) (2017-02-16)
+
+
+
+<a name="5.10.57"></a>
+## [5.10.57](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.56...v5.10.57) (2017-02-10)
+
+
+
+<a name="5.10.56"></a>
+## [5.10.56](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.55...v5.10.56) (2017-02-09)
+
+
+
+<a name="5.10.55"></a>
+## [5.10.55](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.54...v5.10.55) (2017-02-06)
+
+
+
+<a name="5.10.54"></a>
+## [5.10.54](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.53...v5.10.54) (2017-01-26)
+
+
+
+<a name="5.10.53"></a>
+## [5.10.53](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.52...v5.10.53) (2017-01-25)
+
+
+
+<a name="5.10.52"></a>
+## [5.10.52](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.51...v5.10.52) (2017-01-24)
+
+
+### Bug Fixes
+
+* UIS-311 get all errors ([85091c3](https://github.com/softwaregroup-bg/ut-identity/commit/85091c3))
+
+
+
+<a name="5.10.51"></a>
+## [5.10.51](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.50...v5.10.51) (2017-01-23)
+
+
+### Bug Fixes
+
+* lint ([31fe4e4](https://github.com/softwaregroup-bg/ut-identity/commit/31fe4e4))
+
+
+
+<a name="5.10.50"></a>
+## [5.10.50](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.49...v5.10.50) (2017-01-20)
+
+
+### Bug Fixes
+
+* linting ([be3f388](https://github.com/softwaregroup-bg/ut-identity/commit/be3f388))
+
+
+
+<a name="5.10.49"></a>
+## [5.10.49](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.48...v5.10.49) (2017-01-20)
+
+
+### Bug Fixes
+
+* this import method ([cac1e39](https://github.com/softwaregroup-bg/ut-identity/commit/cac1e39))
+
+
+
+<a name="5.10.48"></a>
+## [5.10.48](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.47...v5.10.48) (2017-01-20)
+
+
+
+<a name="5.10.47"></a>
+## [5.10.47](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.46...v5.10.47) (2017-01-20)
+
+
+
+<a name="5.10.46"></a>
+## [5.10.46](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.45...v5.10.46) (2017-01-19)
+
+
+
+<a name="5.10.45"></a>
+## [5.10.45](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.44...v5.10.45) (2017-01-19)
+
+
+
+<a name="5.10.44"></a>
+## [5.10.44](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.43...v5.10.44) (2017-01-19)
+
+
+### Bug Fixes
+
+* UIS-311 add error level ([#53](https://github.com/softwaregroup-bg/ut-identity/issues/53)) ([0f61cbb](https://github.com/softwaregroup-bg/ut-identity/commit/0f61cbb))
+
+
+
+<a name="5.10.43"></a>
+## [5.10.43](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.42...v5.10.43) (2017-01-18)
+
+
+
+<a name="5.10.42"></a>
+## [5.10.42](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.41...v5.10.42) (2017-01-17)
+
+
+
+<a name="5.10.41"></a>
+## [5.10.41](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.40...v5.10.41) (2017-01-17)
+
+
+
+<a name="5.10.40"></a>
+## [5.10.40](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.39...v5.10.40) (2017-01-17)
+
+
+
+<a name="5.10.39"></a>
+## [5.10.39](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.38...v5.10.39) (2017-01-13)
+
+
+### Bug Fixes
+
+* move ut-user as peer dependency ([d871680](https://github.com/softwaregroup-bg/ut-identity/commit/d871680))
+
+
+
+<a name="5.10.38"></a>
+## [5.10.38](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.37...v5.10.38) (2017-01-12)
+
+
+### Bug Fixes
+
+* lint ([f40783e](https://github.com/softwaregroup-bg/ut-identity/commit/f40783e))
+* MCTUNE-1425 ([d188fa5](https://github.com/softwaregroup-bg/ut-identity/commit/d188fa5))
+* MCTUNE-1425 ([e8bc7c2](https://github.com/softwaregroup-bg/ut-identity/commit/e8bc7c2))
+* MCTUNE-2051 ([67b414c](https://github.com/softwaregroup-bg/ut-identity/commit/67b414c))
+
+
+
+<a name="5.10.37"></a>
+## [5.10.37](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.36...v5.10.37) (2017-01-05)
+
+
+
+<a name="5.10.36"></a>
+## [5.10.36](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.35...v5.10.36) (2016-12-30)
+
+
+
+<a name="5.10.35"></a>
+## [5.10.35](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.34...v5.10.35) (2016-12-23)
+
+
+### Bug Fixes
+
+* version bump ([6e3c3fb](https://github.com/softwaregroup-bg/ut-identity/commit/6e3c3fb))
+
+
+
+<a name="5.10.34"></a>
+## [5.10.34](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.33...v5.10.34) (2016-12-23)
+
+
+### Bug Fixes
+
+* update dependencies ([4942c8a](https://github.com/softwaregroup-bg/ut-identity/commit/4942c8a))
+
+
+
+<a name="5.10.33"></a>
+## [5.10.33](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.32...v5.10.33) (2016-12-20)
+
+
+
+<a name="5.10.32"></a>
+## [5.10.32](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.31...v5.10.32) (2016-12-20)
+
+
+
+<a name="5.10.31"></a>
+## [5.10.31](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.30...v5.10.31) (2016-12-20)
+
+
+
+<a name="5.10.30"></a>
+## [5.10.30](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.29...v5.10.30) (2016-12-20)
+
+
+
+<a name="5.10.29"></a>
+## [5.10.29](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.28...v5.10.29) (2016-12-19)
+
+
+
+<a name="5.10.28"></a>
+## [5.10.28](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.27...v5.10.28) (2016-12-19)
+
+
+
+<a name="5.10.27"></a>
+## [5.10.27](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.26...v5.10.27) (2016-12-16)
+
+
+
+<a name="5.10.26"></a>
+## [5.10.26](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.25...v5.10.26) (2016-12-16)
+
+
+
+<a name="5.10.25"></a>
+## [5.10.25](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.24...v5.10.25) (2016-12-15)
+
+
+
+<a name="5.10.24"></a>
+## [5.10.24](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.23...v5.10.24) (2016-12-15)
+
+
+
+<a name="5.10.23"></a>
+## [5.10.23](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.22...v5.10.23) (2016-12-15)
+
+
+### Bug Fixes
+
+* deps versions bump ([0e85cec](https://github.com/softwaregroup-bg/ut-identity/commit/0e85cec))
+
+
+
+<a name="5.10.22"></a>
+## [5.10.22](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.21...v5.10.22) (2016-12-07)
+
+
+
+<a name="5.10.21"></a>
+## [5.10.21](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.20...v5.10.21) (2016-12-01)
+
+
+### Bug Fixes
+
+* person dateofBirth & age validations: ([a1db39f](https://github.com/softwaregroup-bg/ut-identity/commit/a1db39f))
+
+
+
+<a name="5.10.20"></a>
+## [5.10.20](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.19...v5.10.20) (2016-11-30)
+
+
+### Bug Fixes
+
+* joi validations ([afb8b77](https://github.com/softwaregroup-bg/ut-identity/commit/afb8b77))
+
+
+
+<a name="5.10.19"></a>
+## [5.10.19](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.18...v5.10.19) (2016-11-29)
+
+
+### Bug Fixes
+
+* MCTUNE-1567 catch logintime error ([15b7987](https://github.com/softwaregroup-bg/ut-identity/commit/15b7987))
+* typo ([977df9c](https://github.com/softwaregroup-bg/ut-identity/commit/977df9c))
+* typo ([7b14866](https://github.com/softwaregroup-bg/ut-identity/commit/7b14866))
+
+
+
+<a name="5.10.18"></a>
+## [5.10.18](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.17...v5.10.18) (2016-11-29)
+
+
+
+<a name="5.10.17"></a>
+## [5.10.17](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.16...v5.10.17) (2016-11-29)
+
+
+
+<a name="5.10.16"></a>
+## [5.10.16](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.15...v5.10.16) (2016-11-29)
+
+
+
+<a name="5.10.15"></a>
+## [5.10.15](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.14...v5.10.15) (2016-11-29)
+
+
+
+<a name="5.10.14"></a>
+## [5.10.14](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.13...v5.10.14) (2016-11-29)
+
+
+
+<a name="5.10.13"></a>
+## [5.10.13](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.12...v5.10.13) (2016-11-28)
+
+
+
+<a name="5.10.12"></a>
+## [5.10.12](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.11...v5.10.12) (2016-11-27)
+
+
+### Bug Fixes
+
+* (temp) register password ([f9ee1eb](https://github.com/softwaregroup-bg/ut-identity/commit/f9ee1eb))
+
+
+
+<a name="5.10.11"></a>
+## [5.10.11](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.10...v5.10.11) (2016-11-25)
+
+
+### Bug Fixes
+
+* boolean ([84e535b](https://github.com/softwaregroup-bg/ut-identity/commit/84e535b))
+
+
+
+<a name="5.10.10"></a>
+## [5.10.10](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.9...v5.10.10) (2016-11-25)
+
+
+### Bug Fixes
+
+* tests ([106fb78](https://github.com/softwaregroup-bg/ut-identity/commit/106fb78))
+* UIS-233: fix linting ([598c2e8](https://github.com/softwaregroup-bg/ut-identity/commit/598c2e8))
+* UIS-233: fix linting ([2da4c43](https://github.com/softwaregroup-bg/ut-identity/commit/2da4c43))
+* UIS-233: rename errors in errors.js ([ccc2990](https://github.com/softwaregroup-bg/ut-identity/commit/ccc2990))
+
+
+
+<a name="5.10.9"></a>
+## [5.10.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.8...v5.10.9) (2016-11-24)
+
+
+### Bug Fixes
+
+* change forgotten pass validation ([85ae767](https://github.com/softwaregroup-bg/ut-identity/commit/85ae767))
+* UIS-351: add joi validations ([8f4a8db](https://github.com/softwaregroup-bg/ut-identity/commit/8f4a8db))
+
+
+
+<a name="5.10.8"></a>
+## [5.10.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.7...v5.10.8) (2016-11-24)
+
+
+### Bug Fixes
+
+* replace params with identity to follow conventions ([239991b](https://github.com/softwaregroup-bg/ut-identity/commit/239991b))
+
+
+
+<a name="5.10.7"></a>
+## [5.10.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.6...v5.10.7) (2016-11-24)
+
+
+### Bug Fixes
+
+* regsiter request ([77c8903](https://github.com/softwaregroup-bg/ut-identity/commit/77c8903))
+
+
+
+<a name="5.10.6"></a>
+## [5.10.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.5...v5.10.6) (2016-11-23)
+
+
+### Bug Fixes
+
+* login ([372747a](https://github.com/softwaregroup-bg/ut-identity/commit/372747a))
+
+
+
+<a name="5.10.5"></a>
+## [5.10.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.4...v5.10.5) (2016-11-23)
+
+
+### Bug Fixes
+
+* translation split helper ([#32](https://github.com/softwaregroup-bg/ut-identity/issues/32)) ([9a31287](https://github.com/softwaregroup-bg/ut-identity/commit/9a31287))
+
+
+
+<a name="5.10.4"></a>
+## [5.10.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.3...v5.10.4) (2016-11-23)
+
+
+### Bug Fixes
+
+* versions bump ([588bcbe](https://github.com/softwaregroup-bg/ut-identity/commit/588bcbe))
+
+
+
+<a name="5.10.3"></a>
+## [5.10.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.2...v5.10.3) (2016-11-21)
+
+
+### Bug Fixes
+
+* logout route ([fb61953](https://github.com/softwaregroup-bg/ut-identity/commit/fb61953))
+
+
+
+<a name="5.10.2"></a>
+## [5.10.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.1...v5.10.2) (2016-11-21)
+
+
+
+<a name="5.10.1"></a>
+## [5.10.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.10.0...v5.10.1) (2016-11-21)
+
+
+
+<a name="5.10.0"></a>
+# [5.10.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.9.2...v5.10.0) (2016-11-21)
+
+
+### Features
+
+* MCTUNE-1425 change message for throttle error ([61396c5](https://github.com/softwaregroup-bg/ut-identity/commit/61396c5))
+
+
+
+<a name="5.9.2"></a>
+## [5.9.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.9.1...v5.9.2) (2016-11-18)
+
+
+
+<a name="5.9.1"></a>
+## [5.9.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.9.0...v5.9.1) (2016-11-18)
+
+
+
+<a name="5.9.0"></a>
+# [5.9.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.8.0...v5.9.0) (2016-11-18)
+
+
+### Features
+
+* improve bio and new password handling ([4f26b59](https://github.com/softwaregroup-bg/ut-identity/commit/4f26b59))
+
+
+
+<a name="5.8.0"></a>
+# [5.8.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.8...v5.8.0) (2016-11-18)
+
+
+### Features
+
+* moved some routes from http server port ([46c8fcc](https://github.com/softwaregroup-bg/ut-identity/commit/46c8fcc))
+
+
+
+<a name="5.7.8"></a>
+## [5.7.8](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.7...v5.7.8) (2016-11-11)
+
+
+
+<a name="5.7.7"></a>
+## [5.7.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.6...v5.7.7) (2016-11-10)
+
+
+### Bug Fixes
+
+* MCTUNE-1345 ([fb45c66](https://github.com/softwaregroup-bg/ut-identity/commit/fb45c66))
+
+
+
+<a name="5.7.6"></a>
+## [5.7.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.5...v5.7.6) (2016-11-08)
+
+
+### Bug Fixes
+
+* MCTUNE-1186 ([9fd7f18](https://github.com/softwaregroup-bg/ut-identity/commit/9fd7f18))
+
+
+
+<a name="5.7.5"></a>
+## [5.7.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.4...v5.7.5) (2016-10-28)
+
+
+### Bug Fixes
+
+* MCTUNE-1157 ([#22](https://github.com/softwaregroup-bg/ut-identity/issues/22)) ([20c3955](https://github.com/softwaregroup-bg/ut-identity/commit/20c3955))
+
+
+
+<a name="5.7.4"></a>
+## [5.7.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.3...v5.7.4) (2016-10-20)
+
+
+### Bug Fixes
+
+*  add template, closes MCTUNE-327 ([#21](https://github.com/softwaregroup-bg/ut-identity/issues/21)) ([c8c3c8d](https://github.com/softwaregroup-bg/ut-identity/commit/c8c3c8d))
+
+
+
+<a name="5.7.3"></a>
+## [5.7.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.2...v5.7.3) (2016-10-11)
+
+
+### Bug Fixes
+
+* login validations ([#20](https://github.com/softwaregroup-bg/ut-identity/issues/20)) ([00762f0](https://github.com/softwaregroup-bg/ut-identity/commit/00762f0))
+
+
+
+<a name="5.7.2"></a>
+## [5.7.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.1...v5.7.2) (2016-10-11)
+
+
+### Bug Fixes
+
+* indentity check req params added ([#19](https://github.com/softwaregroup-bg/ut-identity/issues/19)) ([0ed0ffe](https://github.com/softwaregroup-bg/ut-identity/commit/0ed0ffe))
+
+
+
+<a name="5.7.1"></a>
+## [5.7.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.7.0...v5.7.1) (2016-10-10)
+
+
+### Bug Fixes
+
+* login validations ([#18](https://github.com/softwaregroup-bg/ut-identity/issues/18)) ([ed2ec99](https://github.com/softwaregroup-bg/ut-identity/commit/ed2ec99))
+
+
+
+<a name="5.7.0"></a>
+# [5.7.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.6...v5.7.0) (2016-10-07)
+
+
+### Features
+
+* joi validation added ([#17](https://github.com/softwaregroup-bg/ut-identity/issues/17)) ([bde132a](https://github.com/softwaregroup-bg/ut-identity/commit/bde132a))
+
+
+
+<a name="5.6.6"></a>
+## [5.6.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.5...v5.6.6) (2016-09-12)
+
+
+### Bug Fixes
+
+* sanity check ([20988b0](https://github.com/softwaregroup-bg/ut-identity/commit/20988b0))
+
+
+
+<a name="5.6.5"></a>
+## [5.6.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.4...v5.6.5) (2016-09-12)
+
+
+
+<a name="5.6.4"></a>
+## [5.6.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.3...v5.6.4) (2016-09-12)
+
+
+### Bug Fixes
+
+* error added to invalid credentials list ([984c1e8](https://github.com/softwaregroup-bg/ut-identity/commit/984c1e8))
+
+
+
+<a name="5.6.3"></a>
+## [5.6.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.2...v5.6.3) (2016-09-12)
+
+
+### Bug Fixes
+
+* MCTUNE-317 ([993d9bd](https://github.com/softwaregroup-bg/ut-identity/commit/993d9bd))
+
+
+
+<a name="5.6.2"></a>
+## [5.6.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.1...v5.6.2) (2016-09-12)
+
+
+### Bug Fixes
+
+* sanity check ([0108e78](https://github.com/softwaregroup-bg/ut-identity/commit/0108e78))
+
+
+
+<a name="5.6.1"></a>
+## [5.6.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.6.0...v5.6.1) (2016-09-09)
+
+
+### Bug Fixes
+
+* MCTUNE-317 ([b898649](https://github.com/softwaregroup-bg/ut-identity/commit/b898649))
+
+
+
+<a name="5.6.0"></a>
+# [5.6.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.5.1...v5.6.0) (2016-08-26)
+
+
+### Features
+
+* balance by sms ([c78b066](https://github.com/softwaregroup-bg/ut-identity/commit/c78b066))
+
+
+
+<a name="5.5.1"></a>
+## [5.5.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.5.0...v5.5.1) (2016-08-25)
+
+
+
+<a name="5.5.0"></a>
+# [5.5.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.4.13...v5.5.0) (2016-08-19)
+
+
+### Features
+
+* UIS-35 ([99b3962](https://github.com/softwaregroup-bg/ut-identity/commit/99b3962))
+
+
+
+<a name="5.4.13"></a>
+## [5.4.13](https://github.com/softwaregroup-bg/ut-identity/compare/v5.4.12...v5.4.13) (2016-08-12)
+
+
+### Bug Fixes
+
+* publish to npm ([bffb7ef](https://github.com/softwaregroup-bg/ut-identity/commit/bffb7ef))
+
+
+
+<a name="5.4.12"></a>
+## [5.4.12](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.11...v5.4.12) (2016-08-11)
+
+
+### Bug Fixes
+
+* **activity-report:** Add data to activity report. ([91e98cc](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/91e98cc))
+
+
+
+<a name="5.4.11"></a>
+## [5.4.11](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.10...v5.4.11) (2016-08-04)
+
+
+### Bug Fixes
+
+* MCTUNE-339 ([3ba5ba8](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/3ba5ba8))
+
+
+
+<a name="5.4.10"></a>
+## [5.4.10](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.9...v5.4.10) (2016-08-04)
+
+
+### Bug Fixes
+
+* **identity.add:** Revert changes, as they should only appear in identity.registerRequest. ([26601db](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/26601db))
+* **self-registration:** Make self registration use template for SMS. ([1bb54ad](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/1bb54ad))
+
+
+
+<a name="5.4.9"></a>
+## [5.4.9](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.8...v5.4.9) (2016-08-02)
+
+
+### Bug Fixes
+
+* **self-registartion:** Make registration appear after OTP. ([327f72a](https://git.softwaregroup-bg.com/ut5/ut-identity/commit/327f72a))
+
+
+
+<a name="5.4.8"></a>
+## [5.4.8](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.7...v5.4.8) (2016-07-25)
+
+
+
+<a name="5.4.7"></a>
+## [5.4.7](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.6...v5.4.7) (2016-07-23)
+
+
+
+<a name="5.4.6"></a>
+## [5.4.6](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.5...v5.4.6) (2016-07-22)
+
+
+
+<a name="5.4.5"></a>
+## [5.4.5](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.4...v5.4.5) (2016-07-22)
+
+
+
 <a name="5.4.4"></a>
 ## [5.4.4](https://git.softwaregroup-bg.com/ut5/ut-identity/compare/v5.4.3...v5.4.4) (2016-07-20)
 

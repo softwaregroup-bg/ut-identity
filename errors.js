@@ -1,27 +1,156 @@
 var create = require('ut-error').define;
 
-var Identity = create('identity');
-module.exports = {
-    MissingCredentials: create('missingCredentials', Identity, 'Missing credentials'),
-    InvalidCredentials: create('invalidCredentials', Identity, 'Invalid credentials'),
-    ExpiredPassword: create('expiredPassword', Identity, 'Your password has expired! Please contact the system administrator.'),
-    DisabledUserInactivity: create('disabledUserInactivity', Identity, 'Your account has been locked because of inactivity! Please contact the system administrator.'),
-    DisabledUser: create('disabledUser', Identity, 'Your account has been locked! Please contact the system administrator.'),
-    DisabledCredentials: create('disabledCredentials', Identity, 'Your credentials have been disabled! Please contact the system administrator.'),
-    SessionExpired: create('sessionExpired', Identity),
-    InvalidFingerprint: create('invalidFingerprint', Identity),
-    CredentialsLocked: create('credentialsLocked', Identity),
-    WrongPassword: create('wrongPassword', Identity),
-    Identity: Identity,
-    Crypt: create('crypt', Identity),
-    NotFound: create('notFound', Identity, 'Identity not found.'),
-    MultipleResults: create('multipleResults', Identity),
-    SystemError: create('systemError', Identity)
-};
-
-Object.getOwnPropertyNames(module.exports).forEach(function(key) {
-    var Method = module.exports[key];
-    Method.reject = function() {
-        return Promise.reject(new Method(arguments)); // todo improve arguments passing
+module.exports = [
+    {
+        name: 'identity',
+        defaultMessage: 'Identity',
+        level: 'error'
+    },
+    {
+        name: 'identity.missingCredentials',
+        defaultMessage: 'Missing credentials',
+        level: 'error'
+    },
+    {
+        name: 'identity.invalidCredentials',
+        defaultMessage: 'Invalid credentials',
+        level: 'error'
+    },
+    {
+        name: 'identity.hashParams',
+        defaultMessage: 'No hash params',
+        level: 'error'
+    },
+    {
+        name: 'identity.actorId',
+        defaultMessage: 'No actorId param',
+        level: 'error'
+    },
+    {
+        name: 'identity.term',
+        defaultMessage: 'ut-identity identity.term error',
+        level: 'error'
+    },
+    {
+        name: 'identity.term.invalidNewPassword',
+        defaultMessage: 'Invalid new password',
+        level: 'error'
+    },
+    {
+        name: 'identity.term.matchingPrevPassword',
+        defaultMessage: 'Invalid new password. Your new password matches one of your previous passwords.',
+        level: 'error'
+    },
+    {
+        name: 'identity.expiredPassword',
+        defaultMessage: 'Your password has expired! Please contact the system administrator.',
+        level: 'error'
+    },
+    {
+        name: 'identity.disabledUserInactivity',
+        defaultMessage: 'Your account has been locked because of inactivity! Please contact the system administrator.',
+        level: 'error'
+    },
+    {
+        name: 'identity.disabledUser',
+        defaultMessage: 'Your account has been locked! Please contact the system administrator.',
+        level: 'error'
+    },
+    {
+        name: 'identity.disabledCredentials',
+        defaultMessage: 'Your credentials have been disabled! Please contact the system administrator.',
+        level: 'error'
+    },
+    {
+        name: 'identity.sessionExpired',
+        defaultMessage: 'ut-identity identity.sessionExpired error',
+        level: 'error'
+    },
+    {
+        name: 'identity.invalidFingerprint',
+        defaultMessage: 'ut-identity identity.invalidFingerprint error',
+        level: 'error'
+    },
+    {
+        name: 'identity.credentialsLocked',
+        defaultMessage: 'ut-identity identity.credentialsLocked error',
+        level: 'error'
+    },
+    {
+        name: 'identity.wrongPassword',
+        defaultMessage: 'ut-identity identity.wrongPassword error',
+        level: 'error'
+    },
+    {
+        name: 'identity.existingIdentifier',
+        defaultMessage: 'ut-identity identity.existingIdentifier error',
+        level: 'error'
+    },
+    {
+        name: 'identity.restrictedRange',
+        defaultMessage: 'IP is in the restricted range',
+        level: 'error'
+    },
+    {
+        name: 'identity.wrongIP',
+        defaultMessage: 'Wrong ip address',
+        level: 'error'
+    },
+    {
+        name: 'identity.crypt',
+        defaultMessage: 'ut-identity identity.crypt error',
+        level: 'error'
+    },
+    {
+        name: 'identity.notFound',
+        defaultMessage: 'Identity not found.',
+        level: 'error'
+    },
+    {
+        name: 'identity.multipleResults',
+        defaultMessage: 'ut-identity identity.multipleResults error',
+        level: 'error'
+    },
+    {
+        name: 'identity.systemError',
+        defaultMessage: 'ut-identity identity.systemError error',
+        level: 'error'
+    },
+    {
+        name: 'identity.throttleError',
+        defaultMessage: 'After several attempts, the registration has been locked, please start again in 60 min.',
+        level: 'error'
+    },
+    {
+        name: 'identity.throttleErrorForgotten',
+        defaultMessage: 'After several attempts, the password change has been locked, please start again in 60 min.',
+        level: 'error'
+    },
+    {
+        name: 'identity.invalidIMEI',
+        defaultMessage: 'Invalid IMEI',
+        level: 'error'
+    },
+    {
+        name: 'identity.invalidInstallation',
+        defaultMessage: 'Invalid Installation Id',
+        level: 'error'
+    },
+    {
+        name: 'user',
+        defaultMessage: 'ut-user user error',
+        level: 'error'
+    },
+    {
+        name: 'user.disabledUserInactivity',
+        defaultMessage: 'User is locked because of inactivity',
+        level: 'error'
+    }
+].reduce(function(prev, next) {
+    var spec = next.name.split('.');
+    var Ctor = create(spec.pop(), spec.join('.'), next.defaultMessage, next);
+    prev[next.name] = function(params) {
+        return new Ctor({params: params});
     };
-});
+    return prev;
+}, {});
