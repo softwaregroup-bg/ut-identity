@@ -25,9 +25,6 @@
     "jenkins": "ut-jenkins",
     "gitlab": "ut-gitlab"
   },
-  "publishConfig": {
-    "registry": "https://nexus.softwaregroup-bg.com/repository/npm-internal"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:softwaregroup-bg/ut-identity.git"
