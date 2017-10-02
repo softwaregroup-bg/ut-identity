@@ -29,11 +29,10 @@
     "type": "git",
     "url": "git@github.com:softwaregroup-bg/ut-identity.git"
   },
-  "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
     "blue-tape": "1.0.0",
-    "ut-tools": "^5.17.26"
+    "ut-tools": "*"
   },
   "dependencies": {
     "joi": "10.0.6",
