@@ -1,4 +1,4 @@
- # ut-identity
+# ut-identity
 The identity module defines an authentication API in ut5. The API deals with identifying the user that is associated with specific request or message. The module aims to support various methods of identifying the user, such as username/password, session, fingerprint, etc. The module provides a default functionality and allows overriding the default functionality in each implementation. API is defined in the "identity" namespace and consists of the following methods:
 
 ## identity.check(auth)
