@@ -1,6 +1,6 @@
 {
   "name": "ut-identity",
-  "version": "5.14.1",
+  "version": "5.15.0-rc-acapulco.0",
   "description": "UT authentication module",
   "main": "index.js",
   "directories": {
