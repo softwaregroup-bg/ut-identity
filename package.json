@@ -33,7 +33,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "blue-tape": "1.0.0",
-    "ut-tools": "^5.17.26"
+    "ut-tools": "^5.30.0"
   },
   "dependencies": {
     "joi": "10.0.6",
@@ -45,7 +45,7 @@
     "when": "3.7.7"
   },
   "peerDependencies": {
-    "ut-user": "^7.14.5",
-    "ut-port-ldap": "^5.5.3"
+    "ut-user": "^7.31.0-rc-acapulco.55",
+    "ut-port-ldap": "^6.0.0"
   }
 }
