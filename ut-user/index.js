@@ -101,7 +101,9 @@ module.exports = {
                     }
                     // Validate IP (for restricted ip ranges)
                     var restrictedIPRanges = bus.config.access ? bus.config.access.restrictions.ipRanges : [];
-                    if (helpers.validateRestrictedIPRanges(msg.ip, restrictedIPRanges)) {
+                    //msg.ip server ip. 
+                    //$meta.ipAddress client ip.
+                    if (helpers.validateRestrictedIPRanges($meta.ipAddress, restrictedIPRanges)) {
                         throw errors['identity.restrictedRange']();
                     }
                     var hashData = result.hashParams.reduce(function(all, record) {
