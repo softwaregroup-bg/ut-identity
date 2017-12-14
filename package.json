@@ -45,7 +45,7 @@
     "when": "3.7.7"
   },
   "peerDependencies": {
-    "ut-user": "^7.31.0-rc-acapulco.55",
+    "ut-user": "^7.31.0",
     "ut-port-ldap": "^6.0.0"
   }
 }
