@@ -73,3 +73,4 @@ This method changes user's password.
 - **auth.userId** - determines the for which user to change the password
 - **auth.password** - specifies the new password
 - **auth.expire** - boolean property, making the password to expire immediately. Depending on policies, an empty password may be allowed when auth.expire is true.
+ 
