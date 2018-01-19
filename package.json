@@ -1,6 +1,6 @@
 {
   "name": "ut-identity",
-  "version": "5.15.0",
+  "version": "5.16.0-rc-bahur.0",
   "description": "UT authentication module",
   "main": "index.js",
   "directories": {
