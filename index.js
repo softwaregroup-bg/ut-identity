@@ -2,6 +2,8 @@ var utTemplate = require('ut-template');
 var crypto = require('crypto');
 var assign = require('lodash.assign');
 var defaults = require('lodash.defaults');
+var path = require('path');
+
 function getHash(user, pass) {
     var md5 = crypto.createHash('md5').update('SoftwareGroupBG', 'utf8');
     md5.update(pass, 'utf8');
@@ -10,10 +12,10 @@ function getHash(user, pass) {
 }
 module.exports = function(templates) {
     templates = assign({
-        check: utTemplate.load(require.resolve('./ut/check.sql.marko')),
-        closeSession: utTemplate.load(require.resolve('./ut/closeSession.sql.marko')),
-        invalidateSession: utTemplate.load(require.resolve('./ut/invalidateSession.sql.marko')),
-        changePassword: utTemplate.load(require.resolve('./ut/changePassword.sql.marko'))
+        check: utTemplate.load(path.join(__dirname, 'ut/check.sql.marko')),
+        closeSession: utTemplate.load(path.join(__dirname, 'ut/closeSession.sql.marko')),
+        invalidateSession: utTemplate.load(path.join(__dirname, 'ut/invalidateSession.sql.marko')),
+        changePassword: utTemplate.load(path.join(__dirname, 'ut/changePassword.sql.marko'))
     }, templates || {});
 
     function getParams(params) {
