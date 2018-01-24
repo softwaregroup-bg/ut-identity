@@ -122,7 +122,10 @@ module.exports = {
                 offline: joi.array().items({
                     type: joi.string().valid('password', 'bio', 'otp').required(),
                     params: joi.any(),
-                    allowedAttempts: joi.number().integer().required()
+                    allowedAttempts: joi.number().integer().required(),
+                    factorOrder: joi.number().integer().required(),
+                    termOrder: joi.number().integer().required(),
+                    fnOrder: joi.number().integer().required()
                 })
             }).optional(),
             pushNotificationToken: joi.object().allow(null)
