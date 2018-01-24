@@ -145,56 +145,26 @@ Helpers.prototype.parseMobileOfflineResponse = function(msg) {
         var loginFactorsOffline = msg['loginFactors.offline'];
         if (loginFactorsOffline && Array.isArray(loginFactorsOffline) && loginFactorsOffline.length > 0) {
             var factors = [];
-            var factorsOrderToIndexMapped = {};
-            // As discussed with the Mobile team only factor with higher priority will be returned
-            var lowestFactorOrder = Number.MAX_SAFE_INTEGER;
-            var lowestFactorOrderIndex = -1; // store the index in factors
 
             loginFactorsOffline.forEach(function(term) {
-                if (term.factorOrder) {
-                    var factorIndex = factorsOrderToIndexMapped[term.factorOrder];
-                    var factor;
-
-                    if (term.type === 'bio' && term.templates) {
-                        term.params = {};
-                        term.params.fingers = parseBioTemplates(term.templates, crypt);
-                        delete term['templates'];
-                    }
-
-                    var termToPush = {
-                        // name: term.name,
-                        type: term.type,
-                        allowedAttempts: term.allowedAttempts,
-                        params: term.params
-                        // termId: term.termId,
-                        // termOrder: term.termOrder
-                    };
-                    if (factorIndex === undefined) {
-                        factorsOrderToIndexMapped[term.factorOrder] = factors.length;
-                        factor = {
-                            id: term.factorId,
-                            order: term.factorOrder,
-                            fnOrder: term.fnOrder
-                        };
-
-                        factor.terms = [];
-                        factor.terms.push(termToPush);
-
-                        // update lowest factor order
-                        if (term.factorOrder < lowestFactorOrder) {
-                            lowestFactorOrder = term.factorOrder;
-                            lowestFactorOrderIndex = factors.length;
-                        }
-
-                        factors.push(factor);
-                    } else {
-                        factor = factors[factorIndex];
-                        factor.terms.push(termToPush);
-                    }
+                if (term.type === 'bio' && term.templates) {
+                    term.params = {};
+                    term.params.fingers = parseBioTemplates(term.templates, crypt);
+                    delete term['templates'];
                 }
-            });
 
-            msg.loginFactors.offline = factors[lowestFactorOrderIndex]['terms'];
+                var termToPush = {
+                    type: term.type,
+                    params: term.params,
+                    allowedAttempts: term.allowedAttempts,
+                    factorOrder: term.factorOrder,
+                    termOrder: term.termOrder,
+                    fnOrder: term.fnOrder
+                };
+
+                factors.push(termToPush);
+            });
+            msg.loginFactors.offline = factors;
         }
 
         delete msg['loginFactors.offline'];
