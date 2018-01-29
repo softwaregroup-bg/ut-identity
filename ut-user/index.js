@@ -230,6 +230,7 @@ module.exports = {
                 } else {
                     r.secretQuestionAnswer = [];
                 }
+                r.ip = $meta.ipAddress;
                 return importMethod($meta.method)(r, $meta)
                     .then(function(user) {
                         if (user.pushNotificationToken && user.pushNotificationToken.pushNotificationToken !== undefined) {
