@@ -349,24 +349,61 @@ Helpers.prototype.handleFullError = function(error, msg, $meta) {
         return importMethod($meta.method)({userName: msg.username}, $meta)
             .then(function(ldapConfigResult) {
                 if (ldapConfigResult.serverCredentials && ldapConfigResult.serverCredentials.hostNameIp) {
-                    return importMethod('ldap.tryBind')({
-                        hostName: ldapConfigResult.serverCredentials.hostNameIp,
-                        port: ldapConfigResult.serverCredentials.port,
-                        username: msg.username,
-                        userSearchBase: ldapConfigResult.serverCredentials.userSearchBase,
-                        password: msg.rawPassword,
-                        useSSL: ldapConfigResult.serverCredentials.useSsl
-                    })
-                        .then(function(ldapBindResult) {
-                            $meta.method = 'identity.check';
-                            msg.isLdapSuccessful = true;
-                            msg.password = msg.rawPassword;
-                            delete msg.rawPassword;
-                            return importMethod($meta.method)(msg, $meta);
-                        })
-                        .catch(function(ldaBindError) {
-                            throw context.handleError(ldaBindError);
-                        });
+					var cryptedPassword = ldapConfigResult.serverCredentials.password;
+					var cryptParams = JSON.parse(ldapConfigResult.serverCredentials.cryptArgs);
+					var password;
+					try {
+						password = crypt.decrypt(cryptedPassword);
+					} catch (e) {
+						throw new Error('Invalid LDAP configuration');
+					}
+					var searchOptions = {
+						filter: `(&(objectCategory=user)(${ldapConfigResult.serverCredentials.identifier}=${msg.username}))`
+					};
+					return importMethod('ldap.search')({
+						hostName: ldapConfigResult.serverCredentials.hostNameIp,
+						port: ldapConfigResult.serverCredentials.port,
+						distinguishedName: ldapConfigResult.serverCredentials.distinguishedName,
+						password: password,
+						useSSL: ldapConfigResult.serverCredentials.useSsl,
+						userSearchBase: ldapConfigResult.serverCredentials.userSearchBase,
+						searchOptions
+					})
+					.then(resp => {
+						if (resp && resp[0] && resp[0].distinguishedName) {
+							return importMethod('ldap.tryBind')({
+								hostName: ldapConfigResult.serverCredentials.hostNameIp,
+								port: ldapConfigResult.serverCredentials.port,
+								username: resp[0].cn,
+								userSearchBase: ldapConfigResult.serverCredentials.userSearchBase,
+								password: msg.rawPassword,
+								useSSL: ldapConfigResult.serverCredentials.useSsl
+							})
+							.then(function(ldapBindResult) {
+								$meta.method = 'identity.check';
+								msg.isLdapSuccessful = true;
+								msg.password = msg.rawPassword;
+								delete msg.rawPassword;
+								return importMethod($meta.method)(msg, $meta);
+							})
+							.catch(function(ldaBindError) {
+								throw errors['identity.invalidCredentials']({
+									name: 'identity.invalidCredentials',
+									defaultMessage: 'Identity not found.',
+									level: 'error'
+								});
+							});
+						} else {
+							throw errors['identity.invalidCredentials']({
+								name: 'identity.invalidCredentials',
+								defaultMessage: 'Identity not found.',
+								level: 'error'
+							});
+						}
+					})
+					.catch(function(ldaBindError) {
+						throw context.handleError(ldaBindError);
+					});
                 } else {
                     throw errors['identity.invalidCredentials']({
                         name: 'identity.missingLdapConfiguration',
