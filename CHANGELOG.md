@@ -1,3 +1,13 @@
+<a name="5.14.2"></a>
+## [5.14.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.1...v5.14.2) (2018-09-03)
+
+
+### Bug Fixes
+
+* user ldap login ([bd5a506](https://github.com/softwaregroup-bg/ut-identity/commit/bd5a506))
+
+
+
 <a name="5.14.1"></a>
 ## [5.14.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.0...v5.14.1) (2017-07-19)
 
