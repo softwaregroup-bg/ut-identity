@@ -365,7 +365,7 @@ Helpers.prototype.handleFullError = function(error, msg, $meta) {
 						port: ldapConfigResult.serverCredentials.port,
 						distinguishedName: ldapConfigResult.serverCredentials.distinguishedName,
 						password: password,
-						useSSL: ldapConfigResult.serverCredentials.useSsl,
+						useSSL: ldapConfigResult.serverCredentials.encryptionType === 'SSL',
 						userSearchBase: ldapConfigResult.serverCredentials.userSearchBase,
 						searchOptions
 					})
@@ -377,7 +377,7 @@ Helpers.prototype.handleFullError = function(error, msg, $meta) {
 								username: resp[0].cn,
 								userSearchBase: ldapConfigResult.serverCredentials.userSearchBase,
 								password: msg.rawPassword,
-								useSSL: ldapConfigResult.serverCredentials.useSsl
+								useSSL: ldapConfigResult.serverCredentials.encryptionType === 'SSL'
 							})
 							.then(function(ldapBindResult) {
 								$meta.method = 'identity.check';
