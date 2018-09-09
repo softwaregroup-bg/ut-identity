@@ -1,3 +1,13 @@
+<a name="5.14.3"></a>
+## [5.14.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.2...v5.14.3) (2018-09-09)
+
+
+### Bug Fixes
+
+* **UA-6:** ldap SSL connection ([64c443b](https://github.com/softwaregroup-bg/ut-identity/commit/64c443b))
+
+
+
 <a name="5.14.2"></a>
 ## [5.14.2](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.1...v5.14.2) (2018-09-03)
 
