@@ -1,3 +1,13 @@
+<a name="5.14.4"></a>
+## [5.14.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.3...v5.14.4) (2018-09-26)
+
+
+### Bug Fixes
+
+* **UA-229:** add additional error code for non existing credentials ([ce7ab03](https://github.com/softwaregroup-bg/ut-identity/commit/ce7ab03))
+
+
+
 <a name="5.14.3"></a>
 ## [5.14.3](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.2...v5.14.3) (2018-09-09)
 
