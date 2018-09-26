@@ -106,6 +106,11 @@ module.exports = [
         defaultMessage: 'Identity not found.',
         level: 'error'
     },
+	{
+        name: 'identity.userDoesntExist',
+        defaultMessage: 'User doesn’t exist',
+        level: 'error'
+    },
     {
         name: 'identity.multipleResults',
         defaultMessage: 'ut-identity identity.multipleResults error',
