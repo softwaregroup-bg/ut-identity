@@ -337,6 +337,9 @@ Helpers.prototype.getHash = function(method, params, hashParams) {
 };
 
 Helpers.prototype.handleError = function(err) {
+    if (err.type === 'portSQL') {
+        err.type = err.message;
+    }
     if (typeof err.type === 'string') {
         if (
             err.type === 'policy.term.checkBio' ||
@@ -350,7 +353,9 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'identity.invalidFingerprint' ||
             err.type === 'user.invalidLoginTime' ||
             err.type === 'policy.term.otpExpired' ||
-            err.type.startsWith('policy.param.')
+            // err.type === 'identity.notFound' ||
+            err.type.startsWith('policy.param.') ||
+            err.type.startsWith('policy.term.')
         ) {
             throw err;
         } else if (

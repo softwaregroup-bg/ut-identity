@@ -1,0 +1,201 @@
+<?xml version="1.0" ?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage lines-valid="81" lines-covered="72" line-rate="0.8889" branches-valid="73" branches-covered="54" branch-rate="0.7397" timestamp="1485442912650" complexity="0" version="0.1">
+  <sources>
+    <source>/home/jenkins/workspace/ut-identity_cr</source>
+  </sources>
+  <packages>
+    <package name="ut-identity_cr" line-rate="1" branch-rate="1">
+      <classes>
+        <class name="api.js" filename="api.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="9" signature="()V">
+              <lines>
+                <line number="5" hits="9"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="0" signature="()V">
+              <lines>
+                <line number="37" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="0" signature="()V">
+              <lines>
+                <line number="40" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_3)" hits="0" signature="()V">
+              <lines>
+                <line number="43" hits="0"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="1" hits="1" branch="false"/>
+            <line number="2" hits="1" branch="false"/>
+            <line number="4" hits="1" branch="false"/>
+            <line number="6" hits="9" branch="false"/>
+            <line number="7" hits="8" branch="false"/>
+            <line number="8" hits="3" branch="false"/>
+            <line number="10" hits="1" branch="false"/>
+            <line number="11" hits="1" branch="false"/>
+            <line number="12" hits="1" branch="false"/>
+            <line number="13" hits="1" branch="false"/>
+            <line number="14" hits="2" branch="false"/>
+            <line number="15" hits="1" branch="false"/>
+            <line number="17" hits="1" branch="false"/>
+            <line number="19" hits="5" branch="false"/>
+            <line number="20" hits="2" branch="false"/>
+            <line number="21" hits="1" branch="false"/>
+            <line number="23" hits="1" branch="false"/>
+            <line number="25" hits="3" branch="false"/>
+            <line number="26" hits="2" branch="false"/>
+            <line number="27" hits="1" branch="false"/>
+            <line number="29" hits="1" branch="false"/>
+            <line number="32" hits="1" branch="false"/>
+            <line number="35" hits="1" branch="false"/>
+          </lines>
+        </class>
+        <class name="errors.js" filename="errors.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="25" signature="()V">
+              <lines>
+                <line number="129" hits="25"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="12" signature="()V">
+              <lines>
+                <line number="132" hits="12"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="1" hits="1" branch="false"/>
+            <line number="3" hits="1" branch="false"/>
+            <line number="130" hits="25" branch="false"/>
+            <line number="131" hits="25" branch="false"/>
+            <line number="132" hits="25" branch="false"/>
+            <line number="133" hits="12" branch="false"/>
+            <line number="135" hits="25" branch="false"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="ut-identity_cr.node_modules.ut-error" line-rate="0.8234999999999999" branch-rate="0.5957">
+      <classes>
+        <class name="index.js" filename="node_modules/ut-error/index.js" line-rate="0.8234999999999999" branch-rate="0.5957">
+          <methods>
+            <method name="inherit" hits="26" signature="()V">
+              <lines>
+                <line number="3" hits="26"/>
+              </lines>
+            </method>
+            <method name="UTError" hits="13" signature="()V">
+              <lines>
+                <line number="9" hits="13"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="12" signature="()V">
+              <lines>
+                <line number="22" hits="12"/>
+              </lines>
+            </method>
+            <method name="interpolate" hits="24" signature="()V">
+              <lines>
+                <line number="37" hits="24"/>
+              </lines>
+            </method>
+            <method name="(anonymous_4)" hits="0" signature="()V">
+              <lines>
+                <line number="39" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_5)" hits="24" signature="()V">
+              <lines>
+                <line number="45" hits="24"/>
+              </lines>
+            </method>
+            <method name="createErrorConstructor" hits="25" signature="()V">
+              <lines>
+                <line number="50" hits="25"/>
+              </lines>
+            </method>
+            <method name="CustomUTError" hits="48" signature="()V">
+              <lines>
+                <line number="51" hits="48"/>
+              </lines>
+            </method>
+            <method name="(anonymous_8)" hits="0" signature="()V">
+              <lines>
+                <line number="74" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_9)" hits="25" signature="()V">
+              <lines>
+                <line number="77" hits="25"/>
+              </lines>
+            </method>
+            <method name="(anonymous_10)" hits="0" signature="()V">
+              <lines>
+                <line number="92" hits="0"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="1" hits="1" branch="false"/>
+            <line number="4" hits="26" branch="false"/>
+            <line number="5" hits="26" branch="false"/>
+            <line number="6" hits="26" branch="false"/>
+            <line number="10" hits="13" branch="false"/>
+            <line number="11" hits="1" branch="false"/>
+            <line number="13" hits="12" branch="false"/>
+            <line number="14" hits="12" branch="false"/>
+            <line number="15" hits="12" branch="false"/>
+            <line number="16" hits="0" branch="false"/>
+            <line number="17" hits="12" branch="false"/>
+            <line number="18" hits="12" branch="false"/>
+            <line number="19" hits="0" branch="false"/>
+            <line number="20" hits="0" branch="false"/>
+            <line number="22" hits="12" branch="false"/>
+            <line number="23" hits="12" branch="false"/>
+            <line number="27" hits="12" branch="false"/>
+            <line number="28" hits="12" branch="false"/>
+            <line number="30" hits="0" branch="false"/>
+            <line number="34" hits="1" branch="false"/>
+            <line number="36" hits="1" branch="false"/>
+            <line number="38" hits="24" branch="false"/>
+            <line number="40" hits="0" branch="false"/>
+            <line number="45" hits="1" branch="false"/>
+            <line number="46" hits="24" branch="false"/>
+            <line number="47" hits="24" branch="false"/>
+            <line number="52" hits="48" branch="false"/>
+            <line number="53" hits="24" branch="false"/>
+            <line number="54" hits="24" branch="false"/>
+            <line number="55" hits="0" branch="false"/>
+            <line number="57" hits="24" branch="false"/>
+            <line number="58" hits="24" branch="false"/>
+            <line number="59" hits="24" branch="false"/>
+            <line number="60" hits="24" branch="false"/>
+            <line number="63" hits="25" branch="false"/>
+            <line number="65" hits="25" branch="false"/>
+            <line number="67" hits="25" branch="false"/>
+            <line number="70" hits="1" branch="false"/>
+            <line number="71" hits="1" branch="false"/>
+            <line number="73" hits="1" branch="false"/>
+            <line number="78" hits="25" branch="false"/>
+            <line number="79" hits="25" branch="false"/>
+            <line number="80" hits="25" branch="false"/>
+            <line number="82" hits="25" branch="false"/>
+            <line number="83" hits="24" branch="false"/>
+            <line number="84" hits="24" branch="false"/>
+            <line number="85" hits="0" branch="false"/>
+            <line number="86" hits="0" branch="false"/>
+            <line number="89" hits="25" branch="false"/>
+            <line number="90" hits="25" branch="false"/>
+            <line number="93" hits="0" branch="false"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

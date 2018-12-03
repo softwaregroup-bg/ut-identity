@@ -1,6 +1,6 @@
 var UtIdentityHelpers = require('./helpers');
 var assign = require('lodash.assign');
-var errors = require('../errors');
+var errors = require('./../errors');
 var UtCrypt = require('./crypt');
 
 var helpers;
