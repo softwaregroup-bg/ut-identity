@@ -24,7 +24,13 @@ module.exports = function(templates) {
                         throw new Error('BioVerificationError');
                     });
                 } else {
-                    return this.bus.importMethod('bio.biometricsLogin')({
+                    var biometricsLoginMethod = 'bio.biometricsLogin';
+
+                    if(auth.templateType && auth.templateType.toLowerCase() === 'wsq'){
+                        biometricsLoginMethod = 'bio.biometricsLoginWithFormat';
+                    }
+
+                    return this.bus.importMethod(biometricsLoginMethod)({
                         fingerPrint: auth.fingerPrint
                     }).then(function(response) {
                         auth.userId = response.userId;
