@@ -202,6 +202,13 @@ module.exports = {
                             });
                         });
                     });
+            } else if (msg.hasOwnProperty('newPassword') && msg.hasOwnProperty('otp') && msg.otp !== '') {    
+                get = Promise.all([get])
+                .then(function() {
+                    var okReturn = arguments[0][0];
+                    okReturn.password = okReturn.newPassword;
+                    return okReturn;
+                });
             } else { // Case: change password when password is expired
                 get = Promise.all([get])
                 .then(function() {
