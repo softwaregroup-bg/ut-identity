@@ -1,3 +1,13 @@
+<a name="5.14.5"></a>
+## [5.14.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.4...v5.14.5) (2019-01-22)
+
+
+### Bug Fixes
+
+* **ABTN-3641:** add resetFailedAttempts parameter for policy.passwordCredentials.get procedure ([538912a](https://github.com/softwaregroup-bg/ut-identity/commit/538912a))
+
+
+
 <a name="5.14.4"></a>
 ## [5.14.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.3...v5.14.4) (2018-09-26)
 
