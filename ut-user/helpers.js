@@ -51,14 +51,16 @@ Helpers.prototype.validateNewPasswordAgainstAccessPolicy = function(newPasswordR
             resolve(passwordCredentaislGetStoreProcedureParams.password);
         }
     });
-
+    const resetFailedAttempts = passwordCredentaislGetStoreProcedureParams.resetFailedAttempts === undefined ? 1
+      : passwordCredentaislGetStoreProcedureParams.resetFailedAttempts;
     return hashPassword
     .then(function(hashedPassword) {
         var policyPasswordCredentalsGetParams = {
             username: passwordCredentaislGetStoreProcedureParams.username,
             type: passwordCredentaislGetStoreProcedureParams.type,
             password: hashedPassword,
-            channel: passwordCredentaislGetStoreProcedureParams.channel
+            channel: passwordCredentaislGetStoreProcedureParams.channel,
+            resetFailedAttempts 
         };
         return importMethod('policy.passwordCredentials.get')(policyPasswordCredentalsGetParams)
         .then(function(policyResult) {
