@@ -12,7 +12,9 @@ function Helpers(obj) {
     }
 
     importMethod = obj.importMethod;
-    crypt = obj.crypt;
+    if (obj.crypt) {
+      crypt = obj.crypt;
+    }
     utUserPolicyHelpers = new UtUserPolicyHelpers({importMethod: importMethod});
 }
 
