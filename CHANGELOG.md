@@ -1,3 +1,14 @@
+<a name="5.14.6"></a>
+## [5.14.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.5...v5.14.6) (2019-01-30)
+
+
+### Bug Fixes
+
+* do not override the crypt object if it is not passed ([32ae469](https://github.com/softwaregroup-bg/ut-identity/commit/32ae469))
+* remove package-lock file ([308afdf](https://github.com/softwaregroup-bg/ut-identity/commit/308afdf))
+
+
+
 <a name="5.14.5"></a>
 ## [5.14.5](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.4...v5.14.5) (2019-01-22)
 
