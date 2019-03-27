@@ -1,3 +1,14 @@
+<a name="5.14.7"></a>
+## [5.14.7](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.6...v5.14.7) (2019-03-27)
+
+
+### Bug Fixes
+
+* remove package-lock file ([c1f61f0](https://github.com/softwaregroup-bg/ut-identity/commit/c1f61f0))
+* use distinguishedName as a serachBase in case if the user is in the sub tree ([e39e7e0](https://github.com/softwaregroup-bg/ut-identity/commit/e39e7e0))
+
+
+
 <a name="5.14.6"></a>
 ## [5.14.6](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.5...v5.14.6) (2019-01-30)
 
