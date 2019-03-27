@@ -379,7 +379,7 @@ Helpers.prototype.handleFullError = function(error, msg, $meta) {
 								hostName: ldapConfigResult.serverCredentials.hostNameIp,
 								port: ldapConfigResult.serverCredentials.port,
 								username: resp[0].cn,
-								userSearchBase: ldapConfigResult.serverCredentials.userSearchBase,
+								userSearchBase: resp[0].distinguishedName || ldapConfigResult.serverCredentials.userSearchBase,
 								password: msg.rawPassword,
 								useSSL: ldapConfigResult.serverCredentials.encryptionType === 'SSL'
 							})
