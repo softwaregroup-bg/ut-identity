@@ -417,7 +417,7 @@ Helpers.prototype.handleFullError = function(error, msg, $meta) {
     }
 };
 
-Helpers.prototype.handleError = function(err) {
+Helpers.prototype.handleError = function (err) {
     if (typeof err.type === 'string') {
         if (
             err.type === 'policy.term.checkBio' ||
@@ -443,14 +443,9 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'user.identity.check.userPassword.wrongPassword' ||
             err.type === 'user.identity.checkPolicy.notFound' ||
             err.type === 'user.identity.check.userPassword.notFound' ||
-            err.type === 'user.identity.checkPolicy.disabledCredentials' ||
-            err.type === 'user.disabledCredentials' ||
             err.type === 'user.identity.check.disabledUser' ||
-            err.type === 'user.identity.check.disabledUserInactivity' ||
             err.type === 'user.invalidChannel' ||
-            err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
             err.type === 'user.missingPolicy' ||
-            err.type === 'identity.credentialsLocked' ||
             err.type === 'identity.notFound' ||
             err.type === 'identity.restrictedRange' ||
             err.type === 'identity.multipleResults' ||
@@ -458,10 +453,18 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'identity.invalidIMEI' ||
             err.type === 'identity.invalidInstallation' ||
             err.type === 'PortLdap.InvalidCredentials' ||
+            err.type === 'portLdap.InvalidCredentials' ||
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
-        } else if (err.type === 'identity.userDoesntExist') {
+        } else if (err.type === 'user.identity.checkPolicy.disabledCredentials' ||
+            err.type === 'identity.credentialsLocked' ||
+            err.type === 'user.identity.check.disabledUserInactivity' ||
+            err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
+            err.type === 'user.disabledCredentials') {
+            throw errors['identity.disabledCredentials'](err);
+        }
+        else if (err.type === 'identity.userDoesntExist') {
             throw errors['identity.userDoesntExist'](err);
         } else if (err.type === 'portSQL' && ((err.message.startsWith('policy.param.bio.fingerprints')) || err.message.startsWith('policy.term.checkBio'))) {
             err.type = err.message;
