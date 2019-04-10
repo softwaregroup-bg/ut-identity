@@ -1,3 +1,8 @@
+<a name="5.15.1"></a>
+## [5.15.1](https://github.com/softwaregroup-bg/ut-identity/compare/v5.15.0...v5.15.1) (2019-04-10)
+
+
+
 <a name="5.15.0"></a>
 # [5.15.0](https://github.com/softwaregroup-bg/ut-identity/compare/v5.15.0-rc-acapulco.4...v5.15.0) (2017-12-14)
 
