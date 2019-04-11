@@ -453,7 +453,6 @@ Helpers.prototype.handleError = function (err) {
             err.type === 'identity.invalidIMEI' ||
             err.type === 'identity.invalidInstallation' ||
             err.type === 'PortLdap.InvalidCredentials' ||
-            err.type === 'portLdap.InvalidCredentials' ||
             err.type.startsWith('policy.term.')
         ) {
             throw errors['identity.invalidCredentials'](err);
