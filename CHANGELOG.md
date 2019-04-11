@@ -1,3 +1,13 @@
+<a name="5.14.9"></a>
+## [5.14.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.4...v5.14.9) (2019-04-11)
+
+
+### Bug Fixes
+
+* increase package version to 5.14.8 ([f0cc631](https://github.com/softwaregroup-bg/ut-identity/commit/f0cc631))
+
+
+
 <a name="5.14.4"></a>
 ## [5.14.4](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.3...v5.14.4) (2018-09-26)
 
