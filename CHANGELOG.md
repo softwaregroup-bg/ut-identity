@@ -1,3 +1,13 @@
+<a name="5.14.10"></a>
+## [5.14.10](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.9...v5.14.10) (2019-06-10)
+
+
+### Bug Fixes
+
+* **ACM-1287:** remove user.invalidChannel from if ([3d25e26](https://github.com/softwaregroup-bg/ut-identity/commit/3d25e26))
+
+
+
 <a name="5.14.9"></a>
 ## [5.14.9](https://github.com/softwaregroup-bg/ut-identity/compare/v5.14.4...v5.14.9) (2019-04-11)
 
