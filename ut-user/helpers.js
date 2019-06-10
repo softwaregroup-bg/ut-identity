@@ -433,6 +433,7 @@ Helpers.prototype.handleError = function (err) {
             err.type === 'user.invalidLoginTime' ||
             err.type === 'user.changeNotAllowed' ||
             err.type === 'policy.term.otpExpired' ||
+            err.type === 'user.invalidChannel' ||
             err.type.startsWith('policy.param.')
         ) {
             throw err;
@@ -443,8 +444,7 @@ Helpers.prototype.handleError = function (err) {
             err.type === 'user.identity.check.userPassword.wrongPassword' ||
             err.type === 'user.identity.checkPolicy.notFound' ||
             err.type === 'user.identity.check.userPassword.notFound' ||
-            err.type === 'user.identity.check.disabledUser' ||
-            err.type === 'user.invalidChannel' ||
+            err.type === 'user.identity.check.disabledUser' ||            
             err.type === 'user.missingPolicy' ||
             err.type === 'identity.notFound' ||
             err.type === 'identity.restrictedRange' ||
