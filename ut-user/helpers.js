@@ -141,8 +141,8 @@ Helpers.prototype.parseMobileOfflineResponse = function(msg) {
     if (onlineLoginFactors) {
         msg.loginFactors = {};
         msg.loginFactors.online = {
-            type: onlineLoginFactors[0].type,
-            params: onlineLoginFactors[0].params
+            type: (onlineLoginFactors[0] || {}).type,
+            params: (onlineLoginFactors[0] || {}).params
         };
 
         // Offline factors
