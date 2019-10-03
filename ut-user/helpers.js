@@ -390,10 +390,12 @@ Helpers.prototype.handleFullError = function(error, msg, $meta) {
 								delete msg.rawPassword;
 								return importMethod($meta.method)(msg, $meta);
 							}).catch(function(ldaBindError) {
-                                $meta.method = 'identity.check';
+                                                                $meta.method = 'identity.check';
+
 								msg.isLdapSuccessful = false;
 								msg.password = msg.rawPassword;
-                                delete msg.rawPassword;
+
+                                                                delete msg.rawPassword;
                                 
 								return importMethod($meta.method)(msg, $meta);
                             })
