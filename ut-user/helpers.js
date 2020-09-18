@@ -451,6 +451,7 @@ Helpers.prototype.handleError = function(err) {
             err.type === 'user.identity.checkPolicy.disabledUserInactivity' ||
             err.type === 'user.missingPolicy' ||
             err.type === 'identity.credentialsLocked' ||
+            err.type === 'identity.invalidCredentials' ||
             err.type === 'identity.notFound' ||
             err.type === 'identity.restrictedRange' ||
             err.type === 'identity.multipleResults' ||
